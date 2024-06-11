@@ -14,6 +14,9 @@ class Cloud extends MovableObject {
     moveClouds() {
         setInterval(() => {
             this.x -= this.speed;
-        }, 1000 / 60);
+            if (this.x + this.width < 0) { // Wolke wieder rechts erscheinen lassen
+                this.x = 720;
+            }
+        }, 10);
     }
 }
