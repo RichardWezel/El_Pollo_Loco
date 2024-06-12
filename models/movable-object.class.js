@@ -6,6 +6,7 @@ class MovableObject {
     width = 100;
     imageCache = {};
     currentImage = 0;
+    speed = 0.15;
    
     // loadImage('img/test.png');
     loadImage(path) {
@@ -31,6 +32,11 @@ class MovableObject {
     }
 
     moveLeft() {
-        
+        setInterval(() => {
+            this.x -= this.speed;
+            // if (this.x + this.width < 0) { // Wolke wieder rechts erscheinen lassen
+            //     this.x = 720;
+            // }
+        }, 100);
     }
 }
