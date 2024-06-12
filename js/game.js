@@ -7,7 +7,31 @@ function init() {
     world = new World(canvas);
 }
 
-document.addEventListener("click", function(){ 
-    console.log('funktioniert!')
-    world.character.x = world.character.x + 100;
- });
+addEventListener('keydown', (e) => {
+    console.log(e.code );
+    if (e.code === 'ArrowRight') {
+        world.character.x = world.character.x + 50;
+    } else if (e.code === 'ArrowLeft'){
+        world.character.x = world.character.x - 50;
+    }
+    
+});
+
+
+// addEventListener("keyup", function(e) {
+//     if (e.keyCode === 37) {
+//       left()
+//     }
+//   })
+  
+//   addEventListener("keyup", function(e) {
+//     if (e.keyCode === 38) {
+//       jump()
+//     }
+//   })
+  
+//   addEventListener("keyup", function(e) {
+//     if (e.keyCode === 39) {
+//       right()
+//     }
+//   })
