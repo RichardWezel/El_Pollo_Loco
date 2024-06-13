@@ -11,10 +11,14 @@ class World {
         new Cloud()
     ];
     backgroundObjects = [
-        new BackgroundObject('img/5_background/layers/air.png', 0, 480), // Himmel ; wir din den constructor reingegeben
-        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0, 480),// Berge
-        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0, 300), // Kakten
-        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0, 400) // bunt Kakten
+        new BackgroundObject('img/5_background/layers/air.png', 0), // Himmel ; wir din den constructor reingegeben
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),// Berge
+        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0), // Kakten
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0), // bunt Kakten
+        new BackgroundObject('img/5_background/layers/air.png', 719), // Himmel ; wir din den constructor reingegeben
+        new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719),// Berge
+        new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719), // Kakten
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719), // bunt Kakten
     ];
     canvas;
     ctx; 
@@ -29,6 +33,7 @@ class World {
         this.draw();
         this.setWorld();
     }
+
 
     setWorld() {
         this.character.world = this;
