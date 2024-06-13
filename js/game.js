@@ -21,7 +21,6 @@ function init() {
 window.addEventListener('keydown', (e) => {
     if (e.code == 'ArrowRight') {
         keyboard.RIGHT = true;
-        world.character.x = world.character.x + 50;
         console.log('keyboard.RIGHT = ', keyboard.RIGHT);
     
     } else if (e.code === 'ArrowLeft'){
