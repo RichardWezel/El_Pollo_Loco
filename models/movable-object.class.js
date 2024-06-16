@@ -15,7 +15,6 @@ class MovableObject {
         this.img.src = path;
     }
 
-
     /**
      * 
      * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...] 
@@ -24,6 +23,7 @@ class MovableObject {
         arr.forEach((path) => {
             let img = new Image();
             img.src = path;
+            img.style = 'transform: scaleX(-1)';
             this.imageCache[path] = img;
         })
     }
@@ -35,6 +35,13 @@ class MovableObject {
             //     this.x = 720;
             // }
         }, 100);
+    }
+
+    playAnimation(images) {
+            let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 6; => 0, Rest 0
+            let path = images[i];
+            this.img = this.imageCache[path];
+            this.currentImage++;
     }
 
 
