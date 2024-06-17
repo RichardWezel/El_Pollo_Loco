@@ -45,12 +45,14 @@ class Character extends MovableObject{
             // Key right is pushed
             if(this.world.keyboard.RIGHT) {
                 this.moveRight();
+                this.otherDirection = false;
                 this.walking_sound.play();
             }
 
             // Key left is pushed
             if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft(true);
+                this.moveLeft();
+                this.otherDirection = true;
                 this.walking_sound.play();
             }
 
