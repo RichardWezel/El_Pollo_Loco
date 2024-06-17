@@ -9,6 +9,7 @@ class Chicken extends MovableObject{
         'images/chicken/3_w.png'
     ];
     speed = 2;
+    BorderColor = 'blue';
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);

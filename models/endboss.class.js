@@ -14,6 +14,7 @@ class Endboss extends MovableObject {
             'images/endboss/G12.png',
         ];
         speed = 0.5;
+        BorderColor = 'yellow'
     
         constructor() {
             super().loadImage(this.IMAGES_WALKING[0]);

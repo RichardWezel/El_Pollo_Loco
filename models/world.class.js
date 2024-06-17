@@ -64,7 +64,10 @@ class World {
             this.ctx.scale(-1, 1);  // scale(x, y) skaliert den Zeichenkontext in x- und y-Richtung. Ein negativer Skalierungsfaktor invertiert die Richtung.
             mo.x = mo.x * -1;       // scale(-1, 1) spiegelt den Zeichenkontext horizontal. Das bedeutet, dass alles, was danach gezeichnet wird, horizontal gespiegelt wird.
         }                           
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        
+        mo.draw(this.ctx);
+        mo.drawBorder(this.ctx);
+
         if(mo.otherDirection) {
             mo.x = mo.x * -1;
             this.ctx.restore();

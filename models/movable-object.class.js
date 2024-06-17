@@ -10,6 +10,7 @@ class MovableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
+    BorderColor;
 
     applyGravity() {
         setInterval(() => {
@@ -41,6 +42,19 @@ class MovableObject {
             img.style = 'transform: scaleX(-1)';
             this.imageCache[path] = img;
         })
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+       
+    }
+
+    drawBorder(ctx) {
+        ctx.beginPath();
+        ctx.lineWidth = "1";
+        ctx.strokeStyle = this.BorderColor;
+        ctx.rect(this.x,this.y,this.width,this.height);
+        ctx.stroke();
     }
 
     moveRight() {

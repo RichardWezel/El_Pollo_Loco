@@ -25,8 +25,8 @@ class Character extends MovableObject{
     world;
     speed = 15;
     walking_sound = new Audio('audio/walk_sound.mp3');
+    BorderColor = 'red'
     
-
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
