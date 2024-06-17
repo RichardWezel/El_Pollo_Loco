@@ -9,38 +9,24 @@ class MovableObject {
     speed = 0.15;
     otherDirection = false;
    
-    async loadImage(path) {
-        return new Promise((resolve, reject) => {
-            this.img = new Image();
-            this.img.src = path;
-            this.img.onload = () => {
-                console.log(`Image loaded: ${path}`);
-                resolve();
-            };
-            this.img.onerror = () => {
-                console.error(`Failed to load image: ${path}`);
-                reject();
-            };
-        });
+    // loadImage('img/test.png');
+    loadImage(path) {
+        this.img = new Image();
+        this.img.src = path;
+        
     }
 
-    async loadImages(arr) {
-        let promises = arr.map((path) => {
-            return new Promise((resolve, reject) => {
-                let img = new Image();
-                img.src = path;
-                img.onload = () => {
-                    console.log(`Image loaded: ${path}`);
-                    this.imageCache[path] = img;
-                    resolve();
-                };
-                img.onerror = () => {
-                    console.error(`Failed to load image: ${path}`);
-                    reject();
-                };
-            });
-        });
-        await Promise.all(promises);
+    /**
+     * 
+     * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...] 
+     */
+    loadImages(arr) {
+        arr.forEach((path) => {
+            let img = new Image();
+            img.src = path;
+            img.style = 'transform: scaleX(-1)';
+            this.imageCache[path] = img;
+        })
     }
 
     moveLeft() {
