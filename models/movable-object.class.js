@@ -43,13 +43,14 @@ class MovableObject {
         })
     }
 
-    moveLeft() {
-        setInterval(() => {
-            this.x -= this.speed;
-            if (this.x + this.width < 0) { // Wolke wieder rechts erscheinen lassen
-                this.x = 720;
-            }
-        }, 100);
+    moveRight() {
+        this.x += this.speed;
+        this.otherDirection = false;
+    }
+
+    moveLeft(value) {
+        this.x -= this.speed;
+        this.otherDirection = value;
     }
 
     playAnimation(images) {
@@ -59,5 +60,10 @@ class MovableObject {
             this.currentImage++;
     }
 
+    jump() {
+        this.speedY = 30;
+    }
+
+   
 
 }

@@ -25,7 +25,7 @@ class Character extends MovableObject{
     world;
     speed = 15;
     walking_sound = new Audio('audio/walk_sound.mp3');
-    groundTouch = true;
+    
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -44,22 +44,19 @@ class Character extends MovableObject{
 
             // Key right is pushed
             if(this.world.keyboard.RIGHT) {
-                this.x += this.speed;
-                this.otherDirection = false;
+                this.moveRight();
                 this.walking_sound.play();
             }
 
             // Key left is pushed
             if (this.world.keyboard.LEFT && this.x > 0) {
-                this.x -= this.speed;
-                this.otherDirection = true;
-                console.log(this.x)
+                this.moveLeft(true);
+                this.walking_sound.play();
             }
 
             // Key up is pushed
-            if(this.world.keyboard.UP && this.y == 150) {
-                this.speedY = 40;
-                this.groundTouch = false;
+            if(this.world.keyboard.SPACE && this.y == 150) {
+                this.jump();
             }
 
             if(this.x > 0){

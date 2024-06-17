@@ -34,9 +34,10 @@ class World {
 
         // 3. Objekte zur Karte hinzufügen
         this.addObjectsToMap(this.backgroundObjects); // mehrere Elemente
-        this.addToMap(this.character);
+        
         this.addObjectsToMap(this.clouds); // mehrere Elemente
         this.addObjectsToMap(this.enemies); // mehrere Elemente
+        this.addToMap(this.character);
 
         // 4. Verschiebung des Zeichenkontexts rückgängig machen
         this.ctx.translate(-this.camera_x, 0);
@@ -48,15 +49,6 @@ class World {
         });
 
     }
-
-    // moveClouds() {
-    //     this.clouds.forEach(cloud => {
-    //         cloud.x -= 0.5; // Geschwindigkeit der Wolkenbewegung
-    //         if (cloud.x + cloud.width < 0) {
-    //             cloud.x = this.canvas.width; // Wolke wieder rechts erscheinen lassen
-    //         }
-    //     });
-    // }
 
     addObjectsToMap(objects){
         objects.forEach(o => {
@@ -76,13 +68,6 @@ class World {
         if(mo.otherDirection) {
             mo.x = mo.x * -1;
             this.ctx.restore();
-        }
-
-        if (mo.img == 'images/background/4_clouds/1.png') {
-            // zeichnet Rahmen:
-            this.ctx.strokeStyle = 'red'; // Farbe des Rahmens
-            this.ctx.lineWidth = 2; // Breite des Rahmens
-            this.ctx.strokeRect(mo.x, mo.y, mo.width, mo.height);
         }
     }
 
