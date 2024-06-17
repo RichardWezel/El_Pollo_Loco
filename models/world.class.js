@@ -26,20 +26,22 @@ class World {
 
 
     draw() {
+        // 1. Canvas löschen
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        
+        // 2. Verschieben des Zeichenkontexts
         this.ctx.translate(this.camera_x, 0);
 
-        // this.moveClouds(); // Füge diese Zeile hinzu, um die Wolken zu bewegen
-
+        // 3. Objekte zur Karte hinzufügen
         this.addObjectsToMap(this.backgroundObjects); // mehrere Elemente
         this.addToMap(this.character);
         this.addObjectsToMap(this.clouds); // mehrere Elemente
         this.addObjectsToMap(this.enemies); // mehrere Elemente
 
+        // 4. Verschiebung des Zeichenkontexts rückgängig machen
         this.ctx.translate(-this.camera_x, 0);
 
-        // Draw() wir dimmer wieder aufgerufen
+        // 5. Wiederholung der Zeichnung mit requestAnimationFrame
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
@@ -76,12 +78,12 @@ class World {
             this.ctx.restore();
         }
 
-        // if (mo.img == '../img/5_background/layers/4_clouds/1.png') {
-        //     // zeichnet Rahmen:
-        //     this.ctx.strokeStyle = 'red'; // Farbe des Rahmens
-        //     this.ctx.lineWidth = 2; // Breite des Rahmens
-        //     this.ctx.strokeRect(mo.x, mo.y, mo.width, mo.height);
-        // }
+        if (mo.img == 'images/background/4_clouds/1.png') {
+            // zeichnet Rahmen:
+            this.ctx.strokeStyle = 'red'; // Farbe des Rahmens
+            this.ctx.lineWidth = 2; // Breite des Rahmens
+            this.ctx.strokeRect(mo.x, mo.y, mo.width, mo.height);
+        }
     }
 
     

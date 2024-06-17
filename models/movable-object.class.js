@@ -8,12 +8,26 @@ class MovableObject {
     currentImage = 0;
     speed = 0.15;
     otherDirection = false;
-   
+    speedY = 0;
+    acceleration = 2.5;
+
+    applyGravity() {
+        setInterval(() => {
+            if(this.isAboveGround() || this.speedY > 0) {
+            this.y -= this.speedY;
+            this.speedY -= this.acceleration;
+        }
+        }, 1000 / 25);
+    }
+
+    isAboveGround() {
+        return this.y < 150;
+    }
+
     // loadImage('img/test.png');
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
-        
     }
 
     /**
@@ -32,9 +46,9 @@ class MovableObject {
     moveLeft() {
         setInterval(() => {
             this.x -= this.speed;
-            // if (this.x + this.width < 0) { // Wolke wieder rechts erscheinen lassen
-            //     this.x = 720;
-            // }
+            if (this.x + this.width < 0) { // Wolke wieder rechts erscheinen lassen
+                this.x = 720;
+            }
         }, 100);
     }
 

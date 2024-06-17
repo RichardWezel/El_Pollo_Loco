@@ -17,7 +17,6 @@ window.addEventListener('keydown', (e) => {
     
     if (e.code === 'ArrowLeft'){
         keyboard.LEFT = true;
-        world.character.x = world.character.x - 50;
     } 
     
     if (e.code === 'ArrowUp') {
