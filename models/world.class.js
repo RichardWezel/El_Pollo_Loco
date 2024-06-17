@@ -47,7 +47,6 @@ class World {
         requestAnimationFrame(function() {
             self.draw();
         });
-
     }
 
     addObjectsToMap(objects){
@@ -58,23 +57,29 @@ class World {
 
     addToMap(mo) {
         if(mo.otherDirection) {
-            this.ctx.save(); // speichert den aktuellen Status unseres ctx
+            this.flipImage(mo);
+        }              
+
+        mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
+
+        if(mo.otherDirection) {
+            this.flipImageBack(mo);
+        }
+    }
+
+    flipImage(mo) {
+        this.ctx.save(); // speichert den aktuellen Status unseres ctx
             this.ctx.translate(mo.width, 0); // translate(x, y) verschiebt den Ursprung des Zeichenkontexts um (x, y) Pixel.
                                                 // In diesem Fall wird der Ursprung des Zeichenkontexts um die Breite des Bildes (mo.img.width) nach rechts verschoben. Dadurch wird die (0, 0)-Position des Zeichenkontexts an den rechten Rand des Bildes verschoben.
             this.ctx.scale(-1, 1);  // scale(x, y) skaliert den Zeichenkontext in x- und y-Richtung. Ein negativer Skalierungsfaktor invertiert die Richtung.
             mo.x = mo.x * -1;       // scale(-1, 1) spiegelt den Zeichenkontext horizontal. Das bedeutet, dass alles, was danach gezeichnet wird, horizontal gespiegelt wird.
-        }                           
-        
-        mo.draw(this.ctx);
-        mo.drawBorder(this.ctx);
-
-        if(mo.otherDirection) {
-            mo.x = mo.x * -1;
-            this.ctx.restore();
-        }
     }
 
-    
+    flipImageBack(mo) {
+        mo.x = mo.x * -1;
+        this.ctx.restore();
+    }
 
 }
 
