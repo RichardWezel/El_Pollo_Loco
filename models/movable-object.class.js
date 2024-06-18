@@ -79,6 +79,12 @@ class MovableObject {
         this.speedY = 30;
     }
 
-   
+    // Bessere Formel zur Kollisionsberechnung (Genauer)
+    isColliding(obj) {
+        return this.x + this.width >= obj.x &&
+               this.x <= obj.x + obj.width &&
+               this.y + this.height >= obj.y &&
+               this.y <= obj.y + obj.height;
+    }
 
 }

@@ -2,9 +2,7 @@ class World {
 
     // Variablen
     character = new Character();
-    enemies = level1.enemies;  
-    clouds = level1.clouds;
-    backgroundObjects = level1.backgroundObjects;
+    level = level1;
     canvas;
     ctx; 
     keyboard;
@@ -17,11 +15,23 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.checkCollisions();
     }
 
 
     setWorld() {
         this.character.world = this;
+    }
+
+    checkCollisions() {
+        setInterval(() => {
+            this.level.enemies.forEach((enemy) => {
+    
+                if (this.character.isColliding(enemy)) {
+                    console.log('Collision with Character ', enemy);
+                }
+            });
+        }, 1000);
     }
 
 
@@ -33,10 +43,10 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         // 3. Objekte zur Karte hinzufügen
-        this.addObjectsToMap(this.backgroundObjects); // mehrere Elemente
+        this.addObjectsToMap(this.level.backgroundObjects); // mehrere Elemente
         
-        this.addObjectsToMap(this.clouds); // mehrere Elemente
-        this.addObjectsToMap(this.enemies); // mehrere Elemente
+        this.addObjectsToMap(this.level.clouds); // mehrere Elemente
+        this.addObjectsToMap(this.level.enemies); // mehrere Elemente
         this.addToMap(this.character);
 
         // 4. Verschiebung des Zeichenkontexts rückgängig machen
@@ -48,6 +58,8 @@ class World {
             self.draw();
         });
     }
+
+    
 
     addObjectsToMap(objects){
         objects.forEach(o => {
