@@ -26,12 +26,11 @@ class World {
     checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-    
                 if (this.character.isColliding(enemy)) {
-                    console.log('Collision with Character ', enemy);
-                }
+                    this.character.hit();
+                } 
             });
-        }, 1000);
+        }, 500);
     }
 
 
@@ -47,6 +46,7 @@ class World {
         
         this.addObjectsToMap(this.level.clouds); // mehrere Elemente
         this.addObjectsToMap(this.level.enemies); // mehrere Elemente
+        this.addObjectsToMap(this.level.statusbar); // mehrere Elemente
         this.addToMap(this.character);
 
         // 4. Verschiebung des Zeichenkontexts rückgängig machen

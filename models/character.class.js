@@ -21,19 +21,41 @@ class Character extends MovableObject{
         'images/pepe/jump_animation_img/J-37.png',
         'images/pepe/jump_animation_img/J-38.png',
         'images/pepe/jump_animation_img/J-39.png'
-    ]
+    ];
+    IMAGES_HURT = [
+        'images/pepe/hurt_animation_img/H-41.png',
+        'images/pepe/hurt_animation_img/H-42.png',
+        'images/pepe/hurt_animation_img/H-43.png'
+    ];
+    IMAGES_DEAD = [
+        'images/pepe/dead_animation_img/D-51.png',
+        'images/pepe/dead_animation_img/D-52.png',
+        'images/pepe/dead_animation_img/D-53.png',
+        'images/pepe/dead_animation_img/D-54.png',
+        'images/pepe/dead_animation_img/D-55.png',
+        'images/pepe/dead_animation_img/D-56.png',
+        'images/pepe/dead_animation_img/D-57.png'
+    ];
     world;
     speed = 15;
     walking_sound = new Audio('audio/walk_sound.mp3');
-    BorderColor = 'red'
+    BorderColor = 'red';
+    collidatingStatus = false;
     
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_HURT);
         this.applyGravity();
         this.animate();
+        // this.hurtCharacter();
     }
+
+    // hurtCharacter() {
+    //     this.playAnimation(this.IMAGES_HURT)
+    // }
 
     animate() {
 
@@ -68,17 +90,20 @@ class Character extends MovableObject{
 
         setInterval(() => {
 
-            if(this.isAboveGround()) {
+            // if(this.isDead) {
+            //     this.playAnimation(this.IMAGES_DEAD)
+            // } 
+            if(this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT)
+            } else if(this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING)
-            } else {let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 6; => 0, Rest 0
+            } else {
                 let path = 'images/pepe/walk_animation_img/W-21.png';
                 this.img = this.imageCache[path];
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.IMAGES_WALKING)
                 }
             }
-
-            
         }, 60);
         
     }
