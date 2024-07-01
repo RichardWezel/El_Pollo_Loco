@@ -27,6 +27,6 @@ const level1 = new Level(
     new BackgroundObjectLargWidth('images/background/1_first_layer/full.png', 719 * 2), // bunt Kakten
     ],
     [
-        new Statusbar('images/statusbar_health/0.png', 50, 50)
+        new Statusbar(50, 50)
     ]
 );
