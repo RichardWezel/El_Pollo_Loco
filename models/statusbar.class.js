@@ -1,7 +1,4 @@
 class Statusbar extends MovableObject {
-    x;
-    y;
-    img;
     factor = 0.3;
     height = 158 * this.factor;
     width = this.height * 3.9666;
@@ -13,20 +10,40 @@ class Statusbar extends MovableObject {
         'images/statusbar_health/20.png',
         'images/statusbar_health/0.png'
     ];
+
+    percentage = 100;
    
 
     constructor(x, y) { // wird über die Erstellung eines neuen BackgroundObjects in world übergeben
-        super().loadImage(this.LIFE_STATUS_IMGAES[0]);
+        super();
+        this.loadImages(this.LIFE_STATUS_IMGAES);
         this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
-        this.y = y;
         this.height;
         this.y = 20;
-        this.updateLifePoints();
+        this.setPercentage(this.percentage)
     }
 
-    updateLifePoints() {
-        setInterval(() =>{
-          console.log('energy is ', this.energy)
-        }, 200)
+    setPercentage(percentage) {
+        this.percentage = percentage; // => 0 ... 5
+        let imagePath = this.LIFE_STATUS_IMGAES[this.resolveImageIndex()];
+        this.img = this.imageCache[imagePath];
     }
+    
+    resolveImageIndex() {
+        if(this.percentage == 100) {
+            return 0
+        } else if (this.percentage > 80) {
+            return 1
+        } else if (this.percentage > 60) {
+            return 2
+        } else if (this.percentage > 40) {
+            return 3
+        } else if (this.percentage > 20) {
+            return 4
+        } else {
+            return 5
+        }
+    }
+       
 }
+

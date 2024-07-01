@@ -7,6 +7,7 @@ class World {
     ctx; 
     keyboard;
     camera_x = 0;
+    statusbar = new Statusbar();
 
     // Funktionen
     constructor(canvas, keyboard) {
@@ -46,7 +47,7 @@ class World {
         
         this.addObjectsToMap(this.level.clouds); // mehrere Elemente
         this.addObjectsToMap(this.level.enemies); // mehrere Elemente
-        this.addObjectsToMap(this.level.statusbar); // mehrere Elemente
+        this.addToMap(this.statusbar); 
         this.addToMap(this.character);
 
         // 4. Verschiebung des Zeichenkontexts rückgängig machen
