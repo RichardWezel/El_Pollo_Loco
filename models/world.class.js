@@ -7,7 +7,7 @@ class World {
     ctx; 
     keyboard;
     camera_x = 0;
-    statusbar = new Statusbar();
+    statusbar = new Statusbar(50, 50);
 
     // Funktionen
     constructor(canvas, keyboard) {
@@ -22,6 +22,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.statusbar.world = this;
     }
 
     checkCollisions() {
@@ -29,6 +30,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
+                    this.statusbar.setPercentage(this.character.energy);
                 } 
             });
         }, 500);
@@ -45,10 +47,15 @@ class World {
         // 3. Objekte zur Karte hinzufügen
         this.addObjectsToMap(this.level.backgroundObjects); // mehrere Elemente
         
+        this.ctx.translate(-this.camera_x, 0); // Back
+        // space for fixed objects
+        this.addToMap(this.statusbar); 
+        this.ctx.translate(this.camera_x, 0);// Forwards
+
+        this.addToMap(this.character);
+
         this.addObjectsToMap(this.level.clouds); // mehrere Elemente
         this.addObjectsToMap(this.level.enemies); // mehrere Elemente
-        this.addToMap(this.statusbar); 
-        this.addToMap(this.character);
 
         // 4. Verschiebung des Zeichenkontexts rückgängig machen
         this.ctx.translate(-this.camera_x, 0);

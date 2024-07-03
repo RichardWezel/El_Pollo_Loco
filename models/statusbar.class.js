@@ -10,7 +10,8 @@ class Statusbar extends MovableObject {
         'images/statusbar_health/20.png',
         'images/statusbar_health/0.png'
     ];
-
+    world;
+   
     percentage = 100;
    
 

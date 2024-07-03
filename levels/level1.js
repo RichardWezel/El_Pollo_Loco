@@ -25,8 +25,5 @@ const level1 = new Level(
     new BackgroundObjectLargWidth('images/background/3_third_layer/full.png', 719 * 2),// Berge
     new BackgroundObjectLargWidth('images/background/2_second_layer/full.png', 719 * 2), // Kakten
     new BackgroundObjectLargWidth('images/background/1_first_layer/full.png', 719 * 2), // bunt Kakten
-    ],
-    [
-        new Statusbar(50, 50)
     ]
 );
