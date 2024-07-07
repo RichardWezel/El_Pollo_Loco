@@ -20,8 +20,8 @@ class Statusbar extends MovableObject {
         this.loadImages(this.LIFE_STATUS_IMGAES);
         this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
         this.height;
-        this.y = 20;
-        this.setPercentage(this.percentage)
+        this.y = y;
+        this.setPercentage(this.percentage) // setzt initial die 100%, weitere Veränderungen über die world
     }
 
     setPercentage(percentage) {

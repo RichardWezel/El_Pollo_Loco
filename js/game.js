@@ -9,6 +9,7 @@ function init() {
 
 // Event Listener for Key down set true
 window.addEventListener('keydown', (e) => {
+    console.log(e)
     if (e.code == 'ArrowRight') {
         keyboard.RIGHT = true;
     } 
@@ -27,6 +28,10 @@ window.addEventListener('keydown', (e) => {
     
     if (e.code === 'Space') {
         keyboard.SPACE = true;
+    }
+
+    if (e.code === 'KeyD') {
+        keyboard.KeyD = true;
     }
 });
 
@@ -50,6 +55,10 @@ window.addEventListener('keyup', (e) => {
     
     if (e.code === 'Space') {
         keyboard.SPACE = false;
+    }
+
+    if (e.code === 'KeyD') {
+        keyboard.KeyD = false;
     }
 });
 

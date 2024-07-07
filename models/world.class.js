@@ -2,12 +2,13 @@ class World {
 
     // Variablen
     character = new Character();
-    level = level1;
+    level = level1; // const variable of level1.js
     canvas;
     ctx; 
     keyboard;
     camera_x = 0;
-    statusbar = new Statusbar(50, 50);
+    statusbar = new Statusbar(50, 20);
+    throwableObject = [];
 
     // Funktionen
     constructor(canvas, keyboard) {
@@ -16,46 +17,34 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.run();
     }
 
-
-    setWorld() {
-        this.character.world = this;
-        this.statusbar.world = this;
-    }
-
-    checkCollisions() {
-        setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusbar.setPercentage(this.character.energy);
-                } 
-            });
-        }, 500);
-    }
-
-
+    /**
+     * Draws the canvas.
+     * First delet the latest Draw and define the Frame of View on the Canvas (1./2.)
+     * Adds an object to the Canvas.
+     */
     draw() {
-        // 1. Canvas löschen
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // clearRect(x, y, width, height)
+        this.ctx.translate(this.camera_x, 0); // translate(x, y) x= 0 siehe camera_x oben als Variable
         
-        // 2. Verschieben des Zeichenkontexts
-        this.ctx.translate(this.camera_x, 0);
-
-        // 3. Objekte zur Karte hinzufügen
+        // backgrounds
         this.addObjectsToMap(this.level.backgroundObjects); // mehrere Elemente
-        
+        this.addObjectsToMap(this.level.clouds); // mehrere Elemente
+
+        //statusbars
         this.ctx.translate(-this.camera_x, 0); // Back
         // space for fixed objects
         this.addToMap(this.statusbar); 
         this.ctx.translate(this.camera_x, 0);// Forwards
 
+        //Character
         this.addToMap(this.character);
-
-        this.addObjectsToMap(this.level.clouds); // mehrere Elemente
+        
+        // others objects
         this.addObjectsToMap(this.level.enemies); // mehrere Elemente
+        this.addObjectsToMap(this.throwableObject);
 
         // 4. Verschiebung des Zeichenkontexts rückgängig machen
         this.ctx.translate(-this.camera_x, 0);
@@ -66,8 +55,6 @@ class World {
             self.draw();
         });
     }
-
-    
 
     addObjectsToMap(objects){
         objects.forEach(o => {
@@ -85,6 +72,37 @@ class World {
 
         if(mo.otherDirection) {
             this.flipImageBack(mo);
+        }
+    }
+
+    /**
+     * Connects the Variables with this world.
+     */
+    setWorld() {
+        this.character.world = this;
+        this.statusbar.world = this;
+    }
+
+    run() {
+        setInterval(() => {
+            this.checkCollisions();
+            this.checkThrowObjects();
+        }, 500);
+    }
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.statusbar.setPercentage(this.character.energy);
+            } 
+        });
+    }
+
+    checkThrowObjects() {
+        if(this.keyboard.KeyD) {
+            let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
+            this.throwableObject.push(bottle);
         }
     }
 
