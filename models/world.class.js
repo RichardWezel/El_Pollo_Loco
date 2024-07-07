@@ -7,7 +7,8 @@ class World {
     ctx; 
     keyboard;
     camera_x = 0;
-    statusbar = new Statusbar(50, 20);
+    statusbar_health = new Statusbar_health(20, 10);
+    statusbar_bottle = new Statusbar_bottle(20, 50);
     throwableObject = [];
 
     // Funktionen
@@ -36,7 +37,8 @@ class World {
         //statusbars
         this.ctx.translate(-this.camera_x, 0); // Back
         // space for fixed objects
-        this.addToMap(this.statusbar); 
+        this.addToMap(this.statusbar_health); 
+        this.addToMap(this.statusbar_bottle); 
         this.ctx.translate(this.camera_x, 0);// Forwards
 
         //Character
@@ -80,7 +82,7 @@ class World {
      */
     setWorld() {
         this.character.world = this;
-        this.statusbar.world = this;
+        this.statusbar_health.world = this;
     }
 
     run() {
@@ -94,7 +96,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.statusbar.setPercentage(this.character.energy);
+                this.statusbar_health.setPercentage(this.character.energy);
             } 
         });
     }

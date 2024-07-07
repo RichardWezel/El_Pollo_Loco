@@ -2,14 +2,7 @@ class Statusbar extends MovableObject {
     factor = 0.3;
     height = 158 * this.factor;
     width = this.height * 3.9666;
-    LIFE_STATUS_IMGAES = [
-        'images/statusbar_health/100.png',
-        'images/statusbar_health/80.png',
-        'images/statusbar_health/60.png',
-        'images/statusbar_health/40.png',
-        'images/statusbar_health/20.png',
-        'images/statusbar_health/0.png'
-    ];
+    STATUS_IMGAES = [];
     world;
    
     percentage = 100;
@@ -17,7 +10,7 @@ class Statusbar extends MovableObject {
 
     constructor(x, y) { // wird über die Erstellung eines neuen BackgroundObjects in world übergeben
         super();
-        this.loadImages(this.LIFE_STATUS_IMGAES);
+        this.loadImages(this.STATUS_IMGAES);
         this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
         this.height;
         this.y = y;
@@ -26,7 +19,7 @@ class Statusbar extends MovableObject {
 
     setPercentage(percentage) {
         this.percentage = percentage; // => 0 ... 5
-        let imagePath = this.LIFE_STATUS_IMGAES[this.resolveImageIndex()];
+        let imagePath = this.STATUS_IMGAES[this.resolveImageIndex()];
         this.img = this.imageCache[imagePath];
     }
     
