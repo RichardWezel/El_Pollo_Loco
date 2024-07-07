@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     BorderColor;
     energy = 100;
     lastHit = 0;
+    collectedBottles = 0;
 
     applyGravity() {
         setInterval(() => {
@@ -56,6 +57,14 @@ class MovableObject extends DrawableObject {
             this.energy -= 5;
             console.log('Energy of Pepe is ', this.energy, '%')
             this.lastHit = new Date().getTime();
+        }
+    }
+
+    collect(collectedObject) {
+        if (collectedObject == 'bottle') {
+            this.collectedBottles += 10;
+            console.log('collected bottles:', this.collectedBottles)
+            
         }
     }
 

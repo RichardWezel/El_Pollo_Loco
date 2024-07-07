@@ -1,14 +1,17 @@
-class CollectableObjects extends MovableObjects {
+class CollectableObjects extends MovableObject {
+    
+    y = 350;
+    factor = 0.2;
+    height = 400 * this.factor;
+    width = this.height;
+    BorderColor = 'yellow';
 
-    factor = 0.3;
-    height = 158 * this.factor;
-    width = this.height * 3.9666;
-    COLLECT_BOTTLE_STATUS_IMGAES = [
-        'images/statusbar_health/100.png',
-        'images/statusbar_health/80.png',
-        'images/statusbar_health/60.png',
-        'images/statusbar_health/40.png',
-        'images/statusbar_health/20.png',
-        'images/statusbar_health/0.png'
-    ];
+    constructor(imagePath, x) {
+        super().loadImage(imagePath);
+        this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
+        this.height;
+        this.y;
+    }
+
+   
 }

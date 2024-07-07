@@ -33,6 +33,7 @@ class World {
         // backgrounds
         this.addObjectsToMap(this.level.backgroundObjects); // mehrere Elemente
         this.addObjectsToMap(this.level.clouds); // mehrere Elemente
+        
 
         //statusbars
         this.ctx.translate(-this.camera_x, 0); // Back
@@ -41,6 +42,7 @@ class World {
         this.addToMap(this.statusbar_bottle); 
         this.ctx.translate(this.camera_x, 0);// Forwards
 
+        this.addObjectsToMap(this.level.collectableObjects); // mehrere Elemente
         //Character
         this.addToMap(this.character);
         
@@ -95,8 +97,16 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
+                
                 this.character.hit();
-                this.statusbar_health.setPercentage(this.character.energy);
+                this.statusbar_health.setPercentage(this.character.energy, 'decrease');
+            } 
+        });
+        this.level.collectableObjects.forEach((object, index) => {
+            if (this.character.isColliding(object)) {
+                this.character.collect('bottle');
+                this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'increase');
+                this.level.collectableObjects.splice(index, 1);
             } 
         });
     }

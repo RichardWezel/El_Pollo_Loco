@@ -12,8 +12,7 @@ class Statusbar_health extends Statusbar {
         super();
         this.loadImages(this.STATUS_IMGAES);
         this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
-        this.height;
         this.y = y;
-        this.setPercentage(this.percentage) // setzt initial die 100%, weitere Veränderungen über die world
+        this.setPercentage(100, 'decrease') // setzt initial die 100%, weitere Veränderungen über die world
     }
 }

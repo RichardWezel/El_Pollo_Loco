@@ -4,26 +4,23 @@ class Statusbar extends MovableObject {
     width = this.height * 3.9666;
     STATUS_IMGAES = [];
     world;
-   
     percentage = 100;
-   
 
-    constructor(x, y) { // wird über die Erstellung eines neuen BackgroundObjects in world übergeben
-        super();
-        this.loadImages(this.STATUS_IMGAES);
-        this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
-        this.height;
-        this.y = y;
-        this.setPercentage(this.percentage) // setzt initial die 100%, weitere Veränderungen über die world
-    }
-
-    setPercentage(percentage) {
+    setPercentage(percentage, mode) {
         this.percentage = percentage; // => 0 ... 5
-        let imagePath = this.STATUS_IMGAES[this.resolveImageIndex()];
+        let imagePath = this.STATUS_IMGAES[this.resolveImageIndex(mode)];
         this.img = this.imageCache[imagePath];
     }
     
-    resolveImageIndex() {
+    resolveImageIndex(mode) {
+        if(mode == 'decrease') {
+            return this.decreaseSequence();
+        } else if (mode == 'increase') {
+            return this.increaseSequence();
+        }
+    }
+
+    decreaseSequence() {
         if(this.percentage == 100) {
             return 0
         } else if (this.percentage > 80) {
@@ -36,6 +33,22 @@ class Statusbar extends MovableObject {
             return 4
         } else {
             return 5
+        }
+    }
+
+    increaseSequence() {
+        if(this.percentage == 100) {
+            return 5
+        } else if (this.percentage > 80) {
+            return 4
+        } else if (this.percentage > 60) {
+            return 3
+        } else if (this.percentage > 40) {
+            return 2
+        } else if (this.percentage > 20) {
+            return 1
+        } else {
+            return 0
         }
     }
        
