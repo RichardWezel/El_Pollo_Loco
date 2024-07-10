@@ -39,7 +39,7 @@ class ThrowableObject extends MovableObject {
             if(this.checkHitTheGround() == false) {
                 this.x += 20;
                 this.playAnimation(this.IMAGES_ROTATION);
-            } else {
+            } else if (this.checkHitTheGround() == true || isColliding(world.level.enemies[3])) {
                 this.playAnimationSplash(this.IMAGES_SPLASH)
             }
         }, 50);

@@ -9,6 +9,7 @@ class World {
     camera_x = 0;
     statusbar_health = new Statusbar_health(20, 10);
     statusbar_bottle = new Statusbar_bottle(20, 50);
+    statusbar_coin = new Statusbar_coin(20, 90);
     throwableObject = [];
 
     // Funktionen
@@ -40,9 +41,11 @@ class World {
         // space for fixed objects
         this.addToMap(this.statusbar_health); 
         this.addToMap(this.statusbar_bottle); 
+        this.addToMap(this.statusbar_coin); 
         this.ctx.translate(this.camera_x, 0);// Forwards
 
-        this.addObjectsToMap(this.level.collectableObjects); // mehrere Elemente
+        this.addObjectsToMap(this.level.collectableObjects_bottles); // mehrere Elemente
+        this.addObjectsToMap(this.level.collectableObjects_coin); // mehrere Elemente
         //Character
         this.addToMap(this.character);
         
@@ -101,11 +104,11 @@ class World {
                 this.statusbar_health.setPercentage(this.character.energy, 'decrease');
             } 
         });
-        this.level.collectableObjects.forEach((object, index) => {
+        this.level.collectableObjects_bottles.forEach((object, index) => {
             if (this.character.isColliding(object)) {
                 this.character.collect('bottle');
-                this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'increase');
-                this.level.collectableObjects.splice(index, 1);
+                this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
+                this.level.collectableObjects_bottles.splice(index, 1);
             } 
         });
     }
@@ -115,7 +118,8 @@ class World {
             if (this.character.collectedBottles > 9) {
                 let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
                 this.throwableObject.push(bottle);
-                this.character.collectedBottles -= 10;
+                this.character.collectedBottles -= 12;
+                this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
             }
             
         }

@@ -59,7 +59,7 @@ class MovableObject extends DrawableObject {
 
     hit() {
         if(this.energy > 0) {
-            this.energy -= 5;
+            this.energy -= 2.5;
             console.log('Energy of Pepe is ', this.energy, '%')
             this.lastHit = new Date().getTime();
         }
@@ -67,7 +67,7 @@ class MovableObject extends DrawableObject {
 
     collect(collectedObject) {
         if (collectedObject == 'bottle') {
-            this.world.character.collectedBottles += 10;
+            this.world.character.collectedBottles += 12;
         } 
     }
 

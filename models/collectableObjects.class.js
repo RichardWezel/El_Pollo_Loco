@@ -12,6 +12,4 @@ class CollectableObjects extends MovableObject {
         this.height;
         this.y;
     }
-
-   
 }
