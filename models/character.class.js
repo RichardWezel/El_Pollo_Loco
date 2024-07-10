@@ -41,6 +41,7 @@ class Character extends MovableObject{
     walking_sound = new Audio('audio/walk_sound.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
+    collectedBottles = 0;
     
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);

@@ -6,13 +6,18 @@ class MovableObject extends DrawableObject {
     BorderColor;
     energy = 100;
     lastHit = 0;
-    collectedBottles = 0;
+ 
+    
 
     applyGravity() {
         setInterval(() => {
             if(this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
-            this.speedY -= this.acceleration;
+            if (this.y < 370) {
+                this.speedY -= this.acceleration;
+            } else {
+                this.y = 370;
+            }
         }
         }, 1000 / 25);
     }
@@ -62,10 +67,8 @@ class MovableObject extends DrawableObject {
 
     collect(collectedObject) {
         if (collectedObject == 'bottle') {
-            this.collectedBottles += 10;
-            console.log('collected bottles:', this.collectedBottles)
-            
-        }
+            this.world.character.collectedBottles += 10;
+        } 
     }
 
     isHurt() {

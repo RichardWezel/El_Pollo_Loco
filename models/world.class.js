@@ -91,13 +91,12 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 500);
+        }, 150);
     }
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                
                 this.character.hit();
                 this.statusbar_health.setPercentage(this.character.energy, 'decrease');
             } 
@@ -113,8 +112,12 @@ class World {
 
     checkThrowObjects() {
         if(this.keyboard.KeyD) {
-            let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
-            this.throwableObject.push(bottle);
+            if (this.character.collectedBottles > 9) {
+                let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
+                this.throwableObject.push(bottle);
+                this.character.collectedBottles -= 10;
+            }
+            
         }
     }
 
