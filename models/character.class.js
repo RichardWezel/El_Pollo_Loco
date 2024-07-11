@@ -42,6 +42,7 @@ class Character extends MovableObject{
     BorderColor = 'red';
     collidatingStatus = false;
     collectedBottles = 0;
+    collectedCoins = 0;
     
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);

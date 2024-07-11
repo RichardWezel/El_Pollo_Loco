@@ -69,6 +69,9 @@ class MovableObject extends DrawableObject {
         if (collectedObject == 'bottle') {
             this.world.character.collectedBottles += 12;
         } 
+        if (collectedObject == 'coin') {
+            this.world.character.collectedCoins += 12;
+        } 
     }
 
     isHurt() {

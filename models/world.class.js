@@ -90,6 +90,9 @@ class World {
         this.statusbar_health.world = this;
     }
 
+    /**
+     * Intervals of checking collisions with enemies or collectable objects and checking use of Key D to throw a bottle.
+     */
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -97,18 +100,40 @@ class World {
         }, 150);
     }
 
+    /**
+     * 
+     */
     checkCollisions() {
+        this.collisionsWithEnemies();
+        this.collisionsWithBottles();
+        this.collisionsWithCoins();
+    }
+
+    collisionsWithEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusbar_health.setPercentage(this.character.energy, 'decrease');
             } 
         });
+    }
+
+    collisionsWithBottles() {
         this.level.collectableObjects_bottles.forEach((object, index) => {
             if (this.character.isColliding(object)) {
                 this.character.collect('bottle');
                 this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
                 this.level.collectableObjects_bottles.splice(index, 1);
+            } 
+        });
+    }
+
+    collisionsWithCoins() {
+        this.level.collectableObjects_coin.forEach((object, index) => {
+            if (this.character.isColliding(object)) {
+                this.character.collect('coin');
+                this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
+                this.level.collectableObjects_coin.splice(index, 1);
             } 
         });
     }
