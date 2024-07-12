@@ -6,7 +6,12 @@ class MovableObject extends DrawableObject {
     BorderColor;
     energy = 100;
     lastHit = 0;
- 
+    offset = {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    }
     
 
     applyGravity() {
@@ -51,10 +56,10 @@ class MovableObject extends DrawableObject {
 
     // Bessere Formel zur Kollisionsberechnung (Genauer)
     isColliding(obj) {
-        return this.x + this.width >= obj.x &&
-               this.x <= obj.x + obj.width &&
-               this.y + this.height >= obj.y &&
-               this.y <= obj.y + obj.height;
+        return this.x + this.width - this.offset.right >= obj.x  + obj.offset.left &&
+               this.x + this.offset.left <= obj.x + obj.width - obj.offset.right &&
+               this.y + this.height  - this.offset.bottom >= obj.y + obj.offset.top &&
+               this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom;
     }
 
     hit() {
@@ -76,7 +81,7 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; // difference in ms
-        timepassed = timepassed / 1000; // diffence in s
+        timepassed = timepassed / 500; // diffence in s
       
         return timepassed < 1  ;
     }

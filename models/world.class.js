@@ -11,6 +11,8 @@ class World {
     statusbar_bottle = new Statusbar_bottle(20, 50);
     statusbar_coin = new Statusbar_coin(20, 90);
     throwableObject = [];
+    coin_collectinhg_sound = new Audio('audio/coin_sound.mp3')
+    
 
     // Funktionen
     constructor(canvas, keyboard) {
@@ -35,6 +37,8 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects); // mehrere Elemente
         this.addObjectsToMap(this.level.clouds); // mehrere Elemente
         
+        this.addObjectsToMap(this.level.collectableObjects_bottles); // mehrere Elemente
+        this.addObjectsToMap(this.level.collectableObjects_coin); // mehrere Elemente
 
         //statusbars
         this.ctx.translate(-this.camera_x, 0); // Back
@@ -44,8 +48,7 @@ class World {
         this.addToMap(this.statusbar_coin); 
         this.ctx.translate(this.camera_x, 0);// Forwards
 
-        this.addObjectsToMap(this.level.collectableObjects_bottles); // mehrere Elemente
-        this.addObjectsToMap(this.level.collectableObjects_coin); // mehrere Elemente
+        
         //Character
         this.addToMap(this.character);
         
@@ -132,8 +135,18 @@ class World {
         this.level.collectableObjects_coin.forEach((object, index) => {
             if (this.character.isColliding(object)) {
                 this.character.collect('coin');
+                this.coin_collectinhg_sound.play();
                 this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
                 this.level.collectableObjects_coin.splice(index, 1);
+                
+            } 
+        });
+    }
+
+    collisionsWithEndboss() {
+        this.level.collectableObjects_bottles.forEach((obj) => {
+            if (this.level.enemies[0].isColliding(obj)) {
+                console.log('The endboss is hitting by bottle');
             } 
         });
     }

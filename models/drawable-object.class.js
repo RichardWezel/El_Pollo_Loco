@@ -18,7 +18,11 @@ class DrawableObject {
     }
 
     drawFrame(ctx) {
-        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof CollectableObjects) {
+        if(this instanceof Character || 
+            this instanceof Chicken || 
+            this instanceof Endboss || 
+            this instanceof CollectableObjects_bottle|| 
+            this instanceof CollectableObjects_coin) {
             ctx.beginPath();
             ctx.lineWidth = "1";
             ctx.strokeStyle = this.BorderColor;

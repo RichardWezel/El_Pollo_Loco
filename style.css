@@ -2,8 +2,37 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'boogaloo-regular';
+    background-image: url(images/desert_background.jpg);
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    font-size: 32px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 canvas {
     background-color: black;
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Smartphones -------------------- */
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+}
+
+/* Smartphones -------------------- */
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+}
+
+@font-face {
+    font-family: 'boogaloo-regular';
+    src: url(fonts/Boogaloo-Regular.ttf) format('truetype');
 }

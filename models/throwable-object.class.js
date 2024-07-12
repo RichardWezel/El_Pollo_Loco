@@ -18,6 +18,7 @@ class ThrowableObject extends MovableObject {
         'images/bottle/splash/6_bottle_splash.png'
     ];
     intervalRotation;
+    splash_sound = new Audio('audio/bottle_break.mp3');
    
     constructor(x, y) {
         super().loadImage('images/bottle/solo/salsa_bottle_standing.png');
@@ -41,6 +42,8 @@ class ThrowableObject extends MovableObject {
                 this.playAnimation(this.IMAGES_ROTATION);
             } else if (this.checkHitTheGround() == true || isColliding(world.level.enemies[3])) {
                 this.playAnimationSplash(this.IMAGES_SPLASH)
+                this.splash_sound.playbackRate = 3;
+                this.splash_sound.play();
             }
         }, 50);
     }

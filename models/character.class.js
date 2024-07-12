@@ -36,13 +36,25 @@ class Character extends MovableObject{
         'images/pepe/dead_animation_img/D-56.png',
         'images/pepe/dead_animation_img/D-57.png'
     ];
+    IMAGES_SLEEPING = [
+        
+    ]
     world;
     speed = 15;
     walking_sound = new Audio('audio/walk_sound.mp3');
+    hurt_sound = new Audio('audio/hurt.mp3');
+    jump_sound = new Audio('audio/jump_sound.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
     collectedBottles = 0;
     collectedCoins = 0;
+    offset = {
+        top: 120,
+        right: 30,
+        bottom: 30,
+        left: 40
+    }
+
     
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -78,6 +90,7 @@ class Character extends MovableObject{
             // Key up is pushed
             if(this.world.keyboard.SPACE && this.y == 150) {
                 this.jump();
+                this.jump_sound.play();
             }
 
             if(this.x > 0){
@@ -92,6 +105,7 @@ class Character extends MovableObject{
             // } 
             if(this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT)
+                this.hurt_sound.play();
             } else if(this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING)
             } else {
