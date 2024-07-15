@@ -43,7 +43,9 @@ class ThrowableObject extends MovableObject {
             } else if (this.checkHitTheGround() == true || isColliding(world.level.enemies[3])) {
                 this.playAnimationSplash(this.IMAGES_SPLASH)
                 this.splash_sound.playbackRate = 3;
-                this.splash_sound.play();
+                if ( muteStatus == false) {
+                    this.splash_sound.play();
+                }
             }
         }, 50);
     }

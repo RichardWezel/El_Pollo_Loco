@@ -22,7 +22,9 @@ class DrawableObject {
             this instanceof Chicken || 
             this instanceof Endboss || 
             this instanceof CollectableObjects_bottle|| 
-            this instanceof CollectableObjects_coin) {
+            this instanceof CollectableObjects_coin ||
+            this instanceof ControllSymbol)
+             {
             ctx.beginPath();
             ctx.lineWidth = "1";
             ctx.strokeStyle = this.BorderColor;

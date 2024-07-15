@@ -36,8 +36,15 @@ class Character extends MovableObject{
         'images/pepe/dead_animation_img/D-56.png',
         'images/pepe/dead_animation_img/D-57.png'
     ];
-    IMAGES_SLEEPING = [
-        
+    IMAGES_IDLE = [
+        'images/pepe/idle_animation_img/I-1.png',
+        'images/pepe/idle_animation_img/I-2.png',
+        'images/pepe/idle_animation_img/I-3.png',
+        'images/pepe/idle_animation_img/I-4.png',
+        'images/pepe/idle_animation_img/I-5.png',
+        'images/pepe/idle_animation_img/I-8.png',
+        'images/pepe/idle_animation_img/I-9.png',
+        'images/pepe/idle_animation_img/I-10.png',
     ]
     world;
     speed = 15;
@@ -62,6 +69,7 @@ class Character extends MovableObject{
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_IDLE);
         this.applyGravity();
         this.animate();
     }
@@ -77,20 +85,26 @@ class Character extends MovableObject{
             if(this.world.keyboard.RIGHT) {
                 this.moveRight();
                 this.otherDirection = false;
-                this.walking_sound.play();
+                if(muteStatus == false) {
+                    this.walking_sound.play();
+                }
             }
 
             // Key left is pushed
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
-                this.walking_sound.play();
+                if(muteStatus == false) {
+                    this.walking_sound.play();
+                }
             }
 
             // Key up is pushed
             if(this.world.keyboard.SPACE && this.y == 150) {
                 this.jump();
-                this.jump_sound.play();
+                if(muteStatus == false) {
+                    this.jump_sound.play();
+                }
             }
 
             if(this.x > 0){
@@ -100,22 +114,27 @@ class Character extends MovableObject{
 
         setInterval(() => {
 
-            // if(this.isDead) {
-            //     this.playAnimation(this.IMAGES_DEAD)
-            // } 
+            if(this.world.isDead) {
+                this.playAnimation(this.IMAGES_DEAD)
+            } 
             if(this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT)
-                this.hurt_sound.play();
+                if(muteStatus == false) {
+                    this.hurt_sound.play();
+                }
             } else if(this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING)
-            } else {
-                let path = 'images/pepe/walk_animation_img/W-21.png';
-                this.img = this.imageCache[path];
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING)
-                }
-            }
-        }, 60);
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING)
+            } 
+        }, 40);
+
+        // idle
+        setInterval(() => {
+
+            this.playAnimation(this.IMAGES_IDLE);
+
+        }, 140);
         
     }
 

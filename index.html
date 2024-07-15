@@ -6,16 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>El pollo loco</title>
+    
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
+    
     <script src="models/character.class.js"></script>
+    <script src="models/startScreen.class.js"></script>
     <script src="models/chicken.class.js"></script>
     <script src="models/clouds.class.js"></script>
     <script src="models/statusbar.class.js"></script>
     <script src="models/statusbar_health.class.js"></script>
     <script src="models/statusbar_bottle.class.js"></script>
     <script src="models/statusbar_coin.class.js"></script>
+    <script src="models/mute.class.js"></script>
     <script src="models/world.class.js"></script>
+    <script src="models/controlSymbols.class.js"></script>
     <script src="models/backgrounds.class.js"></script>
     <script src="models/backgroundLargeWidth.class.js"></script>
     <script src="models/collectableObject_bottle.class.js"></script>
@@ -24,8 +29,10 @@
     <script src="models/endboss.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="models/throwable-object.class.js"></script>
-    <script src="js/game.js"></script>
+   
     <script src="levels/level1.js"></script>
+    <script src="js/game.js"></script>
+    
     <link
       rel="shortcut icon"
       href="images/pepe/walk_animation_img/W-21.png"
@@ -37,9 +44,12 @@
     
     <h1>El pollo loco</h1>
 
-    <canvas id="canvas" width="720" height="480">
-
-    </canvas>
-
+    <div id="fullcreen">
+      
+      <canvas id="canvas" width="720" height="480">
+        <div id="startBtn"></div>
+      </canvas>  
+    </div>
+    
 </body>
 </html>
