@@ -12,16 +12,17 @@ class MovableObject extends DrawableObject {
         bottom: 0,
         left: 0
     }
+    groundPos = 150; 
     
 
     applyGravity() {
         setInterval(() => {
             if(this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
-            if (this.y < 370) {
+            if (this.y < this.groundPos) {
                 this.speedY -= this.acceleration;
             } else {
-                this.y = 370;
+                this.y = this.groundPos;
             }
         }
         }, 1000 / 25);
@@ -31,8 +32,9 @@ class MovableObject extends DrawableObject {
         if(this instanceof ThrowableObject) { // Throwable Objects should alsways fall
             return true;
         } else {
-            return this.y < 150;
+            return this.y < this.groundPos;
         }
+        
     }
 
     moveRight() {

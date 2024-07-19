@@ -10,17 +10,16 @@ class World {
     statusbar_health = new Statusbar_health(20, 10);
     statusbar_bottle = new Statusbar_bottle(20, 50);
     statusbar_coin = new Statusbar_coin(20, 90);
-    mute = new Mute();
     throwableObject = [];
-    coin_collectinhg_sound = new Audio('audio/coin_sound.mp3')
-    backgroundmusic = new Audio('audio/backgroundmusic.mp3')
-    start_screen = new Start_screen();
+    coin_collectinhg_sound = new Audio('audio/coin_sound.mp3');
+    backgroundmusic = new Audio('audio/backgroundmusic.mp3');
     start = false;
     controlBtn = [
         new ControllSymbol(610, 430, 96, 96, 0.5, 'images/control/keyboard_arrow_left.png', 'walkLeft'),
         new ControllSymbol(670, 430, 96, 96, 0.5, 'images/control/keyboard_arrow_right.png', 'walkLeft'),
         new ControllSymbol(10, 360, 96, 96, 0.5, 'images/control/keyboard_arrow_up.png', 'jump'),
         new ControllSymbol(10, 420, 96, 96, 0.5, 'images/control/swords.png', 'throw'),
+        new ControllSymbol(680, 10, 96, 96, 0.3, 'images/control/music.png', 'mute'),
     ]
 
     // Funktionen
@@ -31,6 +30,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.checkMute();
         this.playBackgroundMusik();
     }
 
@@ -42,50 +42,39 @@ class World {
         });
     }
     
-
-    /**
-     * Draws the canvas.
-     * First delet the latest Draw and define the Frame of View on the Canvas (1./2.)
-     * Adds an object to the Canvas.
-     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // clearRect(x, y, width, height)
         this.ctx.translate(this.camera_x, 0); // translate(x, y) x= 0 siehe camera_x oben als Variable
-        this.addToMap(this.start_screen); 
-        
-        // backgrounds
-        this.addObjectsToMap(this.level.backgroundObjects); // mehrere Elemente
-        this.addObjectsToMap(this.level.clouds); // mehrere Elemente
-        
-        this.addObjectsToMap(this.level.collectableObjects_bottles); // mehrere Elemente
-        this.addObjectsToMap(this.level.collectableObjects_coin); // mehrere Elemente
-
-        //statusbars
-        this.ctx.translate(-this.camera_x, 0); // Back
-        // space for fixed objects
-        this.addToMap(this.statusbar_health); 
-        this.addToMap(this.statusbar_bottle); 
-        this.addToMap(this.statusbar_coin); 
-        this.addToMap(this.mute); 
-        this.addObjectsToMap(this.controlBtn);
-        this.ctx.translate(this.camera_x, 0);// Forwards
-
-        //Character
-        this.addToMap(this.character);
-        
-        // others objects
-        this.addObjectsToMap(this.level.enemies); // mehrere Elemente
-        this.addObjectsToMap(this.throwableObject);
-        
-        
-        // 4. Verschiebung des Zeichenkontexts rückgängig machen
+        this.drawLevelBachgrounds();
+        this.drawStatusbars();
+        this.drawMovableObjects();
         this.ctx.translate(-this.camera_x, 0);
-
-        // 5. Wiederholung der Zeichnung mit requestAnimationFrame
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
         });
+    }
+
+    drawLevelBachgrounds() {
+        this.addObjectsToMap(this.level.backgroundObjects); 
+        this.addObjectsToMap(this.level.clouds); 
+        this.addObjectsToMap(this.level.collectableObjects_bottles); 
+        this.addObjectsToMap(this.level.collectableObjects_coin); 
+    }
+
+    drawStatusbars() {
+        this.ctx.translate(-this.camera_x, 0); // Back
+        this.addToMap(this.statusbar_health); 
+        this.addToMap(this.statusbar_bottle); 
+        this.addToMap(this.statusbar_coin); 
+        this.addObjectsToMap(this.controlBtn);
+        this.ctx.translate(this.camera_x, 0);// Forwards
+    }
+
+    drawMovableObjects() {
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.enemies); // mehrere Elemente
+        this.addObjectsToMap(this.throwableObject);
     }
 
     addObjectsToMap(objects){
@@ -98,21 +87,40 @@ class World {
         if(mo.otherDirection) {
             this.flipImage(mo);
         }              
-
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
-
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }
 
-    /**
-     * Connects the Variables with this world.
-     */
     setWorld() {
         this.character.world = this;
         this.statusbar_health.world = this;
+    }
+
+    checkMute() {
+        setInterval(() => {
+            if(this.keyboard.KeyM) {
+                if (muteStatus == false) {
+                    this.muteMusuic();
+                } else if(muteStatus == true) {
+                    this.playMusic();
+                }
+            }
+        }, 100); 
+    }
+
+    muteMusuic() {
+        world.controlBtn[4].loadImage('images/control/mute.png');
+        muteStatus = true;
+        this.backgroundmusic.pause();
+    }
+
+    playMusic() {
+        world.controlBtn[4].loadImage('images/control/music.png');
+        muteStatus = false;
+        this.backgroundmusic.play();
     }
 
     /**
@@ -122,6 +130,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkBottleCollisions();
         }, 150);
     }
 
@@ -141,49 +150,87 @@ class World {
          * setPercentage() is calld for the health statusbar and passed the character energy in the function with the mode 'decrease', witch caused a reduction of the statusbar.
          */
         collisionsWithEnemies() {
-            this.level.enemies.forEach((enemy) => {
+            this.level.enemies.forEach((enemy, index) => {
                 if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusbar_health.setPercentage(this.character.energy, 'decrease');
-                } 
+                    if (this.character.isAboveGround() && this.character.speedY < 0) {
+                        // Charakter ist in der Luft und fällt
+                        this.character.bounce();
+                        this.removeEnemy(index);
+                    } else {
+                        // Charakter kollidiert seitlich oder von unten
+                        this.character.hit();
+                        this.statusbar_health.setPercentage(this.character.energy, 'decrease');
+                    }
+                }
             });
+        }
+
+        removeEnemy(index) {
+            this.level.enemies.splice(index, 1);
         }
 
         collisionsWithBottles() {
             this.level.collectableObjects_bottles.forEach((object, index) => {
                 if (this.character.isColliding(object)) {
-                    this.character.collect('bottle');
-                    this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
-                    this.level.collectableObjects_bottles.splice(index, 1);
+                    this.characterCollectBottle(index);
                 } 
-                if (this.level.enemies[0].isColliding(object)) {
-                   
-                }
             });
+        }
+
+        characterCollectBottle(index) {
+            this.character.collect('bottle');
+            this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
+            this.level.collectableObjects_bottles.splice(index, 1);
         }
 
         collisionsWithCoins() {
             this.level.collectableObjects_coin.forEach((object, index) => {
                 if (this.character.isColliding(object)) {
-                    this.character.collect('coin');
-                    if(muteStatus == false) {
-                        this.coin_collectinhg_sound.play();
-                    } 
-                    this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
-                    this.level.collectableObjects_coin.splice(index, 1);
+                   this.characterCollectCoin(index);
                 } 
             });
         }
 
+        characterCollectCoin(index) {
+            this.character.collect('coin');
+            this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
+            this.level.collectableObjects_coin.splice(index, 1);
+            if(muteStatus == false) {
+                this.coin_collectinhg_sound.play();
+            } 
+        }
+
+    checkBottleCollisions() {
+        this.throwableObject.forEach((bottle, bottleIndex) => {
+            this.level.enemies.forEach((enemy, enemyIndex) => {
+                if (bottle.isColliding(enemy)) {
+                    this.handleBottleHit(bottle, enemy, bottleIndex);
+                }
+            });
+        });
+    }
+
+    handleBottleHit(bottle, enemy, bottleIndex) {
+        // Logik, um Treffer zu zählen oder Schaden am Endboss zu verursachen
+        console.log('Bottle hit the enemy!');
+        enemy.hit(); // Beispiel: Methode, die dem Feind Schaden zufügt
+        bottle.splash_sound.play();
+        this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
+    }
+
     checkThrowObjects() {
         if(this.keyboard.KeyD) {
-            if (this.character.collectedBottles > 11) {
-                let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
-                this.throwableObject.push(bottle);
-                this.character.collectedBottles -= 12;
-                this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
+            if (this.character.collectedBottles > 1) {
+               this.characterThrowBottle();
             }
         }
+    }
+
+    characterThrowBottle() {
+        let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
+        this.throwableObject.push(bottle);
+        this.character.collectedBottles -= 12;
+        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
     }
 
     flipImage(mo) {
@@ -200,4 +247,3 @@ class World {
     }
 
 }
-

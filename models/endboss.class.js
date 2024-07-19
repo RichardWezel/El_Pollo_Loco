@@ -13,22 +13,28 @@ class Endboss extends MovableObject {
             'images/endboss/G11.png',
             'images/endboss/G12.png',
         ];
-        speed = 0.5;
-        BorderColor = 'yellow'
+    speed = 0.5;
+    BorderColor = 'yellow';
+    offset = {
+        top: 100,
+        right: 150,
+        bottom: 150,
+        left: 100
+    }
     
-        constructor() {
-            super().loadImage(this.IMAGES_WALKING[0]);
-            this.loadImages(this.IMAGES_WALKING);
-            this.x = 4500 + Math.random() * 500;
-            this.animate();
-        }
-    
-        animate() {
-            setInterval(() => {
-                this.playAnimation(this.IMAGES_WALKING);
-    
-            }, 200);
-            
-        }
+    constructor() {
+        super().loadImage(this.IMAGES_WALKING[0]);
+        this.loadImages(this.IMAGES_WALKING);
+        this.x = 5300;
+        this.animate();
+    }
+
+    animate() {
+        setInterval(() => {
+            this.playAnimation(this.IMAGES_WALKING);
+
+        }, 200);
+        
+    }
     
 }

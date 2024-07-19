@@ -32,22 +32,31 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.speedY = 30; // Geschwindigkeit des Falls
         this.applyGravity(); // senkt speedY
-        this.rotation();
+        this.bottleFly();
     }
 
-    rotation() {
+    bottleFly() {
         this.intervalRotation = setInterval(() => {
-            if(this.checkHitTheGround() == false) {
-                this.x += 20;
-                this.playAnimation(this.IMAGES_ROTATION);
-            } else if (this.checkHitTheGround() == true || isColliding(world.level.enemies[3])) {
-                this.playAnimationSplash(this.IMAGES_SPLASH)
-                this.splash_sound.playbackRate = 3;
-                if ( muteStatus == false) {
-                    this.splash_sound.play();
-                }
+            if (this.checkHitTheGround()) {
+                this.bottleSplash();
+            } else {
+                this.bottleRotation();
+                this.checkCollisionWithEnemies();
             }
         }, 50);
+    }
+
+    bottleRotation() {
+        this.x += 20;
+        this.playAnimation(this.IMAGES_ROTATION);
+    }
+
+    bottleSplash() {
+        this.playAnimationSplash(this.IMAGES_SPLASH)
+        this.splash_sound.playbackRate = 3;
+        if ( muteStatus == false) {
+            this.splash_sound.play();
+        }
     }
 
     checkHitTheGround() {
@@ -56,6 +65,16 @@ class ThrowableObject extends MovableObject {
         } else {
             return false
         }
+    }
+
+    checkCollisionWithEnemies() {
+        world.level.enemies.forEach((enemy) => {
+            if (enemy instanceof Endboss && this.isColliding(enemy)) {
+                console.log('Hit endboss');
+                enemy.hit();
+                this.bottleSplash();
+            }
+        });
     }
 
     playAnimationSplash(images) {
