@@ -104,11 +104,6 @@ body {
     cursor: pointer;
 }
 
-#volumeBtn img{
-    width: 70%;
-    height: 70%;
-}
-
 #volumeBtn:hover {
     border-color: #FF9601;
 }
@@ -153,6 +148,23 @@ body {
     fill: #FF9601;
 }
 
+#fullscreen {
+    position: absolute;
+    top: 10px;
+    right: 60px;
+    cursor: pointer; 
+    padding-left: 1px;
+}
+
+#fullscreen:hover {
+    border-color: #FF9601;
+}
+
+#fullscreen:hover svg{
+    fill: #FF9601;
+}
+
+
 .control_circle {
     width: 50px;
     height: 50px;
@@ -183,7 +195,7 @@ body {
 .control_element {
     display: none;
     position: relative;
-    z-index: 1000; 
+    z-index: 9999; 
 }
 
 #canvas {

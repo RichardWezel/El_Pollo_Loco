@@ -63,6 +63,18 @@ function init() {
     document.getElementById('gameScreen').style.backgroundImage = 'none';
 }
 
+function fullscreen() {
+    if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+    } else if (canvas.mozRequestFullScreen) { // Firefox
+        canvas.mozRequestFullScreen();
+    } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        canvas.webkitRequestFullscreen();
+    } else if (canvas.msRequestFullscreen) { // IE/Edge
+        canvas.msRequestFullscreen();
+    }
+}
+
 function hideStartBtn() {
     startBtn = document.getElementById('startBtn');
     startBtn.style.display = 'none';
