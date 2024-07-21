@@ -6,7 +6,8 @@ class MovableObject extends DrawableObject {
     BorderColor;
     energyCharacter = 100;
     energyEndboss = 100;
-    lastHit = 0;
+    lastHitCharacter = 0;
+    lastHitEndboss = 0;
     offset = {
         top: 0,
         right: 0,
@@ -87,7 +88,7 @@ class MovableObject extends DrawableObject {
     }
 
     isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit; // difference in ms
+        let timepassed = new Date().getTime() - this.lastHitCharacter; // difference in ms
         timepassed = timepassed / 500; // diffence in s
       
         return timepassed < 1  ;
