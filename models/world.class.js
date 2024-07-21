@@ -125,8 +125,8 @@ class World {
                         this.removeEnemy(index);
                     } else {
                         // Charakter kollidiert seitlich oder von unten
-                        this.character.hit();
-                        this.statusbar_health.setPercentage(this.character.energy, 'decrease');
+                        this.character.hitCharacter();
+                        this.statusbar_health.setPercentage(this.character.energyCharacter, 'decrease');
                     }
                 }
             });
@@ -162,7 +162,7 @@ class World {
             this.character.collect('coin');
             this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
             this.level.collectableObjects_coin.splice(index, 1);
-            if(VolumeStatus == true) {
+            if(volumeStatus == true) {
                 this.coin_collectinhg_sound.play();
             } 
         }
@@ -180,7 +180,7 @@ class World {
     handleBottleHit(bottle, enemy, bottleIndex) {
         // Logik, um Treffer zu zählen oder Schaden am Endboss zu verursachen
         console.log('Bottle hit the enemy!');
-        enemy.hit(); // Beispiel: Methode, die dem Feind Schaden zufügt
+        // enemy.hit(); // Beispiel: Methode, die dem Feind Schaden zufügt
         bottle.splash_sound.play();
         this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
     }
@@ -194,8 +194,16 @@ class World {
     }
 
     characterThrowBottle() {
+        this.createBottleObject();
+        this.reduceBottleSupply();
+    }
+
+    createBottleObject() {
         let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
         this.throwableObject.push(bottle);
+    }
+
+    reduceBottleSupply() {
         this.character.collectedBottles -= 12;
         this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
     }

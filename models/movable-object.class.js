@@ -4,7 +4,8 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     BorderColor;
-    energy = 100;
+    energyCharacter = 100;
+    energyEndboss = 100;
     lastHit = 0;
     offset = {
         top: 0,
@@ -12,7 +13,7 @@ class MovableObject extends DrawableObject {
         bottom: 0,
         left: 0
     }
-    groundPos = 150; 
+    groundPos = 350; 
     
 
     applyGravity() {
@@ -29,12 +30,7 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        if(this instanceof ThrowableObject) { // Throwable Objects should alsways fall
-            return true;
-        } else {
             return this.y < this.groundPos;
-        }
-        
     }
 
     moveRight() {
@@ -64,11 +60,20 @@ class MovableObject extends DrawableObject {
                this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom;
     }
 
-    hit() {
-        if(this.energy > 0) {
-            this.energy -= 2.5;
-            console.log('Energy of Pepe is ', this.energy, '%')
-            this.lastHit = new Date().getTime();
+    hitCharacter() {
+        if(this.energyCharacter > 0) {
+            this.energyCharacter -= 2.5;
+            console.log('Energy of Pepe is ', this.energyCharacter, '%')
+            this.lastHitCharacter = new Date().getTime();
+        }
+    }
+
+    hitEndboss() {
+        if(this.energyEndboss > 0) {
+            console.log('Hit endboss');
+            this.energyEndboss -= 2.5;
+            console.log('Energy of Endboss is ', this.energyEndboss, '%')
+            this.lastHitEndboss = new Date().getTime();
         }
     }
 
@@ -89,7 +94,7 @@ class MovableObject extends DrawableObject {
     }
 
     isDead() {
-        return this.energy == 0;
+        return this.energyCharacter == 0;
     }
 
 }

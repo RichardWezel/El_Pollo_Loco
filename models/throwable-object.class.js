@@ -47,20 +47,23 @@ class ThrowableObject extends MovableObject {
     }
 
     bottleRotation() {
-        this.x += 20;
-        this.playAnimation(this.IMAGES_ROTATION);
+        if (!this.checkHitTheGround()) {
+            this.x += 20;
+            this.playAnimation(this.IMAGES_ROTATION);
+        }
+        
     }
 
     bottleSplash() {
         this.playAnimationSplash(this.IMAGES_SPLASH)
         this.splash_sound.playbackRate = 3;
-        if ( muteStatus == false) {
+        if ( volumeStatus == false) {
             this.splash_sound.play();
         }
     }
 
     checkHitTheGround() {
-        if (this.y == 370) {
+        if (this.y == 350) {
             return true
         } else {
             return false
@@ -70,8 +73,7 @@ class ThrowableObject extends MovableObject {
     checkCollisionWithEnemies() {
         world.level.enemies.forEach((enemy) => {
             if (enemy instanceof Endboss && this.isColliding(enemy)) {
-                console.log('Hit endboss');
-                enemy.hit();
+                enemy.hitEndboss();
                 this.bottleSplash();
             }
         });
