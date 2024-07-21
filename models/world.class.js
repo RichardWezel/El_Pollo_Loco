@@ -14,13 +14,6 @@ class World {
     coin_collectinhg_sound = new Audio('audio/coin_sound.mp3');
     backgroundmusic = new Audio('audio/backgroundmusic.mp3');
     start = false;
-    controlBtn = [
-        new ControllSymbol(610, 430, 96, 96, 0.5, 'images/control/keyboard_arrow_left.png', 'walkLeft'),
-        new ControllSymbol(670, 430, 96, 96, 0.5, 'images/control/keyboard_arrow_right.png', 'walkLeft'),
-        new ControllSymbol(10, 360, 96, 96, 0.5, 'images/control/keyboard_arrow_up.png', 'jump'),
-        new ControllSymbol(10, 420, 96, 96, 0.5, 'images/control/swords.png', 'throw'),
-        new ControllSymbol(680, 10, 96, 96, 0.3, 'images/control/music.png', 'mute'),
-    ]
 
     // Funktionen
     constructor(canvas, keyboard) {
@@ -30,16 +23,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        this.checkMute();
-        this.playBackgroundMusik();
-    }
-
-    playBackgroundMusik() {
-        this.backgroundmusic.play();
-        this.backgroundmusic.addEventListener('ended', () => {
-            this.backgroundmusic.currentTime = 0;
-            this.backgroundmusic.play();
-        });
+        this.playBackgroundMusic();
     }
     
     draw() {
@@ -67,7 +51,6 @@ class World {
         this.addToMap(this.statusbar_health); 
         this.addToMap(this.statusbar_bottle); 
         this.addToMap(this.statusbar_coin); 
-        this.addObjectsToMap(this.controlBtn);
         this.ctx.translate(this.camera_x, 0);// Forwards
     }
 
@@ -99,28 +82,12 @@ class World {
         this.statusbar_health.world = this;
     }
 
-    checkMute() {
-        setInterval(() => {
-            if(this.keyboard.KeyM) {
-                if (muteStatus == false) {
-                    this.muteMusuic();
-                } else if(muteStatus == true) {
-                    this.playMusic();
-                }
-            }
-        }, 100); 
-    }
-
-    muteMusuic() {
-        world.controlBtn[4].loadImage('images/control/mute.png');
-        muteStatus = true;
-        this.backgroundmusic.pause();
-    }
-
-    playMusic() {
-        world.controlBtn[4].loadImage('images/control/music.png');
-        muteStatus = false;
+    playBackgroundMusic() {
         this.backgroundmusic.play();
+        this.backgroundmusic.addEventListener('ended', () => {
+            this.backgroundmusic.currentTime = 0;
+            this.backgroundmusic.play();
+        });
     }
 
     /**
@@ -195,7 +162,7 @@ class World {
             this.character.collect('coin');
             this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
             this.level.collectableObjects_coin.splice(index, 1);
-            if(muteStatus == false) {
+            if(VolumeStatus == true) {
                 this.coin_collectinhg_sound.play();
             } 
         }

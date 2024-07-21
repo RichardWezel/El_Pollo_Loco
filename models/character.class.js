@@ -101,7 +101,7 @@ class Character extends MovableObject{
         if(this.world.keyboard.RIGHT) {
             this.moveRight();
             this.otherDirection = false;
-            if(muteStatus == false) {
+            if(volumeStatus == true) {
                 this.walking_sound.play();
             }
         }
@@ -111,7 +111,7 @@ class Character extends MovableObject{
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
             this.otherDirection = true;
-            if(muteStatus == false) {
+            if(volumeStatus == true) {
                 this.walking_sound.play();
             }
         }
@@ -120,7 +120,7 @@ class Character extends MovableObject{
     checkPressSpace(){
         if(this.world.keyboard.SPACE && this.y == this.groundPos) {
             this.jump();
-            if(muteStatus == false) {
+            if(volumeStatus == true) {
                 this.jump_sound.play();
             }
         }
@@ -133,7 +133,7 @@ class Character extends MovableObject{
             } 
             if(this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT)
-                if(muteStatus == false) {
+                if(volumeStatus == true) {
                     this.hurt_sound.play();
                 }
             } else if(this.isAboveGround()) {

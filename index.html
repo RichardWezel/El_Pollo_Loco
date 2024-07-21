@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" contnet="IE-edge">
@@ -19,7 +19,6 @@
     <script src="models/statusbar_bottle.class.js"></script>
     <script src="models/statusbar_coin.class.js"></script>
     <script src="models/world.class.js"></script>
-    <script src="models/controlSymbols.class.js"></script>
     <script src="models/backgrounds.class.js"></script>
     <script src="models/backgroundLargeWidth.class.js"></script>
     <script src="models/collectableObject_bottle.class.js"></script>
@@ -42,15 +41,36 @@
 </head>
 <body> <!--game.js-->
     
-    <h1>El pollo loco</h1>
+    <h1 id="header">El pollo loco</h1>
 
-    <div id="startScreen">
+    <div id="gameScreen">
+      <!-- Start btn -->
       <div id="startBtn" onclick="init()">
         Start
       </div>
-      <!-- <canvas id="canvas" width="720" height="480">
-        
-      </canvas>   -->
+
+      <!-- control btns -->
+      <a id="arrowRight" class="control_circle control_element" onmousedown="keydownRight()" onmouseup="keyUpRight()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+        </svg>
+      </a>
+      <a id="arrowLeft" class="control_circle control_element" onmousedown="keydownLeft()" onmouseup="keyUpLeft()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px" fill="#000000"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+        </svg>
+      </a>
+      <a id="volumeBtn" class="control_circle_small control_element" onmousedown="keydownM()" onmouseup="keyUpM()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320ZM400-606l-86 86H200v80h114l86 86v-252ZM300-480Z"/>
+        </svg>
+      </a>
+      <a id="arrowUp" class="control_circle control_element">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/>
+        </svg>
+      </a>
+      <a id="throwBtn" class="control_circle control_element" onmousedown="keydownSpace()" onmouseup="keyUpSpace()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M600-80q-127-48-203.5-158T320-484q0-91 36-172.5T458-800H320v-80h280v280h-80v-148q-57 51-88.5 119.5T400-484q0 102 54 187.5T600-167v87Z"/>
+        </svg>
+      </a>
+      
     </div>
     
 </body>

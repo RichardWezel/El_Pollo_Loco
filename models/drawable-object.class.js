@@ -22,8 +22,7 @@ class DrawableObject {
             this instanceof Chicken || 
             this instanceof Endboss || 
             this instanceof CollectableObjects_bottle|| 
-            this instanceof CollectableObjects_coin ||
-            this instanceof ControllSymbol)
+            this instanceof CollectableObjects_coin)
              {
             ctx.beginPath();
             ctx.lineWidth = "1";
