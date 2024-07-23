@@ -4,6 +4,8 @@ let world;
 let keyboard = new Keyboard();
 let volumeStatus = true;
 
+window.addEventListener('resize', scanViewport);
+
 function scanViewport() {
     let screenElement = document.getElementById('gameScreen');
     let rotateScreenImage = document.getElementById('pleaseRotateScreenImage');
@@ -53,16 +55,6 @@ function volumeOff() {
     world.backgroundmusic.pause();
 }
 
-window.addEventListener('resize', scanViewport);
-
-function init() {
-    hideStartBtn();
-    addCanvasHTMLElement();
-    initCanvas();
-    addControlBtns();
-    document.getElementById('gameScreen').style.backgroundImage = 'none';
-}
-
 function fullscreen() {
     if (canvas.requestFullscreen) {
         canvas.requestFullscreen();
@@ -73,37 +65,6 @@ function fullscreen() {
     } else if (canvas.msRequestFullscreen) { // IE/Edge
         canvas.msRequestFullscreen();
     }
-}
-
-function hideStartBtn() {
-    startBtn = document.getElementById('startBtn');
-    startBtn.style.display = 'none';
-}
-
-function addCanvasHTMLElement() {
-    let gameScreen = document.getElementById('gameScreen');
-    gameScreen.innerHTML += canvasHTML_Element();
-}
-
-function canvasHTML_Element() {
-    return `
-        <canvas id="canvas" width="720" height="480">
-        </canvas>
-    `
-}
-
-function initCanvas() {
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-}
-
-function addControlBtns() {
-    let controlElements = document.querySelectorAll('.control_element');
-
-    // Durch die ausgewählten Elemente iterieren und 'display: flex' setzen
-    controlElements.forEach(element => {
-      element.style.display = 'flex';
-    });
 }
 
 function markUsedControlBtn(controllBtnId) {
@@ -125,8 +86,6 @@ function demarcateUsedControlBtn(controllBtnId) {
         svgElement.style.fill = '#000000';
     }
 }
-
-
 
 window.addEventListener('keydown', (e) => {
     switch (e.code) {
@@ -150,6 +109,12 @@ window.addEventListener('keydown', (e) => {
             break;
         case 'KeyM':
             keydownM();
+            break;
+        case 'KeyF':
+            keydownF();
+            break;
+        case 'KeyH':
+            keydownH();
             break;
     }
 });
@@ -176,6 +141,12 @@ window.addEventListener('keyup', (e) => {
             break;
         case 'KeyM':
             keyUpM();
+            break;
+        case 'KeyF':
+            keyUpF();
+            break;
+        case 'KeyH':
+            keyUpH();
             break;
     }
 });
@@ -221,6 +192,17 @@ function keyUpM() {
     demarcateUsedControlBtn('volumeBtn');
 }
 
+function keydownF() {
+    keyboard.KeyF = true;
+    markUsedControlBtn('fullscreen');
+    fullscreen();
+}
+
+function keyUpF() {
+    keyboard.KeyF = false;
+    demarcateUsedControlBtn('fullscreen');
+}
+
 function keydownD() {
     keyboard.KeyD = true;
     markUsedControlBtn('throwBtn');
@@ -229,4 +211,16 @@ function keydownD() {
 function keyUpD() {
     keyboard.KeyD = false;
     demarcateUsedControlBtn('throwBtn');
+}
+
+function keydownH() {
+    keyboard.KeyH = true;
+    markUsedControlBtn('home');
+
+}
+
+function keyUpH() {
+    keyboard.KeyH = false;
+    demarcateUsedControlBtn('home');
+    initStartScreen();
 }

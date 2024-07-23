@@ -3,7 +3,7 @@ body {
     flex-direction: column;
     align-items: center;
     font-family: 'boogaloo-regular';
-    background-image: url(images/desert_background.jpg);
+    background-image: url('images/desert_background.jpg');
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
@@ -20,23 +20,8 @@ body {
     background-image: url('images/intro_outro_screens/start/startscreen_1.png');
     background-size: 720px 480px;
     justify-content: center;
-    align-items: center;
     position: relative;
-}
-
-#gameScreen.background-opacity::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('images/desert_background.jpg'); /* Hier das Hintergrundbild */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
-    opacity: 0.5;
+    text-shadow: none;
 }
 
 #pleaseRotateScreenImage {
@@ -45,157 +30,6 @@ body {
     display: flex;
     position: relative;
     z-index: 1;
-}
-
-#startBtn {
-    width: 100px;
-    height: 50px;
-    background-color: #FF9601;
-    display: flex;
-    margin-top: 30px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    color: rgb(250, 222, 75);
-    box-shadow: 0px 5px 15px -2px rgba(0,0,0,0.46);
-    cursor: pointer;
-    position: absolute;
-    top: 0px;
-}
-
-#startBtn:hover {
-    color: black;
-}
-
-#arrowRight {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-#arrowRight:hover {
-    border-color: #FF9601;
-}
-
-#arrowRight:hover svg{
-    fill: #FF9601;
-}
-
-#arrowLeft {
-    position: absolute;
-    bottom: 10px;
-    right: 70px;
-    cursor: pointer;
-}
-
-#arrowLeft:hover {
-    border-color: #FF9601;
-}
-
-#arrowLeft:hover svg{
-    fill: #FF9601;
-}
-
-#volumeBtn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-#volumeBtn:hover {
-    border-color: #FF9601;
-}
-
-#volumeBtn:hover svg{
-    fill: #FF9601;
-}
-
-#arrowUp {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    cursor: pointer;
-}
-
-#arrowUp:hover {
-    border-color: #FF9601;
-}
-
-#arrowUp:hover svg{
-    fill: #FF9601;
-}
-
-#throwBtn {
-    position: absolute;
-    bottom: 70px;
-    left: 10px;
-    cursor: pointer;
-}
-
-#throwBtn svg {
-    width: 70%;
-    height: 70%;
-    rotate: 65deg;
-}
-
-#throwBtn:hover {
-    border-color: #FF9601;
-}
-
-#throwBtn:hover svg{
-    fill: #FF9601;
-}
-
-#fullscreen {
-    position: absolute;
-    top: 10px;
-    right: 60px;
-    cursor: pointer; 
-    padding-left: 1px;
-}
-
-#fullscreen:hover {
-    border-color: #FF9601;
-}
-
-#fullscreen:hover svg{
-    fill: #FF9601;
-}
-
-
-.control_circle {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    border: solid 3px black;
-    border-radius: 30px;
-    justify-content: center;
-    align-items: center;
-}
-
-.control_circle_small {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    border: solid 3px black;
-    border-radius: 30px;
-    justify-content: center;
-    align-items: center;
-}
-
-    .control_circle svg {
-        fill: black;
-        width: 100%;
-        height: 100%;
-
-    }
-
-.control_element {
-    display: none;
-    position: relative;
-    z-index: 9999; 
 }
 
 #canvas {

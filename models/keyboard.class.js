@@ -8,5 +8,7 @@ class Keyboard {
     ENTER = false;
     KeyD = false;
     KeyM = false;
+    KeyF = false;
+    KeyH = false;
 }
 

@@ -1,0 +1,92 @@
+#InstructionsContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.headerInstructions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.InstructionsText {
+    margin-left: 20px;
+    width: 100%;
+}
+
+.columnHeading {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 14px;
+    text-decoration: underline;
+    font-size: 24px;
+}
+
+.column_1 {
+    width: 64px;
+}
+
+.column_2 {
+    margin-left: 50px;
+    width: 165px;
+}
+
+.column_3 {
+    margin-left: 50px;
+}
+
+.row {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    font-size: 20px;
+    height: 38px;
+}
+
+.controlSymbol {
+    justify-content: center;
+    display: flex;
+}
+
+.controlSymbol svg {
+    height: 48px;
+    width: 48px;
+    justify-content: center;
+    display: flex;
+}
+
+.explanation {
+    margin-left: 50px;
+}
+
+#musicBox {
+    height: 32px;
+    width: 32px;
+}
+
+#fullscreen_symbol {
+    height: 32px;
+    width: 32px;
+}
+
+#home_symbol {
+    height: 32px;
+    width: 32px;
+}
+
+.rotation {
+    rotate: 65deg;
+}
+
+.storyText {
+    text-align: initial;
+}
+
+.rotation svg{
+    width: 36px;
+    height: 36px;
+}
