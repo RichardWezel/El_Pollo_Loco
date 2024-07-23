@@ -30,29 +30,23 @@ function startGame() {
 
 function showInstruction() {
     setBackgroundInstructions();
-    renderInstructions();
+    renderStory();
 }
 
-function showSettings() {
+    function setBackgroundInstructions() {
+        let screenContainer = document.getElementById('gameScreen');
+        screenContainer.style.backgroundImage = `url('images/background/air.png')`;
+    }
 
-}
+    function renderInstructions() {
+        let screenContainer = document.getElementById('gameScreen');
+        screenContainer.innerHTML = explenationHTML();
+    }
 
-
-
-function setBackgroundInstructions() {
-    let screenContainer = document.getElementById('gameScreen');
-    screenContainer.style.backgroundImage = `url('images/background/air.png')`;
-    screenContainer.style.justifyContent = 'start';
-    screenContainer.style.flexDirection = 'column';
-}
-
-
-
-function renderInstructions() {
-    let screenContainer = document.getElementById('gameScreen');
-    screenContainer.innerHTML = explenationHTML();
-}
-
+    function renderStory() {
+        let screenContainer = document.getElementById('gameScreen');
+        screenContainer.innerHTML = storyHTML();
+    }
 
 
 

@@ -2,12 +2,12 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
 }
 
 .headerInstructions {
-    margin-top: 30px;
     text-align: center;
+    margin-top: 10px;
 }
 
 .InstructionsText {
@@ -83,7 +83,11 @@
 }
 
 .storyText {
-    text-align: initial;
+    font-size: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: center;
+    line-height: 1.5;
 }
 
 .rotation svg{
