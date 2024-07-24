@@ -7,12 +7,20 @@ class Statusbar_endboss extends Statusbar {
         'images/statusbar_endboss/20.png',
         'images/statusbar_endboss/0.png'
     ];
+    world;
 
-    constructor(x, y) { // wird über die Erstellung eines neuen BackgroundObjects in world übergeben
+    constructor(y) { // wird über die Erstellung eines neuen BackgroundObjects in world übergeben
         super();
         this.loadImages(this.STATUS_IMGAES);
-        this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
         this.y = y;
         this.setPercentage(100, 'decrease') // setzt initial die 100%, weitere Veränderungen über die world
+        this.loadImage(this.STATUS_IMGAES[0]);
+    }
+
+    // Neue Methode zum Setzen der X-Position
+    updateX() {
+        if (this.world && this.world.level && this.world.level.enemies[0]) {
+            this.x = this.world.level.enemies[0].x;
+        }
     }
 }

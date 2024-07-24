@@ -48,8 +48,10 @@ function showInstruction() {
         screenContainer.innerHTML = storyHTML();
     }
 
-
-
+    function renderGameOver() {
+        let screenContainer = document.getElementById('gameScreen');
+        screenContainer.innerHTML += GameOverHTML();
+    }
 
 function hideIntroduction() {
     let container = document.getElementById('InstructionsContainer');

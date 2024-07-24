@@ -127,23 +127,51 @@ class Character extends MovableObject{
     }
 
     animateCharacterMoves() {
-        setInterval(() => {
-            if(this.world.isDead) {
-                this.playAnimation(this.IMAGES_DEAD)
-            } 
-            if(this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT)
-                if(volumeStatus == true) {
+        this.characterAnimationInterval = setInterval(() => {
+            if (this.isDead()) {
+                this.playDeathAnimation(); // Startet eine separate Animation für den Tod
+                this.jump(); // Startet den Sprung
+                this.fallBelowGround(); // Setzt die groundPos nach unten
+                clearInterval(this.characterAnimationInterval); // Beendet das allgemeine Animationsintervall
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+                if (volumeStatus === true) {
                     this.hurt_sound.play();
                 }
-            } else if(this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING)
+            } else if (this.isAboveGround()) {
+                this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING)
-            } 
+                this.playAnimation(this.IMAGES_WALKING);
+            }
         }, 40);
     }
+    
+    // Neue Methode zum Abspielen der Todesanimation
+    playDeathAnimation() {
+        let deathIndex = 0; // Start der Todesanimation
+    
+        // Startet eine separate Animation für den Tod
+        let deathAnimationInterval = setInterval(() => {
+            if (deathIndex < this.IMAGES_DEAD.length) {
+                this.img = this.imageCache[this.IMAGES_DEAD[deathIndex]];
+                deathIndex++;
+            } else {
+                clearInterval(deathAnimationInterval); // Stoppt das Intervall, wenn die Animation beendet ist
+                this.checkGameOver();
+                
+            }
+        }, 100); // Anpassung des Intervalls je nach Geschwindigkeit der Animation
+    }
 
+    checkGameOver() {
+        let GameOverInterval = setInterval(() => {
+            if (this.y == 500) {
+                renderGameOver();
+                clearInterval(GameOverInterval)
+            }
+        }, 100); // Anpassung des Intervalls je nach Geschwindigkeit der Animation
+    }
+    
     characterIdle() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_IDLE);

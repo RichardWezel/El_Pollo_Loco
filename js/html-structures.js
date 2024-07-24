@@ -183,3 +183,9 @@ function ControlSymbolsHTML() {
     `;
 }
 
+function GameOverHTML() {
+    return `
+        <img class="gameOver" src="images/intro_outro_screens/game_over/game over.png" alt="">
+    `;
+}
+

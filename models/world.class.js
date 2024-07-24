@@ -10,7 +10,7 @@ class World {
     statusbar_health = new Statusbar_health(20, 10);
     statusbar_bottle = new Statusbar_bottle(20, 50);
     statusbar_coin = new Statusbar_coin(20, 90);
-    statusbar_endboss = new Statusbar_endboss(500, 50);
+    statusbar_endboss = new Statusbar_endboss(50);
     throwableObject = [];
     coin_collectinhg_sound = new Audio('audio/coin_sound.mp3');
     backgroundmusic = new Audio('audio/backgroundmusic.mp3');
@@ -33,6 +33,7 @@ class World {
         this.drawLevelBachgrounds();
         this.drawStatusbars();
         this.drawMovableObjects();
+        this.statusbar_endboss.updateX();
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(function() {
@@ -52,13 +53,13 @@ class World {
         this.addToMap(this.statusbar_health); 
         this.addToMap(this.statusbar_bottle); 
         this.addToMap(this.statusbar_coin); 
-        this.addToMap(this.statusbar_endboss); 
         this.ctx.translate(this.camera_x, 0);// Forwards
     }
 
     drawMovableObjects() {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies); // mehrere Elemente
+        this.addToMap(this.statusbar_endboss); 
         this.addObjectsToMap(this.throwableObject);
     }
 
@@ -83,6 +84,7 @@ class World {
         this.character.world = this;
         this.statusbar_health.world = this;
         this.statusbar_endboss.world = this;
+        this.statusbar_endboss.updateX(); // Aktualisiert die x-Position der Statusbar
     }
 
     playBackgroundMusic() {

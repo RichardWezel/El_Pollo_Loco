@@ -34,6 +34,11 @@ class MovableObject extends DrawableObject {
             return this.y < this.groundPos;
     }
 
+     // Methode für den Todessturz
+     fallBelowGround() {
+        this.groundPos = 500; // Neue groundPos, die weiter unten liegt als das Sichtfeld
+    }
+
     moveRight() {
         this.x += this.speed;
     }

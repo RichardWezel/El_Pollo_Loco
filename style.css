@@ -41,6 +41,12 @@ body {
     height: 480px;
 }
 
+.gameOver {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+}
+
 @media only screen and (max-width: 720px) {
     canvas {
         width: 100%;
