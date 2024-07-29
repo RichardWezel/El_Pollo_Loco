@@ -15,6 +15,7 @@ class World {
     coin_collectinhg_sound = new Audio('audio/coin_sound.mp3');
     backgroundmusic = new Audio('audio/backgroundmusic.mp3');
     start = false;
+    energyEndboss = 100;
 
     // Funktionen
     constructor(canvas, keyboard) {
@@ -100,130 +101,145 @@ class World {
      */
     run() {
         setInterval(() => {
-            this.checkCollisions();
-            this.checkThrowObjects();
-            this.checkBottleCollisions();
+            this.checkCollisionsofCharacter();
+            this.checkUseOf_KeyD();
+            this.checkCollisionsOfBottles();
         }, 150);
     }
 
-    /**
-     * Is called by run() in constructor of World with innterval of 150 ms.
-     */
-    checkCollisions() {
-        this.collisionsWithEnemies();
-        this.collisionsWithBottles();
-        this.collisionsWithCoins();
-    }
-
         /**
-         * The function checks for each enemy object whether it collides with the character 
-         * and triggers the hit() and setPercentage() functions.
-         * hit() reduces the energy of character and register the time of hit witch is saved in lastHit variable.
-         * setPercentage() is calld for the health statusbar and passed the character energy in the function with the mode 'decrease', witch caused a reduction of the statusbar.
+         * Is called by run() in constructor of World with innterval of 150 ms.
          */
-        collisionsWithEnemies() {
-            this.level.enemies.forEach((enemy, index) => {
-                if (this.character.isColliding(enemy)) {
-                    if (this.character.isAboveGround() && this.character.speedY < 0) {
-                        // Charakter ist in der Luft und fällt
-                        this.character.bounce();
-                        this.removeEnemy(index);
-                    } else {
-                        // Charakter kollidiert seitlich oder von unten
-                        this.character.hitCharacter();
-                        this.statusbar_health.setPercentage(this.character.energyCharacter, 'decrease');
+        checkCollisionsofCharacter() {
+            this.collisionsOfCharacterWithEnemies();
+            this.collisionsOfCharacterWithBottles();
+            this.collisionsOfCharacterWithCoins();
+        }
+
+            /**
+             * The function checks for each enemy object whether it collides with the character 
+             * and triggers the hit() and setPercentage() functions.
+             * hit() reduces the energy of character and register the time of hit witch is saved in lastHit variable.
+             * setPercentage() is calld for the health statusbar and passed the character energy in the function with the mode 'decrease', witch caused a reduction of the statusbar.
+             */
+            collisionsOfCharacterWithEnemies() {
+                this.level.enemies.forEach((enemy, index) => {
+                    if (this.character.isColliding(enemy)) {
+                        if (this.character.isAboveGround() && this.character.speedY < 0 && !enemy instanceof Endboss) {
+                            // Charakter ist in der Luft und fällt
+                            this.character.bounce();
+                            this.removeEnemy(index);
+                        } else {
+                            // Charakter kollidiert seitlich oder von unten
+                            this.character.hitCharacter();
+                            this.statusbar_health.setPercentage(this.character.energyCharacter, 'decrease');
+                        }
                     }
+                });
+            }
+
+                removeEnemy(index) {
+                    this.level.enemies.splice(index, 1);
                 }
-            });
-        }
 
-        removeEnemy(index) {
-            this.level.enemies.splice(index, 1);
-        }
+            collisionsOfCharacterWithBottles() {
+                this.level.collectableObjects_bottles.forEach((object, index) => {
+                    if (this.character.isColliding(object)) {
+                        this.characterCollectBottle(index);
+                    } 
+                });
+            }
 
-        collisionsWithBottles() {
-            this.level.collectableObjects_bottles.forEach((object, index) => {
-                if (this.character.isColliding(object)) {
-                    this.characterCollectBottle(index);
-                } 
-            });
-        }
-
-        characterCollectBottle(index) {
-            this.character.collect('bottle');
-            this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
-            this.level.collectableObjects_bottles.splice(index, 1);
-        }
-
-        collisionsWithCoins() {
-            this.level.collectableObjects_coin.forEach((object, index) => {
-                if (this.character.isColliding(object)) {
-                   this.characterCollectCoin(index);
-                } 
-            });
-        }
-
-        characterCollectCoin(index) {
-            this.character.collect('coin');
-            this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
-            this.level.collectableObjects_coin.splice(index, 1);
-            if(volumeStatus == true) {
-                this.coin_collectinhg_sound.play();
-            } 
-        }
-
-    checkBottleCollisions() {
-        this.throwableObject.forEach((bottle, bottleIndex) => {
-            this.level.enemies.forEach((enemy, enemyIndex) => {
-                if (bottle.isColliding(enemy)) {
-                    this.handleBottleHit(bottle, enemy, bottleIndex);
+                characterCollectBottle(index) {
+                    this.character.collect('bottle');
+                    this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
+                    this.level.collectableObjects_bottles.splice(index, 1);
                 }
-            });
-        });
-    }
 
-    handleBottleHit(bottle, enemy, bottleIndex) {
-        // Logik, um Treffer zu zählen oder Schaden am Endboss zu verursachen
-        console.log('Bottle hit the enemy!');
-        // enemy.hit(); // Beispiel: Methode, die dem Feind Schaden zufügt
-        bottle.splash_sound.play();
-        this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
-    }
+            collisionsOfCharacterWithCoins() {
+                this.level.collectableObjects_coin.forEach((object, index) => {
+                    if (this.character.isColliding(object)) {
+                       this.characterCollectCoin(index);
+                    } 
+                });
+            }
 
-    checkThrowObjects() {
-        if(this.keyboard.KeyD) {
-            if (this.character.collectedBottles > 1) {
-               this.characterThrowBottle();
+                characterCollectCoin(index) {
+                    this.character.collect('coin');
+                    this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
+                    this.level.collectableObjects_coin.splice(index, 1);
+                    if(volumeStatus == true) {
+                        this.coin_collectinhg_sound.play();
+                    } 
+                }
+        
+        checkUseOf_KeyD() {
+            if(this.keyboard.KeyD) {
+                if (this.character.collectedBottles > 1) {
+                   this.characterThrowBottle();
+                }
             }
         }
-    }
 
-    characterThrowBottle() {
-        this.createBottleObject();
-        this.reduceBottleSupply();
-    }
+            characterThrowBottle() {
+                this.createBottleObject();
+                this.reduceBottleSupply();
+            }
+        
+                createBottleObject() {
+                    let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
+                    this.throwableObject.push(bottle);
+                }
+            
+                reduceBottleSupply() {
+                    this.character.collectedBottles -= 12;
+                    this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
+                }
 
-    createBottleObject() {
-        let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
-        this.throwableObject.push(bottle);
-    }
+        checkCollisionsOfBottles() {
+            this.throwableObject.forEach((bottle, bottleIndex) => {
+                this.level.enemies.forEach((enemy, enemyIndex) => {
+                    if (bottle.isColliding(enemy)) {
+                        console.log('Kollision festgestellt:', enemy);
+                        console.log('Enemy ist vom Typ:', enemy.constructor.name);
+                        if (enemy instanceof Endboss) {
+                            console.log('Kollision mit Endboss!');
+                            this.energyEndboss -= 5;
+                            this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
+                            console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
+                            this.handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex);
+                            bottle.hasDealtDamage = true; // Markiere die Flasche als bereits Schaden zugefügt
+                        } else if (enemy instanceof Chicken) {
+                            console.log('Kollision mit Chicken!');
+                            this.removeEnemy(enemyIndex);
+                        } else if (enemy instanceof Chick) {
+                            console.log('Kollision mit Chick!');
+                            this.removeEnemy(enemyIndex);
+                        }
+                    }
+                });
+            });
+        }
 
-    reduceBottleSupply() {
-        this.character.collectedBottles -= 12;
-        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
-    }
+        handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
+            console.log(`Handling bottle hit on Endboss. Current energy: ${this.energyEndboss}`);
+            if (this.character.isHurtEndboss()) {
+                bottle.splash_sound.play();
+                this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
+            }
+            this.throwableObject.splice(bottleIndex, 1); 
+        }
+        
 
     flipImage(mo) {
-        this.ctx.save(); // speichert den aktuellen Status unseres ctx
-            this.ctx.translate(mo.width, 0); // translate(x, y) verschiebt den Ursprung des Zeichenkontexts um (x, y) Pixel.
-                                                // In diesem Fall wird der Ursprung des Zeichenkontexts um die Breite des Bildes (mo.img.width) nach rechts verschoben. Dadurch wird die (0, 0)-Position des Zeichenkontexts an den rechten Rand des Bildes verschoben.
-            this.ctx.scale(-1, 1);  // scale(x, y) skaliert den Zeichenkontext in x- und y-Richtung. Ein negativer Skalierungsfaktor invertiert die Richtung.
-            mo.x = mo.x * -1;       // scale(-1, 1) spiegelt den Zeichenkontext horizontal. Das bedeutet, dass alles, was danach gezeichnet wird, horizontal gespiegelt wird.
+        this.ctx.save(); 
+            this.ctx.translate(mo.width, 0); 
+            this.ctx.scale(-1, 1);  
+            mo.x = mo.x * -1;
     }
 
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
-
 }

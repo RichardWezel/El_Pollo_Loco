@@ -5,7 +5,6 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     BorderColor;
     energyCharacter = 100;
-    energyEndboss = 100;
     lastHitCharacter = 0;
     lastHitEndboss = 0;
     offset = {
@@ -76,10 +75,8 @@ class MovableObject extends DrawableObject {
 
     hitEndboss() {
         if(this.energyEndboss > 0) {
-            console.log('Hit endboss');
-            this.energyEndboss -= 2.5;
-            console.log('Energy of Endboss is ', this.energyEndboss, '%')
             this.lastHitEndboss = new Date().getTime();
+            console.log('Energy of Endboss is ', this.energyEndboss, '%')
         }
     }
 
@@ -92,10 +89,20 @@ class MovableObject extends DrawableObject {
         } 
     }
 
-    isHurt() {
+    /**
+     * Marks the Tim
+     * 
+     * @returns 
+     */
+    isHurtCharacter() {
         let timepassed = new Date().getTime() - this.lastHitCharacter; // difference in ms
         timepassed = timepassed / 500; // diffence in s
-      
+        return timepassed < 1  ;
+    }
+
+    isHurtEndboss() {
+        let timepassed = new Date().getTime() - this.lastHitEndboss; // difference in ms
+        timepassed = timepassed / 500; // diffence in s
         return timepassed < 1  ;
     }
 
