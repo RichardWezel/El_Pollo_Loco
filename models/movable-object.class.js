@@ -14,7 +14,6 @@ class MovableObject extends DrawableObject {
         left: 0
     }
     groundPos = 350; 
-    
 
     applyGravity() {
         setInterval(() => {
@@ -57,7 +56,6 @@ class MovableObject extends DrawableObject {
         this.speedY = 30;
     }
 
-    // Bessere Formel zur Kollisionsberechnung (Genauer)
     isColliding(obj) {
         return this.x + this.width - this.offset.right >= obj.x  + obj.offset.left &&
                this.x + this.offset.left <= obj.x + obj.width - obj.offset.right &&
@@ -109,5 +107,4 @@ class MovableObject extends DrawableObject {
     isDead() {
         return this.energyCharacter == 0;
     }
-
 }

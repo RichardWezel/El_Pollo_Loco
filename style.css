@@ -47,6 +47,17 @@ body {
     height: 100%;
 }
 
+#idGameOver {
+    display: none;
+}
+
+#reloadGameBtn {
+    display: none;
+    position: absolute;
+    top: 373px;
+    padding-bottom: 0;
+}
+
 @media only screen and (max-width: 720px) {
     canvas {
         width: 100%;
@@ -69,4 +80,3 @@ body {
         display: none;
     }
 }
-

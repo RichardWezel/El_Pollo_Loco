@@ -48,9 +48,14 @@ function showInstruction() {
         screenContainer.innerHTML = storyHTML();
     }
 
-    function renderGameOver() {
+    function renderGameOver() { // @class character: checkGameOver()
         let screenContainer = document.getElementById('gameScreen');
-        screenContainer.innerHTML += GameOverHTML();
+        screenContainer.innerHTML += gameOverHTML();
+    }
+
+    function renderWin() { // @class character: checkGameOver()
+        let screenContainer = document.getElementById('gameScreen');
+        screenContainer.innerHTML += winHTML();
     }
 
 function hideIntroduction() {

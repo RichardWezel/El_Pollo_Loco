@@ -1,8 +1,7 @@
 class World {
 
-    // Variablen
     character = new Character();
-    level = level1; // const variable of level1.js
+    level = level1;
     canvas;
     ctx; 
     keyboard;
@@ -12,25 +11,30 @@ class World {
     statusbar_coin = new Statusbar_coin(20, 90);
     statusbar_endboss = new Statusbar_endboss(50);
     throwableObject = [];
-    coin_collectinhg_sound = new Audio('audio/coin_sound.mp3');
+    coin_collecting_sound = new Audio('audio/coin_sound.mp3');
+    bottle_collecting_sound = new Audio('audio/new.m4a');
+    bounceChicken = new Audio('audio/hitChicken.m4a');
     backgroundmusic = new Audio('audio/backgroundmusic.mp3');
+    win_sound = new Audio('audio/win.mp3');
     start = false;
     energyEndboss = 100;
 
-    // Funktionen
+
     constructor(canvas, keyboard) {
-        this.ctx = canvas.getContext('2d'); // Rendering-Kontext
+        this.ctx = canvas.getContext('2d'); 
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
         this.run();
         this.playBackgroundMusic();
+        this.backgroundmusic.volume = 0.2; // Reduce the Volume by Half
+        this.bottle_collecting_sound.playbackRate=0.1;
     }
     
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // clearRect(x, y, width, height)
-        this.ctx.translate(this.camera_x, 0); // translate(x, y) x= 0 siehe camera_x oben als Variable
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0); 
         this.drawLevelBachgrounds();
         this.drawStatusbars();
         this.drawMovableObjects();
@@ -50,16 +54,16 @@ class World {
     }
 
     drawStatusbars() {
-        this.ctx.translate(-this.camera_x, 0); // Back
+        this.ctx.translate(-this.camera_x, 0); 
         this.addToMap(this.statusbar_health); 
         this.addToMap(this.statusbar_bottle); 
         this.addToMap(this.statusbar_coin); 
-        this.ctx.translate(this.camera_x, 0);// Forwards
+        this.ctx.translate(this.camera_x, 0);
     }
 
     drawMovableObjects() {
         this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies); // mehrere Elemente
+        this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.statusbar_endboss); 
         this.addObjectsToMap(this.throwableObject);
     }
@@ -85,7 +89,7 @@ class World {
         this.character.world = this;
         this.statusbar_health.world = this;
         this.statusbar_endboss.world = this;
-        this.statusbar_endboss.updateX(); // Aktualisiert die x-Position der Statusbar
+        this.statusbar_endboss.updateX();
     }
 
     playBackgroundMusic() {
@@ -118,29 +122,52 @@ class World {
 
             /**
              * The function checks for each enemy object whether it collides with the character 
-             * and triggers the hit() and setPercentage() functions.
-             * hit() reduces the energy of character and register the time of hit witch is saved in lastHit variable.
-             * setPercentage() is calld for the health statusbar and passed the character energy in the function with the mode 'decrease', witch caused a reduction of the statusbar.
+             * and distinguishes between jumping up on the enemy and running into the enemy.
+             ** Jumping up on the enemy triggers the handleJumpingOnEnemy() function.
+             ** Running into the enemy triggers the handleRunningIntoEnemy() function.
              */
             collisionsOfCharacterWithEnemies() {
                 this.level.enemies.forEach((enemy, index) => {
                     if (this.character.isColliding(enemy)) {
                         if (this.character.isAboveGround() && this.character.speedY < 0 && !enemy instanceof Endboss) {
-                            // Charakter ist in der Luft und fällt
-                            this.character.bounce();
-                            this.removeEnemy(index);
+                            this.handleJumpingOnEnemy(index, enemy);
                         } else {
-                            // Charakter kollidiert seitlich oder von unten
-                            this.character.hitCharacter();
-                            this.statusbar_health.setPercentage(this.character.energyCharacter, 'decrease');
+                            this.handleRunningIntoEnemy();
                         }
                     }
                 });
             }
-
-                removeEnemy(index) {
-                    this.level.enemies.splice(index, 1);
+                /**
+                 * bounce() let the character jump up. 
+                 * removeEnemy() deletes the enemy-object from the array 'enemies' in class Level.
+                 * 
+                 * @param {Number} index - Index of enemy in class Level array 'enemies'.
+                 * @param {Object} enemy - Object colliding with the character.
+                 */
+                handleJumpingOnEnemy(index, enemy) {
+                    this.character.bounce();
+                    this.removeEnemy(index, enemy.constructor.name);
+                    this.bounceChicken.play();
                 }
+
+                /**
+                 * hit() reduces the energy of character and register the time of hit witch is saved in lastHit variable.
+                 * setPercentage() is calld for the health statusbar and passed the character energy in the function with the mode 'decrease', witch caused a reduction of the statusbar.
+                 */
+                handleRunningIntoEnemy() {
+                    this.character.hitCharacter();
+                    this.statusbar_health.setPercentage(this.character.energyCharacter, 'decrease');
+                }
+
+                /**
+                 * Let the character jump up and falling down to the start ground position.
+                 */
+                bounce() {
+                    this.speedY = 20; // Bounce up
+                    this.y = this.groundPos - 20; // Adjust the y position to be slightly above the ground position
+                }
+
+                
 
             collisionsOfCharacterWithBottles() {
                 this.level.collectableObjects_bottles.forEach((object, index) => {
@@ -154,6 +181,10 @@ class World {
                     this.character.collect('bottle');
                     this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
                     this.level.collectableObjects_bottles.splice(index, 1);
+                    if(volumeStatus == true) {
+                        this.bottle_collecting_sound.play();
+                        this.bottle_collecting_sound.playbackRate=0.5;
+                    } 
                 }
 
             collisionsOfCharacterWithCoins() {
@@ -169,7 +200,7 @@ class World {
                     this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
                     this.level.collectableObjects_coin.splice(index, 1);
                     if(volumeStatus == true) {
-                        this.coin_collectinhg_sound.play();
+                        this.coin_collecting_sound.play();
                     } 
                 }
         
@@ -200,36 +231,42 @@ class World {
             this.throwableObject.forEach((bottle, bottleIndex) => {
                 this.level.enemies.forEach((enemy, enemyIndex) => {
                     if (bottle.isColliding(enemy)) {
-                        console.log('Kollision festgestellt:', enemy);
-                        console.log('Enemy ist vom Typ:', enemy.constructor.name);
                         if (enemy instanceof Endboss) {
-                            console.log('Kollision mit Endboss!');
-                            this.energyEndboss -= 5;
-                            this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
-                            console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
-                            this.handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex);
-                            bottle.hasDealtDamage = true; // Markiere die Flasche als bereits Schaden zugefügt
+                            this.endbossCollision(bottle, enemy, bottleIndex, enemyIndex);
                         } else if (enemy instanceof Chicken) {
-                            console.log('Kollision mit Chicken!');
-                            this.removeEnemy(enemyIndex);
+                            this.removeEnemy(enemyIndex, 'Chicken');
                         } else if (enemy instanceof Chick) {
-                            console.log('Kollision mit Chick!');
-                            this.removeEnemy(enemyIndex);
+                            this.removeEnemy(enemyIndex, 'Chick');
                         }
                     }
                 });
             });
         }
 
+        endbossCollision(bottle, enemy, bottleIndex, enemyIndex) {
+            this.energyEndboss -= 10;
+            this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
+            console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
+            this.handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex);
+            bottle.hasDealtDamage = true; // Markiere die Flasche als bereits Schaden zugefügt
+            if (this.energyEndboss == 0) {
+                renderWin();
+                this.win_sound.play();
+            }
+        }
+
         handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
-            console.log(`Handling bottle hit on Endboss. Current energy: ${this.energyEndboss}`);
             if (this.character.isHurtEndboss()) {
                 bottle.splash_sound.play();
                 this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
             }
             this.throwableObject.splice(bottleIndex, 1); 
         }
-        
+
+    removeEnemy(indexOfEnemy, enemyType) {
+        this.level.enemies.splice(indexOfEnemy, 1);
+        console.log(`Kollision mit `, enemyType);
+    }
 
     flipImage(mo) {
         this.ctx.save(); 

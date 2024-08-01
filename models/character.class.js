@@ -52,9 +52,10 @@ class Character extends MovableObject{
     walking_sound = new Audio('audio/walk_sound.mp3');
     hurt_sound = new Audio('audio/hurt.mp3');
     jump_sound = new Audio('audio/jump_sound.mp3');
+    death_sound = new Audio('audio/death _scream.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
-    collectedBottles = 0;
+    collectedBottles = 100;
     collectedCoins = 0;
     offset = {
         top: 120,
@@ -63,7 +64,6 @@ class Character extends MovableObject{
         left: 40
     }
 
-    
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -76,12 +76,12 @@ class Character extends MovableObject{
     }
 
     animate() {
-        this.moveCharacterInterval();
+        this.runCharacterMoves();
         this.animateCharacterMoves();
         this.characterIdle();
     }
 
-    moveCharacterInterval() {
+    runCharacterMoves() {
         setInterval(() => {
             this.walking_sound.pause();
             this.checkPressArrowRight();
@@ -91,40 +91,40 @@ class Character extends MovableObject{
         }, 1000 / 60); 
     }
 
-    camera_x_follows() {
-        if(this.x > 0){
-            this.world.camera_x = -this.x + 100;
-        }
-    }
-
-    checkPressArrowRight() {
-        if(this.world.keyboard.RIGHT) {
-            this.moveRight();
-            this.otherDirection = false;
-            if(volumeStatus == true) {
-                this.walking_sound.play();
+        checkPressArrowRight() {
+            if(this.world.keyboard.RIGHT && this.x < 5130) {
+                this.moveRight();
+                this.otherDirection = false;
+                if(volumeStatus == true) {
+                    this.walking_sound.play();
+                }
             }
         }
-    }
 
-    checkPressArrowLeft(){
-        if (this.world.keyboard.LEFT && this.x > 0) {
-            this.moveLeft();
-            this.otherDirection = true;
-            if(volumeStatus == true) {
-                this.walking_sound.play();
+        checkPressArrowLeft(){
+            if (this.world.keyboard.LEFT && this.x > 0) {
+                this.moveLeft();
+                this.otherDirection = true;
+                if(volumeStatus == true) {
+                    this.walking_sound.play();
+                }
             }
         }
-    }
-
-    checkPressSpace(){
-        if(this.world.keyboard.SPACE && this.y == this.groundPos) {
-            this.jump();
-            if(volumeStatus == true) {
-                this.jump_sound.play();
+    
+        checkPressSpace(){
+            if(this.world.keyboard.SPACE && this.y == this.groundPos) {
+                this.jump();
+                if(volumeStatus == true) {
+                    this.jump_sound.play();
+                }
             }
         }
-    }
+
+        camera_x_follows() {
+            if(this.x > 0){
+                this.world.camera_x = -this.x + 100;
+            }
+        }
 
     animateCharacterMoves() {
         this.characterAnimationInterval = setInterval(() => {
@@ -140,50 +140,51 @@ class Character extends MovableObject{
         }, 40);
     }
 
-    characterDies() {
-        this.playDeathAnimation(); // Startet eine separate Animation für den Tod
-        this.jump(); // Startet den Sprung
-        this.fallBelowGround(); // Setzt die groundPos nach unten
-        clearInterval(this.characterAnimationInterval); // Beendet das allgemeine Animationsintervall
-    }
-
-    characterHurtsHimself() {
-        this.playAnimation(this.IMAGES_HURT);
-        if (volumeStatus === true) {
-            this.hurt_sound.play();
+        characterDies() {
+            this.playDeathAnimation(); // Startet eine separate Animation für den Tod
+            this.jump(); // Startet den Sprung
+            this.fallBelowGround(); // Setzt die groundPos nach unten
+            world.backgroundmusic.pause();
+            if (volumeStatus === true) {
+                this.death_sound.play();
+            }
+            clearInterval(this.characterAnimationInterval); // Beendet das allgemeine Animationsintervall
         }
-    }
-    
-    playDeathAnimation() {
-        let deathIndex = 0; 
-        let deathAnimationInterval = setInterval(() => {
-            if (deathIndex < this.IMAGES_DEAD.length) {
-                this.img = this.imageCache[this.IMAGES_DEAD[deathIndex]];
-                deathIndex++;
-            } else {
-                clearInterval(deathAnimationInterval); 
-                this.checkGameOver();
-            }
-        }, 100); 
-    }
 
-    checkGameOver() {
-        let GameOverInterval = setInterval(() => {
-            if (this.y == 500) {
-                renderGameOver();
-                clearInterval(GameOverInterval)
+            playDeathAnimation() {
+                let deathIndex = 0; 
+                let deathAnimationInterval = setInterval(() => {
+                    if (deathIndex < this.IMAGES_DEAD.length) {
+                        this.img = this.imageCache[this.IMAGES_DEAD[deathIndex]];
+                        deathIndex++;
+                    } else {
+                        clearInterval(deathAnimationInterval); 
+                        this.checkGameOver();
+                    }
+                }, 100); 
             }
-        }, 100); // Anpassung des Intervalls je nach Geschwindigkeit der Animation
-    }
+
+                checkGameOver() {
+                    let GameOverInterval = setInterval(() => {
+                        if (this.y == 500) {
+                            // renderGameOver();
+                            document.getElementById('idGameOver').style.display = 'block';
+                            document.getElementById('reloadGameBtn').style.display = 'block';
+                            clearInterval(GameOverInterval)
+                        }
+                    }, 100); // Anpassung des Intervalls je nach Geschwindigkeit der Animation
+                }
+
+        characterHurtsHimself() {
+            this.playAnimation(this.IMAGES_HURT);
+            if (volumeStatus === true) {
+                this.hurt_sound.play();
+            }
+        }
     
     characterIdle() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_IDLE);
         }, 180); 
-    }
-
-    bounce() {
-        this.speedY = 20; // Bounce up
-        this.y = this.groundPos - 20; // Adjust the y position to be slightly above the ground position
     }
 } 
