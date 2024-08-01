@@ -177,7 +177,7 @@ function ControlSymbolsHTML() {
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/>
           </svg>
         </a>
-        <a id="home" class="control_circle_small control_element" onclick="initStartScreen()">
+        <a id="home" class="control_circle_small control_element" onclick="reloadGame()">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
         </a>
         <img id="idGameOver" class="gameOver" src="images/intro_outro_screens/game_over/game over.png" alt="">

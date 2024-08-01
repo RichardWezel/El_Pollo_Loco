@@ -46,7 +46,19 @@ class Character extends MovableObject{
         'images/pepe/idle_animation_img/I-8.png',
         'images/pepe/idle_animation_img/I-9.png',
         'images/pepe/idle_animation_img/I-10.png',
-    ]
+    ];
+    IMAGES_SLEEP = [
+        'images/pepe/long_idle_animation_img/I-11.png',
+        'images/pepe/long_idle_animation_img/I-12.png',
+        'images/pepe/long_idle_animation_img/I-13.png',
+        'images/pepe/long_idle_animation_img/I-14.png',
+        'images/pepe/long_idle_animation_img/I-15.png',
+        'images/pepe/long_idle_animation_img/I-16.png',
+        'images/pepe/long_idle_animation_img/I-17.png',
+        'images/pepe/long_idle_animation_img/I-18.png',
+        'images/pepe/long_idle_animation_img/I-19.png',
+        'images/pepe/long_idle_animation_img/I-20.png'
+    ];
     world;
     speed = 15;
     walking_sound = new Audio('audio/walk_sound.mp3');
@@ -55,7 +67,7 @@ class Character extends MovableObject{
     death_sound = new Audio('audio/death _scream.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
-    collectedBottles = 100;
+    collectedBottles = 0;
     collectedCoins = 0;
     offset = {
         top: 120,
@@ -63,6 +75,10 @@ class Character extends MovableObject{
         bottom: 0,
         left: 40
     }
+    idleTime = 10000; // Zeit in Millisekunden, nach der der Charakter schlafen soll
+    idleTimeout; // Referenz zum Timeout
+    idle;
+    sleep;
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -71,6 +87,7 @@ class Character extends MovableObject{
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_SLEEP);
         this.applyGravity();
         this.animate();
     }
@@ -98,6 +115,7 @@ class Character extends MovableObject{
                 if(volumeStatus == true) {
                     this.walking_sound.play();
                 }
+                this.resetIdleTimer(); // Beendet den Idle-Timer, wenn sich der Charakter bewegt
             }
         }
 
@@ -108,6 +126,7 @@ class Character extends MovableObject{
                 if(volumeStatus == true) {
                     this.walking_sound.play();
                 }
+                this.resetIdleTimer(); // Beendet den Idle-Timer, wenn sich der Charakter bewegt
             }
         }
     
@@ -117,6 +136,7 @@ class Character extends MovableObject{
                 if(volumeStatus == true) {
                     this.jump_sound.play();
                 }
+                this.resetIdleTimer(); // Beendet den Idle-Timer, wenn sich der Charakter bewegt
             }
         }
 
@@ -136,7 +156,7 @@ class Character extends MovableObject{
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
-            }
+            } 
         }, 40);
     }
 
@@ -183,8 +203,35 @@ class Character extends MovableObject{
         }
     
     characterIdle() {
-        setInterval(() => {
+        this.startIdleTimer(); // Startet den Idle-Timer
+        clearInterval(this.idle);
+        clearInterval(this.sleep);
+        this.idle = setInterval(() => {
             this.playAnimation(this.IMAGES_IDLE);
         }, 180); 
+    }
+
+    startIdleTimer() {
+        this.idleTimeout = setTimeout(() => {
+            this.characterSleep();
+            clearTimeout(this.idle);
+        }, this.idleTime);
+    }
+
+    characterSleep() {
+        clearInterval(this.idle);
+        clearInterval(this.sleep); 
+         this.sleep = setInterval(() => {
+            this.playAnimation(this.IMAGES_SLEEP);
+        }, 180); 
+    }
+
+    resetIdleTimer() {
+        clearTimeout(this.idleTimeout); 
+        clearInterval(this.idle);
+        clearInterval(this.sleep); 
+        this.characterIdle();
+        this.startIdleTimer(); 
+        console.log('resetIdleTimer()')
     }
 } 

@@ -215,6 +215,7 @@ class World {
             characterThrowBottle() {
                 this.createBottleObject();
                 this.reduceBottleSupply();
+                this.character.resetIdleTimer(); 
             }
         
                 createBottleObject() {
