@@ -65,6 +65,7 @@ class Character extends MovableObject{
     hurt_sound = new Audio('audio/hurt.mp3');
     jump_sound = new Audio('audio/jump_sound.mp3');
     death_sound = new Audio('audio/death _scream.mp3');
+    snoring_sound = new Audio('audio/snoring.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
     collectedBottles = 0;
@@ -219,11 +220,22 @@ class Character extends MovableObject{
     }
 
     characterSleep() {
+        if(volumeStatus == true) {
+            this.playSnoringSound();
+        } 
         clearInterval(this.idle);
         clearInterval(this.sleep); 
          this.sleep = setInterval(() => {
             this.playAnimation(this.IMAGES_SLEEP);
         }, 180); 
+    }
+
+    playSnoringSound() {
+        this.snoring_sound.play();
+        this.snoring_sound.addEventListener('ended', () => {
+            this.snoring_sound.currentTime = 0;
+            this.snoring_sound.play();
+        });
     }
 
     resetIdleTimer() {
