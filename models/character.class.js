@@ -191,7 +191,8 @@ class Character extends MovableObject{
                             // renderGameOver();
                             document.getElementById('idGameOver').style.display = 'block';
                             document.getElementById('reloadGameBtn').style.display = 'block';
-                            clearInterval(GameOverInterval)
+                            clearInterval(GameOverInterval);
+                            this.snoring_sound.pause();
                         }
                     }, 100); // Anpassung des Intervalls je nach Geschwindigkeit der Animation
                 }
@@ -225,7 +226,7 @@ class Character extends MovableObject{
         } 
         clearInterval(this.idle);
         clearInterval(this.sleep); 
-         this.sleep = setInterval(() => {
+        this.sleep = setInterval(() => {
             this.playAnimation(this.IMAGES_SLEEP);
         }, 180); 
     }
@@ -234,7 +235,9 @@ class Character extends MovableObject{
         this.snoring_sound.play();
         this.snoring_sound.addEventListener('ended', () => {
             this.snoring_sound.currentTime = 0;
-            this.snoring_sound.play();
+            if(volumeStatus == true) {
+                this.snoring_sound.play();
+            }
         });
     }
 

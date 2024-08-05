@@ -13,6 +13,12 @@ class Chick extends MovableObject{
     ];
     speed = 2;
     BorderColor = 'blue';
+    offset = {
+        top: 0,
+        right: 10,
+        bottom: 0,
+        left: 10
+    }
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);

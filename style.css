@@ -10,7 +10,12 @@ body {
     font-size: 32px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
+}
+
+#header {
+    display: flex;
 }
 
 #gameScreen {
@@ -22,23 +27,29 @@ body {
     justify-content: center;
     position: relative;
     text-shadow: none;
+    background-repeat: round;
 }
 
 #pleaseRotateScreenImage {
-    width: 192px;
-    height: 192px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
     display: flex;
-    position: relative;
-    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
 }
 
 #canvas {
-    background-color: black;
-    display: block;
-    justify-content: center;
-    align-items: center;
-    width: 720px;
-    height: 480px;
+    aspect-ratio: 3 / 2; /* Seitenverhältnis von 3:2, z.B. 720:480 */
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    background-color: #000; /* Optional: Hintergrundfarbe des Canvas */
 }
 
 .gameOver {
@@ -79,4 +90,21 @@ body {
     #header {
         display: none;
     }
+}
+
+/* Add this to your style.css */
+.fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    background-size: cover !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure it is on top */
+}
+
+canvas.fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: none;
 }

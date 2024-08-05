@@ -129,7 +129,7 @@ class World {
             collisionsOfCharacterWithEnemies() {
                 this.level.enemies.forEach((enemy, index) => {
                     if (this.character.isColliding(enemy)) {
-                        if (this.character.isAboveGround() && this.character.speedY < 0 && !enemy instanceof Endboss) {
+                        if (this.character.isAboveGround() && this.character.speedY < 0) {
                             this.handleJumpingOnEnemy(index, enemy);
                         } else {
                             this.handleRunningIntoEnemy();
@@ -145,9 +145,10 @@ class World {
                  * @param {Object} enemy - Object colliding with the character.
                  */
                 handleJumpingOnEnemy(index, enemy) {
-                    this.character.bounce();
+                    this.bounce();
                     this.removeEnemy(index, enemy.constructor.name);
                     this.bounceChicken.play();
+                    console.log('handleJumpingOnEnemy')
                 }
 
                 /**
@@ -163,8 +164,8 @@ class World {
                  * Let the character jump up and falling down to the start ground position.
                  */
                 bounce() {
-                    this.speedY = 20; // Bounce up
-                    this.y = this.groundPos - 20; // Adjust the y position to be slightly above the ground position
+                    this.character.speedY = 20; // Bounce up
+                    this.character.y = this.character.groundPos - 20; // Adjust the y position to be slightly above the ground position
                 }
 
                 

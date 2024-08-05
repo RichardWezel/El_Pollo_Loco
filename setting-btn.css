@@ -1,0 +1,129 @@
+#navbar {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    gap: 5px;
+    align-items: center;
+}
+
+#menuBtn {
+    display: none;
+    cursor: pointer;
+}
+
+#menuBtn:hover {
+    border-color: #FF9601;
+}
+
+#menuBtn:hover svg{
+    fill: #FF9601;
+}
+
+#volumeBtn {
+    display: flex;
+    cursor: pointer;
+}
+
+#volumeBtn:hover {
+    border-color: #FF9601 !important;
+}
+
+#volumeBtn:hover > svg{
+    fill: #FF9601 !important;
+}
+
+#fullscreen {
+    display: flex;
+    cursor: pointer; 
+    padding-left: 1px;
+}
+
+#fullscreen:hover {
+    border-color: #FF9601;
+}
+
+#fullscreen:hover svg{
+    fill: #FF9601;
+}
+
+#home {
+    display: flex;
+    cursor: pointer; 
+}
+
+#home:hover {
+    border-color: #FF9601;
+}
+
+#home:hover svg{
+    fill: #FF9601;
+}
+
+#infoBtn {
+    display: flex;
+    cursor: pointer; 
+}
+
+#infoBtn svg{
+    height: 34px;
+    width: auto;
+}
+
+#infoBtn:hover {
+    border-color: #FF9601;
+}
+
+#infoBtn:hover svg{
+    fill: #FF9601;
+}
+
+#helpBtn {
+    display: flex;
+    cursor: pointer; 
+}
+
+#helpBtn svg{
+    height: 34px;
+    width: auto;
+}
+
+#helpBtn:hover {
+    border-color: #FF9601;
+}
+
+#helpBtn:hover svg{
+    fill: #FF9601;
+}
+
+@media(max-width: 720px) {
+    #menuBtn {
+        display: flex;
+    }
+
+    #volumeBtn, #fullscreen, #home, #infoBtn, #helpBtn {
+        display: none;
+    }
+
+    #navbar {
+        flex-direction: column-reverse;
+    }
+
+}
+
+@media(max-height: 480px) {
+    #menuBtn {
+        display: flex;
+    }
+
+    #volumeBtn, #fullscreen, #home, #infoBtn, #helpBtn {
+        display: none;
+    }
+
+    #navbar {
+        flex-direction: column-reverse;
+    }
+
+}
+

@@ -8,8 +8,17 @@ class Chicken extends MovableObject{
         'images/chicken/2_w.png',
         'images/chicken/3_w.png'
     ];
+    IMAGE_DEAD = [
+        'images/chicken/dead.png'
+    ];
     speed = 2;
     BorderColor = 'blue';
+    offset = {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 5
+    }
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);

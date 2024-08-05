@@ -23,6 +23,7 @@ class MovableObject extends DrawableObject {
                 this.speedY -= this.acceleration;
             } else {
                 this.y = this.groundPos;
+                this.resetIdleTimer();
             }
         }
         }, 1000 / 25);
