@@ -9,7 +9,7 @@
 }
 
 .control_circle {
-    touch-action: manipulation; /* Verhindert die Standard-Scroll-Aktion auf Touch-Geräten */
+    touch-action: none; /* Verhindert die Standard-Scroll-Aktion auf Touch-Geräten */
 }
 
 .btn {

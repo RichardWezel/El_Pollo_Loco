@@ -92,7 +92,6 @@ body {
     }
 }
 
-/* Add this to your style.css */
 .fullscreen {
     width: 100vw !important;
     height: 100vh !important;
@@ -100,7 +99,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1000; /* Ensure it is on top */
+    z-index: 1000; 
 }
 
 canvas.fullscreen {

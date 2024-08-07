@@ -1,8 +1,8 @@
 function init() {
     initStartScreen();
-    if (screen.availHeight < 640) {
-        fullscreen();
-    }
+    // if (screen.availHeight < 640) {
+        
+    // }
     checkMobileDeviceSize();
     showScreenRotationPromt();
 }
@@ -39,13 +39,18 @@ function checkMobileDeviceSize() {
     let viewportWidth = window.innerWidth;
     let viewportHeight = window.innerHeight;
     
-    if (viewportWidth <= 1024 && viewportHeight <= 768) {
+    if (viewportWidth <= 1024 || viewportHeight <= 768) {
         gameScreen.classList.add('fullscreen');
         document.getElementById('header').style.display = 'none';
+        fullscreen();
+        return true;
     } else {
         gameScreen.classList.remove('fullscreen');
+        return false;
     }
 }
+
+
 
 window.addEventListener('resize', checkMobileDeviceSize);
 
@@ -77,3 +82,19 @@ function showInstruction() {
         let container = document.getElementById('InstructionsContainer');
         container.style.display = 'none'
     }
+
+function showInformations() {
+    setBackgroundInstructions();
+    renderInformations();
+}
+
+function renderInformations() {
+    let screenContainer = document.getElementById('gameScreen');
+        screenContainer.innerHTML = ImpressumHTML();
+}
+
+
+function renderDataSecurity() {
+    let screenContainer = document.getElementById('gameScreen');
+        screenContainer.innerHTML = DataSecurityHTML();
+}

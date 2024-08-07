@@ -3,7 +3,7 @@ function renderStartBtns() {
         <div id="btnContainer">
             <a class="btn" onclick="startGame()">Spiel start</a>
             <a class="btn" onclick="showInstruction()">Anleitung</a>
-            <a class="btn" onclick="showSettings()">Einstellungen</a>
+            <a class="btn" onclick="showInformations()">Impressum</a>
         </div>
     `
 }
@@ -203,10 +203,6 @@ function navbarHTML() {
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320ZM400-606l-86 86H200v80h114l86 86v-252ZM300-480Z"/>
                 </svg>
             </a>
-            <a id="fullscreen" class="control_circle_small control_element" onclick="fullscreen()">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/>
-                </svg>
-            </a>
             <a id="home" class="control_circle_small control_element" onclick="reloadGame()">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
             </a>
@@ -215,6 +211,15 @@ function navbarHTML() {
                 </svg>
             </a>
         </nav>
+    `;
+}
+
+function fullscreenBtnHTML() {
+    return `
+        <a id="fullscreen" class="control_circle_small control_element" onclick="fullscreen()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/>
+            </svg>
+        </a>
     `;
 }
 
@@ -228,4 +233,48 @@ function winHTML() {
      return `
         <img class="gameOver" src="images/intro_outro_screens/win/won_2.png" alt="">
     `;
+}
+
+function ImpressumHTML() {
+    return `
+    <div id="ImpressumContainer">
+        <a class="nextBtn_right" onclick="renderDataSecurity()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+            </svg>
+        </a>
+
+        <h1 class="headerInstructions">Impressum</h1>
+        <p class="InstructionsText"><strong>Angaben gemäß § 5 TMG:</strong></p>
+        <p class="InstructionsText">
+            Richard Wezel<br>
+            Eschholzstr. 74<br>
+            79115 Freiburg
+        </p>
+        <p class="InstructionsText"><strong>Kontakt:</strong></p>
+        <p class="InstructionsText">
+            Telefon: +49 (0) 176 831 405 47<br>
+            E-Mail: richard.wezel@posteo.de
+        </p>
+        <p class="InstructionsText"><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong></p>
+        <p class="InstructionsText">
+            Richard Wezel<br>
+            Eschholzstr. 74<br>
+            12345 Musterstadt
+        </p>
+    </div>
+`;
+}
+
+function DataSecurityHTML() {
+    return `
+    <div id="ImpressumContainer">
+        <a class="nextBtn_right" onclick="reloadGame()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+            </svg>
+        </a>
+
+        <h1 class="headerInstructions">Datenschutz</h1>
+        
+    </div>
+`;
 }

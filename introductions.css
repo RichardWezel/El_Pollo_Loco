@@ -94,3 +94,10 @@
     width: 36px;
     height: 36px;
 }
+
+#ImpressumContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}

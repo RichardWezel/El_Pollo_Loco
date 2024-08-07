@@ -5,17 +5,37 @@ let canvas;
 
 function startGame() {
     document.getElementById('gameScreen').style.backgroundImage = 'none';
-    document.getElementById('header').style.display = 'none';
-    setControlBtns();
+    if (checkMobileDeviceSize()) {
+        setControlBtns();
+        document.getElementById('header').style.display = 'none';
+    } else {
+        removeStartBtns();
+    }
+    setNavbar();
     addCanvasHTMLElement();
     initCanvas();
+}
+
+function removeStartBtns() {
+    let btnContainer = document.getElementById('btnContainer');
+    if (btnContainer) {
+        btnContainer.remove();
+    }
 }
 
     function setControlBtns() {
         let screenContainer = document.getElementById('gameScreen');
         screenContainer.innerHTML = ControlSymbolsHTML();
-        screenContainer.innerHTML += navbarHTML();
         addTouchListeners();
+    }
+
+    function setNavbar() {
+        let screenContainer = document.getElementById('gameScreen');
+        let navbar = document.getElementById('navbar');
+        screenContainer.innerHTML += navbarHTML();
+        if (checkMobileDeviceSize == false) {
+            navbar.innerHTML += fullscreenBtnHTML();
+        }
     }
 
     function addCanvasHTMLElement() {

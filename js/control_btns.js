@@ -48,20 +48,26 @@ function volumeOff() {
 
 function fullscreen() {
     let gameScreen = document.getElementById('gameScreen');
-    gameScreen.requestFullscreen({ navigationUI: "show" });
-    // if (canvas.requestFullscreen) {
-        
-    // } else if (canvas.mozRequestFullScreen) { // Firefox
-    //     canvas.mozRequestFullScreen();
-    // } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
-    //     canvas.webkitRequestFullscreen();
-    // } else if (canvas.msRequestFullscreen) { // IE/Edge
-    //     canvas.msRequestFullscreen();
-    // }
+    if (gameScreen.requestFullscreen) {
+        gameScreen.requestFullscreen({ navigationUI: "show" }).catch((err) => {
+            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else if (gameScreen.mozRequestFullScreen) { // Firefox
+        gameScreen.mozRequestFullScreen().catch((err) => {
+            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else if (gameScreen.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        gameScreen.webkitRequestFullscreen().catch((err) => {
+            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else if (gameScreen.msRequestFullscreen) { // IE/Edge
+        gameScreen.msRequestFullscreen().catch((err) => {
+            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    }
 }
 
 function clickSettings() {
-
     if (menuStatus == false) {
         showSettings();
     } else {
@@ -70,30 +76,36 @@ function clickSettings() {
 }
 
 function showSettings() {
-    menuBtn = document.getElementById('menuBtn');
-    volumeBtn = document.getElementById('volumeBtn');
-    fullscreenBtn = document.getElementById('fullscreen');
-    homeBtn = document.getElementById('home');
-
+    let menuBtn = document.getElementById('menuBtn');
+    let volumeBtn = document.getElementById('volumeBtn');
+    let homeBtn = document.getElementById('home');
     menuStatus = true;
     menuBtn.innerHTML = svgX();
     volumeBtn.style.display = 'flex';
-    fullscreenBtn.style.display = 'flex';
     homeBtn.style.display = 'flex';
+
+    if (checkMobileDeviceSize == false) {
+        let fullscreenBtn = document.getElementById('fullscreen');
+        fullscreenBtn.style.display = 'flex';
+    }
 }
 
 
 function hideSettings() {
-    menuBtn = document.getElementById('menuBtn');
-    volumeBtn = document.getElementById('volumeBtn');
-    fullscreenBtn = document.getElementById('fullscreen');
-    homeBtn = document.getElementById('home');
+    let menuBtn = document.getElementById('menuBtn');
+    let volumeBtn = document.getElementById('volumeBtn');
+    let homeBtn = document.getElementById('home');
 
     menuStatus = false;
     menuBtn.innerHTML = svgMenu();
     volumeBtn.style.display = 'none';
-    fullscreenBtn.style.display = 'none';
+    
     homeBtn.style.display = 'none';
+
+    if (checkMobileDeviceSize == false) {
+        let fullscreenBtn = document.getElementById('fullscreen');
+        fullscreenBtn.style.display = 'none';
+    }
 }
 
 function svgX() {
