@@ -101,3 +101,23 @@
     flex-direction: column;
     justify-content: start;
 }
+
+.text_info {
+    font-size: 20px;
+    margin: 0;
+}
+
+.header_info {
+    font-size: 24px;
+    text-decoration: underline;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    
+}
+
+article {
+    padding-left: 30px;
+    padding-right: 30px;
+    overflow-y: auto;
+    padding-bottom: 30px;
+}

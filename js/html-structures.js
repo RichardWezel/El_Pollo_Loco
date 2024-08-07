@@ -244,23 +244,26 @@ function ImpressumHTML() {
         </a>
 
         <h1 class="headerInstructions">Impressum</h1>
-        <p class="InstructionsText"><strong>Angaben gemäß § 5 TMG:</strong></p>
-        <p class="InstructionsText">
-            Richard Wezel<br>
-            Eschholzstr. 74<br>
-            79115 Freiburg
-        </p>
-        <p class="InstructionsText"><strong>Kontakt:</strong></p>
-        <p class="InstructionsText">
-            Telefon: +49 (0) 176 831 405 47<br>
-            E-Mail: richard.wezel@posteo.de
-        </p>
-        <p class="InstructionsText"><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong></p>
-        <p class="InstructionsText">
-            Richard Wezel<br>
-            Eschholzstr. 74<br>
-            12345 Musterstadt
-        </p>
+        
+        <article>
+            <p class="header_info"><strong>Angaben gemäß § 5 TMG:</strong></p>
+            <p class="text_info">
+                Richard Wezel<br>
+                Eschholzstr. 74<br>
+                79115 Freiburg
+            </p>
+            <p class="header_info"><strong>Kontakt:</strong></p>
+            <p class="text_info">
+                Telefon: +49 (0) 176 831 405 47<br>
+                E-Mail: richard.wezel@posteo.de
+            </p>
+            <p class="header_info"><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong></p>
+            <p class="text_info">
+                Richard Wezel<br>
+                Eschholzstr. 74<br>
+                12345 Musterstadt
+            </p>
+        </article>
     </div>
 `;
 }
@@ -273,7 +276,32 @@ function DataSecurityHTML() {
             </svg>
         </a>
 
+       
         <h1 class="headerInstructions">Datenschutz</h1>
+        
+        <article>
+            <p class="text_info">
+                Der Schutz Ihrer persönlichen Daten ist uns ein besonderes Anliegen. Wir verarbeiten Ihre Daten daher ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TKG 2003). In diesen Datenschutzinformationen informieren wir Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Website.
+            </p>
+            <p class="header_info">Keine Datenspeicherung</p>
+            <p class="text_info">
+                Wir möchten Sie darüber informieren, dass wir auf unserer Website keine personenbezogenen Daten speichern oder verarbeiten. Dies bedeutet, dass wir keine Daten über Ihr Surfverhalten, Ihre IP-Adresse oder andere persönliche Informationen erfassen.
+            </p>
+            <p class="header_info">Keine Verwendung von Cookies</p>
+            <p class="text_info">
+                Unsere Website verwendet keine Cookies. Cookies sind kleine Textdateien, die auf Ihrem Endgerät gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Da wir keine Cookies verwenden, werden keine Informationen auf Ihrem Endgerät gespeichert oder ausgelesen.
+            </p>
+            <p class="header_info">Kontakt</p>
+            <p class="text_info">
+                Wenn Sie Fragen zu dieser Datenschutzerklärung haben, können Sie uns unter folgenden Kontaktdaten erreichen:
+            </p>
+            <p class="text_info">
+                Richard Wezel<br>
+                Eschholzstr. 74<br>
+                79115 Freiburg<br>
+                E-Mail: richard.wezel@posteo.de
+            </p>
+        </article>
         
     </div>
 `;
