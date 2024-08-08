@@ -1,7 +1,8 @@
 body {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    flex-direction: column;
     font-family: 'boogaloo-regular';
     background-image: url('images/desert_background.jpg');
     background-position: center;
@@ -12,6 +13,16 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    width: 100vw;
+    height: 100dvh;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 #header {
@@ -31,17 +42,27 @@ body {
 }
 
 #pleaseRotateScreenImage {
-    position: absolute;
+    /* position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
+    flex-direction: column;
+}
+
+#pleaseRotateScreenImage p{
+    color: white;
+    font-size: 2rem;
+}
+
+#pleaseRotateScreenImage svg{
+    fill: white;
 }
 
 #canvas {
@@ -93,8 +114,8 @@ body {
 }
 
 .fullscreen {
-    width: 100vw !important;
-    height: 100vh !important;
+    width: 100dvw !important;
+    height: 100dvh !important;
     background-size: cover !important;
     position: absolute;
     top: 0;
@@ -103,8 +124,8 @@ body {
 }
 
 canvas.fullscreen {
-    width: 100vw !important;
-    height: 100vh !important;
+    width: 100vdw !important;
+    height: 100dvh !important;
     max-height: none;
 }
 

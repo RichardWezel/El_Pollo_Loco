@@ -2,20 +2,24 @@ let volumeStatus = true;
 
 function markUsedControlBtn(controllBtnId) {
     let element = document.getElementById(controllBtnId);
-    element.style.borderColor = '#FF9601';
-    let svgElement = document.querySelector(`#${controllBtnId} svg path`);
-    if (svgElement) {
-        svgElement.style.fill = '#FF9601';
+    if(element) {
+        element.style.borderColor = '#FF9601';
+        let svgElement = document.querySelector(`#${controllBtnId} svg path`);
+        if (svgElement) {
+            svgElement.style.fill = '#FF9601';
+        }
     }
 }
 
 function demarcateUsedControlBtn(controllBtnId) {
     let element = document.getElementById(controllBtnId);
-    element.style.borderColor = 'black';
-    let svgElement = document.querySelector(`#${controllBtnId} svg path`);
-    if (svgElement) {
-        svgElement.style.fill = '#000000';
-    }
+    if(element) {
+        element.style.borderColor = 'black';
+        let svgElement = document.querySelector(`#${controllBtnId} svg path`);
+        if (svgElement) {
+            svgElement.style.fill = '#000000';
+        }
+    } 
 }
 
 function changeVolumeStatus() {

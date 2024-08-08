@@ -1,32 +1,9 @@
 function init() {
     initStartScreen();
-    // if (screen.availHeight < 640) {
-        
-    // }
+    handleScreenOrientation();
+    window.addEventListener('resize', handleScreenOrientation);
     checkMobileDeviceSize();
-    showScreenRotationPromt();
 }
-
-function showScreenRotationPromt() {
-   
-    if (screen.availHeight > screen.availWidth) {
-        setRotateScreenImage();
-    } else {
-        removeRotateScreenImage();
-    }
-}
-
-    function setRotateScreenImage() {
-        console.log('add rotation');
-        document.getElementById('gameScreen').innerHTML += svgScreenRotation();
-    }
-
-    function removeRotateScreenImage() {
-        let rotateScreenImage = document.getElementById('pleaseRotateScreenImage');
-        if (rotateScreenImage) {
-            rotateScreenImage.remove();
-        }
-    }
 
 function initStartScreen() {
     let screenContainer = document.getElementById('gameScreen')
@@ -34,25 +11,63 @@ function initStartScreen() {
     screenContainer.style.backgroundImage = "url('images/intro_outro_screens/start/startscreen_1.png')";
 }
 
+function handleScreenOrientation() {
+    if (checkPageOrientation() == 'portrait') {
+        setRotateScreenImage();
+    } else {
+        removeRotateScreenImage() 
+    }
+}
+
+function checkPageOrientation() {
+    if (screen.availHeight > screen.availWidth) {
+        console.log('Hochformat');
+        return 'portrait';
+    } else {
+        console.log('Querformat');
+        return 'landscape';
+    }
+}
+
+function setRotateScreenImage() {
+    let rotateScreenMessage = document.getElementById('rotateScreenMessage');
+    rotateScreenMessage.innerHTML = svgScreenRotation();
+}
+
+function removeRotateScreenImage() {
+    let rotateScreenMessage = document.getElementById('rotateScreenMessage');
+    rotateScreenMessage.innerHTML = '';
+}
+
+function checkMobileDeviceSize() {
+    let viewportWidth = window.innerWidth;
+    let viewportHeight = window.innerHeight;
+    if (viewportWidth <= 720 || viewportHeight <= 640) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 function checkMobileDeviceSize() {
     let gameScreen = document.getElementById('gameScreen');
     let viewportWidth = window.innerWidth;
     let viewportHeight = window.innerHeight;
     
-    if (viewportWidth <= 1024 || viewportHeight <= 768) {
-        gameScreen.classList.add('fullscreen');
+    if (viewportWidth <= 720 || viewportHeight <= 640) {
         document.getElementById('header').style.display = 'none';
-        fullscreen();
-        return true;
+        gameScreen.style.width = '100dvw';
+        gameScreen.style.height = '100dvh';
     } else {
-        gameScreen.classList.remove('fullscreen');
+       
         return false;
     }
 }
 
 
 
-window.addEventListener('resize', checkMobileDeviceSize);
+
 
 function reloadGame() {
     window.location.reload();
