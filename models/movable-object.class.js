@@ -64,11 +64,9 @@ class MovableObject extends DrawableObject {
     }
 
     hitCharacter() {
-        if(this.energyCharacter > 0) {
-            this.energyCharacter -= 2.5;
-            console.log('Energy of Pepe is ', this.energyCharacter, '%')
-            this.lastHitCharacter = new Date().getTime();
-        }
+        this.energyCharacter -= 2.5;
+        console.log('Energy of Pepe is ', this.energyCharacter, '%');
+        this.lastHitCharacter = new Date().getTime();
     }
 
     // hitEndboss() {
@@ -87,11 +85,6 @@ class MovableObject extends DrawableObject {
         } 
     }
 
-    /**
-     * Marks the Tim
-     * 
-     * @returns 
-     */
     isHurtCharacter() {
         let timepassed = new Date().getTime() - this.lastHitCharacter; // difference in ms
         timepassed = timepassed / 500; // diffence in s

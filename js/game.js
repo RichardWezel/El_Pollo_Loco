@@ -39,8 +39,8 @@ function removeStartBtns() {
     }
 
     function addCanvasHTMLElement() {
-        let screenContainer = document.getElementById('gameScreen');
-        screenContainer.innerHTML += canvasHTML_Element();
+        let gameScreen = document.getElementById('gameScreen');
+        gameScreen.innerHTML += canvasHTML_Element();
         let canvas = document.getElementById('gameCanvas');
     
     // Ensure the canvas goes fullscreen
@@ -52,16 +52,6 @@ function removeStartBtns() {
     function initCanvas() {
         canvas = document.getElementById('gameCanvas');
         world = new World(canvas, keyboard);
-
-
-    // Ensure the canvas goes fullscreen
-    if (window.innerWidth <= 1024 && window.innerHeight <= 768) {
-        canvas.classList.add('fullscreen');
-    }
-    }
-
-    window.addEventListener('resize', function() {
-        let canvas = document.getElementById('gameCanvas');
         if (canvas) {
             if (window.innerWidth <= 1024 && window.innerHeight <= 768) {
                 canvas.classList.add('fullscreen');
@@ -69,14 +59,14 @@ function removeStartBtns() {
                 canvas.classList.remove('fullscreen');
             }
         }
-    });
 
-    function renderGameOver() { // @class character: checkGameOver()
-        let screenContainer = document.getElementById('gameScreen');
-        screenContainer.innerHTML += gameOverHTML();
+    // Ensure the canvas goes fullscreen
+    // if (window.innerWidth <= 1024 && window.innerHeight <= 768) {
+    //     canvas.classList.add('fullscreen');
+    // }
     }
 
     function renderWin() { // @class character: checkGameOver()
-        let screenContainer = document.getElementById('gameScreen');
-        screenContainer.innerHTML += winHTML();
+        let gameScreen = document.getElementById('gameScreen');
+        gameScreen.innerHTML += winHTML();
     }

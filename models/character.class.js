@@ -80,6 +80,7 @@ class Character extends MovableObject{
     sleepTimeout; // Referenz zum Timeout
     idle;
     sleep;
+    GameOverInterval;
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -149,7 +150,7 @@ class Character extends MovableObject{
 
     animateCharacterMoves() {
         this.characterAnimationInterval = setInterval(() => {
-            if (this.isDead(this.characterAnimationInterval)) {
+            if (this.isDead()) {
                 this.characterDies();
             } else if (this.isHurtCharacter()) {
                 this.characterHurtsHimself()
@@ -162,14 +163,23 @@ class Character extends MovableObject{
     }
 
         characterDies() {
-            this.playDeathAnimation(); // Startet eine separate Animation für den Tod
-            this.jump(); // Startet den Sprung
-            this.fallBelowGround(); // Setzt die groundPos nach unten
+            this.playDeathAnimation(); 
+            this.jump(); 
+            this.fallBelowGround(); 
             world.backgroundmusic.pause();
             if (volumeStatus === true) {
                 this.death_sound.play();
             }
-            clearInterval(this.characterAnimationInterval); // Beendet das allgemeine Animationsintervall
+            clearInterval(this.characterAnimationInterval); 
+            this.resetSounds();
+        }
+
+        resetSounds() {
+            this.world.backgroundmusic.pause();
+            this.snoring_sound.pause();
+            clearInterval(this.idle);
+            clearInterval(this.sleep); 
+            clearTimeout(this.sleepTimeout); 
         }
 
             playDeathAnimation() {
@@ -186,16 +196,22 @@ class Character extends MovableObject{
             }
 
                 checkGameOver() {
-                    let GameOverInterval = setInterval(() => {
+                    this.GameOverInterval = setInterval(() => {
                         if (this.y == 500) {
-                            // renderGameOver();
-                            document.getElementById('idGameOver').style.display = 'block';
-                            document.getElementById('reloadGameBtn').style.display = 'block';
-                            clearInterval(GameOverInterval);
-                            this.snoring_sound.pause();
+                           this.initGameOver();
                         }
                     }, 100); // Anpassung des Intervalls je nach Geschwindigkeit der Animation
                 }
+
+                    initGameOver() {
+                        let gameScreen = document.getElementById('gameScreen');
+                        clearInterval(this.GameOverInterval);
+                        gameScreen.remove('btnContainer');
+                        gameScreen.remove('controlBtnSection');
+                        gameScreen.remove('navbar');
+                        gameScreen.innerHTML += gameOverHTML();
+
+                    }
 
         characterHurtsHimself() {
             this.playAnimation(this.IMAGES_HURT);
@@ -248,4 +264,10 @@ class Character extends MovableObject{
         this.characterIdle(); 
         this.snoring_sound.pause();
     }
+
+    bounce() {
+        this.speedY = 20; // Bounce up
+        this.y = this.groundPos - 20; // Adjust the y position to be slightly above the ground position
+    }
 } 
+

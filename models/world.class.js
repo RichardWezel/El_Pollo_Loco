@@ -28,8 +28,6 @@ class World {
         this.setWorld();
         this.run();
         this.playBackgroundMusic();
-        this.backgroundmusic.volume = 0.2; // Reduce the Volume by Half
-        this.bottle_collecting_sound.playbackRate=0.1;
     }
     
     draw() {
@@ -94,15 +92,13 @@ class World {
 
     playBackgroundMusic() {
         this.backgroundmusic.play();
+        this.backgroundmusic.volume = 0.2;
         this.backgroundmusic.addEventListener('ended', () => {
             this.backgroundmusic.currentTime = 0;
             this.backgroundmusic.play();
         });
     }
 
-    /**
-     * Intervals of checking collisions with enemies or collectable objects and checking use of Key D to throw a bottle.
-     */
     run() {
         setInterval(() => {
             this.checkCollisionsofCharacter();
@@ -111,160 +107,154 @@ class World {
         }, 150);
     }
 
-        /**
-         * Is called by run() in constructor of World with innterval of 150 ms.
-         */
-        checkCollisionsofCharacter() {
-            this.collisionsOfCharacterWithEnemies();
-            this.collisionsOfCharacterWithBottles();
-            this.collisionsOfCharacterWithCoins();
-        }
+    checkCollisionsofCharacter() {
+        this.collisionsOfCharacterWithEnemies();
+        this.collisionsOfCharacterWithBottles();
+        this.collisionsOfCharacterWithCoins();
+    }
 
-            /**
-             * The function checks for each enemy object whether it collides with the character 
-             * and distinguishes between jumping up on the enemy and running into the enemy.
-             ** Jumping up on the enemy triggers the handleJumpingOnEnemy() function.
-             ** Running into the enemy triggers the handleRunningIntoEnemy() function.
-             */
-            collisionsOfCharacterWithEnemies() {
-                this.level.enemies.forEach((enemy, index) => {
-                    if (this.character.isColliding(enemy)) {
-                        if (this.character.isAboveGround() && this.character.speedY < 0) {
-                            this.handleJumpingOnEnemy(index, enemy);
-                        } else {
-                            this.handleRunningIntoEnemy(enemy);
-                        }
-                    }
-                });
+    collisionsOfCharacterWithEnemies() {
+        this.level.enemies.forEach((enemy, index) => {
+            if (this.character.isColliding(enemy)) {
+                if (this.character.isAboveGround() && this.character.speedY < 0) {
+                    this.handleJumpingOnEnemy(index, enemy);
+                } else {
+                    this.handleRunningIntoEnemy(enemy);
+                }
             }
-                /**
-                 * bounce() let the character jump up. 
-                 * removeEnemy() deletes the enemy-object from the array 'enemies' in class Level.
-                 * 
-                 * @param {Number} index - Index of enemy in class Level array 'enemies'.
-                 * @param {Object} enemy - Object colliding with the character.
-                 */
-                handleJumpingOnEnemy(index, enemy) {
-                    this.bounce();
-                    this.removeEnemy(index, enemy.constructor.name);
-                    this.bounceChicken.play();
-                    console.log('handleJumpingOnEnemy')
-                }
-
-                /**
-                 * hit() reduces the energy of character and register the time of hit witch is saved in lastHit variable.
-                 * setPercentage() is calld for the health statusbar and passed the character energy in the function with the mode 'decrease', witch caused a reduction of the statusbar.
-                 */
-                handleRunningIntoEnemy(enemy) {
-                    if (enemy.deadStatus == false) {
-                        this.character.hitCharacter();
-                        this.statusbar_health.setPercentage(this.character.energyCharacter, 'decrease');
-                    }
-                }
-
-                /**
-                 * Let the character jump up and falling down to the start ground position.
-                 */
-                bounce() {
-                    this.character.speedY = 20; // Bounce up
-                    this.character.y = this.character.groundPos - 20; // Adjust the y position to be slightly above the ground position
-                }
-
+        });
+    }
                 
-
-            collisionsOfCharacterWithBottles() {
-                this.level.collectableObjects_bottles.forEach((object, index) => {
-                    if (this.character.isColliding(object)) {
-                        this.characterCollectBottle(index);
-                    } 
-                });
-            }
-
-                characterCollectBottle(index) {
-                    this.character.collect('bottle');
-                    this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
-                    this.level.collectableObjects_bottles.splice(index, 1);
-                    if(volumeStatus == true) {
-                        this.bottle_collecting_sound.play();
-                        this.bottle_collecting_sound.playbackRate=0.5;
-                    } 
-                }
-
-            collisionsOfCharacterWithCoins() {
-                this.level.collectableObjects_coin.forEach((object, index) => {
-                    if (this.character.isColliding(object)) {
-                       this.characterCollectCoin(index);
-                    } 
-                });
-            }
-
-                characterCollectCoin(index) {
-                    this.character.collect('coin');
-                    this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
-                    this.level.collectableObjects_coin.splice(index, 1);
-                    if(volumeStatus == true) {
-                        this.coin_collecting_sound.play();
-                    } 
-                }
-        
-        checkUseOf_KeyD() {
-            if(this.keyboard.KeyD) {
-                if (this.character.collectedBottles > 1) {
-                   this.characterThrowBottle();
-                }
-            }
+    handleJumpingOnEnemy(index, enemy) {
+        this.character.bounce();
+        this.removeEnemy(index, enemy.constructor.name);
+        this.bounceChicken.play();
+        console.log('handleJumpingOnEnemy')
+    }
+                
+    handleRunningIntoEnemy(enemy) {
+        if (enemy.deadStatus == false && this.character.energyCharacter > 0) {
+            this.character.hitCharacter();
+            this.statusbar_health.setPercentage(this.character.energyCharacter, 'decrease');
         }
+    }
 
-            characterThrowBottle() {
-                this.createBottleObject();
-                this.reduceBottleSupply();
-                this.character.resetIdleTimer(); 
-            }
+    collisionsOfCharacterWithBottles() {
+        this.level.collectableObjects_bottles.forEach((object, index) => {
+            if (this.character.isColliding(object)) {
+                this.characterCollectBottle(index);
+            } 
+        });
+    }
+
+    characterCollectBottle(index) {
+        this.character.collect('bottle');
+        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'increase');
+        this.level.collectableObjects_bottles.splice(index, 1);
+        if(volumeStatus == true) {
+            this.bottle_collecting_sound.play();
+            this.bottle_collecting_sound.playbackRate=0.5;
+        } 
+    }
+
+    collisionsOfCharacterWithCoins() {
+        this.level.collectableObjects_coin.forEach((object, index) => {
+            if (this.character.isColliding(object)) {
+               this.characterCollectCoin(index);
+            } 
+        });
+    }
+
+    characterCollectCoin(index) {
+        this.character.collect('coin');
+        this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
+        this.level.collectableObjects_coin.splice(index, 1);
+        if(volumeStatus == true) {
+            this.coin_collecting_sound.play();
+        } 
+    }
         
-                createBottleObject() {
-                    let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
-                    this.throwableObject.push(bottle);
-                }
-            
-                reduceBottleSupply() {
-                    this.character.collectedBottles -= 12;
-                    this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
-                }
+    checkUseOf_KeyD() {
+        if(this.keyboard.KeyD && this.character.collectedBottles > 1) {
+            this.characterThrowBottle();
+        }
+    }
 
-        checkCollisionsOfBottles() {
-            this.throwableObject.forEach((bottle, bottleIndex) => {
-                let enemiesCopy = [...this.level.enemies];
-                enemiesCopy.forEach((enemy, enemyIndex) => {
-                    if (bottle.isColliding(enemy) && !enemy.deadStatus) {
-                        if (enemy instanceof Chicken) {
-                            // this.handleChickenCollison(bottle, enemy, enemyIndex);
-                        } else if (enemy instanceof Chick) {
-                            this.handleChickCollison(bottle, enemy, bottleIndex, enemyIndex);
-                            console.log(enemyIndex)
-                        } else if (enemy instanceof Endboss) {
-                            // this.handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex);
-                        }
+    characterThrowBottle() {
+        this.createBottleObject();
+        this.reduceBottleSupply();
+        this.character.resetIdleTimer(); 
+    }
+        
+    createBottleObject() {
+        let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100);
+        this.throwableObject.push(bottle);
+    }
+
+    reduceBottleSupply() {
+        this.character.collectedBottles -= 12;
+        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
+    }
+
+    // checkCollisionsOfBottles() {
+    //     this.throwableObject.forEach((bottle, bottleIndex) => {
+    //         let enemiesCopy = [...this.level.enemies];
+    //         enemiesCopy.forEach((enemy, enemyIndex) => {
+    //             if (bottle.isColliding(enemy) && !enemy.deadStatus) {
+    //                 if (enemy instanceof Chicken) {
+    //                     // this.handleChickenCollison(bottle, enemy, enemyIndex);
+    //                 } else if (enemy instanceof Chick) {
+    //                     this.handleChickCollison(bottle, enemy, bottleIndex, enemyIndex);
+    //                     console.log(enemyIndex)
+    //                 } else if (enemy instanceof Endboss) {
+    //                     // this.handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex);
+    //                 }
+    //             }
+    //         });
+    //     });
+    // }
+
+    checkCollisionsOfBottles() {
+        this.throwableObject.forEach((bottle, bottleIndex) => {
+            for (let i = this.level.enemies.length - 1; i >= 0; i--) {
+                let enemy = this.level.enemies[i];
+                if (bottle.isColliding(enemy) && !enemy.deadStatus) {
+                    if (enemy instanceof Chicken) {
+                        this.handleChickenCollison(bottle, enemy, i);
+                    } else if (enemy instanceof Chick) {
+                        this.handleChickCollison(bottle, enemy, bottleIndex, i);
+                    } else if (enemy instanceof Endboss) {
+                        // this.handleEndbossCollison(bottle, enemy, bottleIndex, i);
                     }
-                });
-            });
-        }
+                }
+            }
+        });
+    }
 
-        handleChickenCollison(bottle, enemy, enemyIndex) {
-            console.log(enemyIndex);
-            enemy.hitChicken();
-            setTimeout(() => {
-                this.removeEnemy(enemyIndex);
-            }, 3000);
-            bottle.bottleSplash();
-        }
+    handleChickenCollison(bottle, enemy, enemyIndex) {
+        console.log(enemyIndex);
+        enemy.hitChicken();
+        setTimeout(() => {
+            this.removeEnemy(enemyIndex);
+        }, 3000);
+        bottle.bottleSplash();
+    }
 
-        handleChickCollison(bottle, enemy, enemyIndex) {
-            enemy.hitChick();
-            setTimeout(() => {
-                this.removeEnemy(enemyIndex);
-            }, 3000);
-            bottle.bottleSplash();
-        }
+    handleChickCollison(bottle, enemy, bottleIndex, enemyIndex) {
+        enemy.hitChick();
+        setTimeout(() => {
+            this.removeEnemy(enemyIndex);
+        }, 3000);
+        bottle.bottleSplash();
+    }
+
+    // handleChickCollison(bottle, enemy, enemyIndex) {
+    //     enemy.hitChick();
+    //     setTimeout(() => {
+    //         this.removeEnemy(enemyIndex);
+    //     }, 3000);
+    //     bottle.bottleSplash();
+    // }
 
         // handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex) {
         //     this.hitEndboss(bottle, enemy, bottleIndex, enemyIndex)
@@ -308,7 +298,6 @@ class World {
         }
 
     removeEnemy(enemyIndex) {
-        console.log(enemyIndex)
         this.level.enemies.splice(enemyIndex, 1)
         console.log('The index ' + enemyIndex  + ' is deleted from enemies');
     }
