@@ -221,3 +221,14 @@
     }
 
 }
+
+.close{
+    position: absolute;
+    top: 33px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.close:hover svg{
+    fill: #FF9601;
+}

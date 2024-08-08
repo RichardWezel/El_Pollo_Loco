@@ -3,7 +3,7 @@ function renderStartBtns() {
         <div id="btnContainer">
             <a class="btn" onclick="startGame()">Spiel start</a>
             <a class="btn" onclick="showInstruction()">Anleitung</a>
-            <a class="btn" onclick="showInformations()">Impressum</a>
+            <a class="btn" onclick="showImpressum()">Impressum</a>
         </div>
     `
 }
@@ -26,13 +26,30 @@ function canvasHTML_Element() {
     `
 }
 
-function explenationHTML() {
+function storyHTML() {
     return `
         <div id="InstructionsContainer">
-            <a class="nextBtn_right" onclick="startGame()">
+            <a class="nextBtn_right" onclick="renderInstructions()">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
                 </svg>
             </a>
+
+            <h1 class="headerInstructions">Spielhandlung</h1>
+
+            <div class="storyText">
+                Du spielst einen Mexikaner namens Pepe, welcher sich durch die Steppen Mexikos kämpfen muss. Auf seinem Weg findet er wertvolle Münzen und Tabasco-Flaschen, die er natürlich gerne einsammelt. Manchmal muss Pepe in die Höhe, um die Wertvollen Gegenstände zu erreichen. Doch Pepe trifft auch auf Hühner, die ihm nicht wohl gesonnen sind. Er verliert an wichtigen Lebenspunkten, wenn sie ihn berühren. Diese kann Pepe leicht bezwingen, indem er auf sie springt. Am Ende seines Weges trifft er auf die Mutter der kleineren Hühner Kücken, welche nicht sehr erfreut darüber sein wird, dass du ihre Jungen verletzt hast. Pepe sollte versuchen die wenigen Flaschen, die er einsammeln konnte gegen diesen Endgegner zu nutzen. Wird er es schaffen?
+            </div>
+        </div>
+    `;
+}
+
+function explenationHTML() {
+    return `
+        <div id="InstructionsContainer">
+        <a class="close" onclick="reloadGame()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+            </svg>
+        </a>
 
             <a class="nextBtn_left" onclick="renderStory()">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
@@ -144,22 +161,7 @@ function explenationHTML() {
     `;
 }
 
-function storyHTML() {
-    return `
-        <div id="InstructionsContainer">
-            <a class="nextBtn_right" onclick="renderInstructions()">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
-                </svg>
-            </a>
 
-            <h1 class="headerInstructions">Spielhandlung</h1>
-
-            <div class="storyText">
-                Du spielst einen Mexikaner namens Pepe, welcher sich durch die Steppen Mexikos kämpfen muss. Auf seinem Weg findet er wertvolle Münzen und Tabasco-Flaschen, die er natürlich gerne einsammelt. Manchmal muss Pepe in die Höhe, um die Wertvollen Gegenstände zu erreichen. Doch Pepe trifft auch auf Hühner, die ihm nicht wohl gesonnen sind. Er verliert an wichtigen Lebenspunkten, wenn sie ihn berühren. Diese kann Pepe leicht bezwingen, indem er auf sie springt. Am Ende seines Weges trifft er auf die Mutter der kleineren Hühner Kücken, welche nicht sehr erfreut darüber sein wird, dass du ihre Jungen verletzt hast. Pepe sollte versuchen die wenigen Flaschen, die er einsammeln konnte gegen diesen Endgegner zu nutzen. Wird er es schaffen?
-            </div>
-        </div>
-    `;
-}
 
 function ControlSymbolsHTML() {
     return `
@@ -192,11 +194,11 @@ function ControlSymbolsHTML() {
 function navbarHTML() {
     return `
         <nav id="navbar">
-            <a id="helpBtn" class="control_element">
+            <a id="helpBtn" class="control_element" onclick="showInstruction()">
                 <svg xmlns="http://www.w3.org/2000/svg" height="44px" viewBox="0 -960 960 960" width="44px" fill="#000000"><path d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
                 </svg>
             </a>
-            <a id="infoBtn" class="control_element">
+            <a id="infoBtn" class="control_element" onclick="showInformations()">
                 <svg xmlns="http://www.w3.org/2000/svg" height="44px" viewBox="0 -960 960 960" width="44px" fill="#000000"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
                 </svg>
             </a>
@@ -272,11 +274,14 @@ function ImpressumHTML() {
 function DataSecurityHTML() {
     return `
     <div id="ImpressumContainer">
-        <a class="nextBtn_right" onclick="reloadGame()">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+        <a class="close" onclick="reloadGame()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
             </svg>
         </a>
 
+        <a class="nextBtn_left" onclick="showImpressum()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
+        </a>
        
         <h1 class="headerInstructions">Datenschutz</h1>
 

@@ -19,6 +19,9 @@ class Chick extends MovableObject{
         bottom: 0,
         left: 10
     }
+    walkingInterval;
+    animationInterval;
+    deadStatus = false;
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -32,11 +35,18 @@ class Chick extends MovableObject{
      * Move the chickens left and animate the Move.
      */
     animate() {
-        setInterval(() => {
+        this.walkingInterval = setInterval(() => {
             this.moveLeft();
          }, 1000 / 60);
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
         }, 200);
+    }
+
+    hitChick() {
+        clearInterval(this.walkingInterval);
+        clearInterval(this.animationInterval);
+        this.deadStatus = true;
+        this.loadImage(this.IMAGE_DEAD);
     }
 }

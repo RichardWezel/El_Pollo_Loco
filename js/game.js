@@ -5,7 +5,7 @@ let canvas;
 
 function startGame() {
     document.getElementById('gameScreen').style.backgroundImage = 'none';
-    if (checkMobileDeviceSize()) {
+    if (checkMobileDeviceSize() == true) {
         setControlBtns();
         document.getElementById('header').style.display = 'none';
     } else {
@@ -25,7 +25,7 @@ function removeStartBtns() {
 
     function setControlBtns() {
         let screenContainer = document.getElementById('gameScreen');
-        screenContainer.innerHTML = ControlSymbolsHTML();
+        screenContainer.innerHTML += ControlSymbolsHTML();
         addTouchListeners();
     }
 

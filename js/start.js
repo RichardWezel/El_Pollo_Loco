@@ -1,14 +1,16 @@
 function init() {
     initStartScreen();
     handleScreenOrientation();
-    window.addEventListener('resize', handleScreenOrientation);
-    checkMobileDeviceSize();
+    window.addEventListener('orientationchange', handleScreenOrientation);
+    if (checkMobileDeviceSize()) {
+        setMobileScreenCustomization();
+    }
 }
 
 function initStartScreen() {
-    let screenContainer = document.getElementById('gameScreen')
-    screenContainer.innerHTML = renderStartBtns();
-    screenContainer.style.backgroundImage = "url('images/intro_outro_screens/start/startscreen_1.png')";
+    let gameScreen = document.getElementById('gameScreen')
+    gameScreen.innerHTML = renderStartBtns();
+    gameScreen.style.backgroundImage = "url('images/intro_outro_screens/start/startscreen_1.png')";
 }
 
 function handleScreenOrientation() {
@@ -49,25 +51,13 @@ function checkMobileDeviceSize() {
     }
 }
 
-
-function checkMobileDeviceSize() {
+function setMobileScreenCustomization() {
     let gameScreen = document.getElementById('gameScreen');
-    let viewportWidth = window.innerWidth;
-    let viewportHeight = window.innerHeight;
-    
-    if (viewportWidth <= 720 || viewportHeight <= 640) {
-        document.getElementById('header').style.display = 'none';
+        let header = document.getElementById('header');
+        header.style.display = 'none';
         gameScreen.style.width = '100dvw';
         gameScreen.style.height = '100dvh';
-    } else {
-       
-        return false;
-    }
 }
-
-
-
-
 
 function reloadGame() {
     window.location.reload();
@@ -79,33 +69,35 @@ function showInstruction() {
 }
 
     function setBackgroundInstructions() {
-        let screenContainer = document.getElementById('gameScreen');
-        screenContainer.style.backgroundImage = `url('images/background/air.png')`;
+        let gameScreen = document.getElementById('gameScreen');
+        gameScreen.style.backgroundImage = `url('images/background/air.png')`;
     }
 
     function renderStory() {
-        let screenContainer = document.getElementById('gameScreen');
-        screenContainer.innerHTML = storyHTML();
+        let gameScreen = document.getElementById('gameScreen');
+        gameScreen.innerHTML = storyHTML();
     }
 
     function renderInstructions() {
-        let screenContainer = document.getElementById('gameScreen');
-        screenContainer.innerHTML = explenationHTML();
+        let gameScreen = document.getElementById('gameScreen');
+        gameScreen.innerHTML = explenationHTML();
     }
+
+   
 
     function hideIntroduction() {
         let container = document.getElementById('InstructionsContainer');
         container.style.display = 'none'
     }
 
-function showInformations() {
+function showImpressum() {
     setBackgroundInstructions();
     renderInformations();
 }
 
 function renderInformations() {
-    let screenContainer = document.getElementById('gameScreen');
-        screenContainer.innerHTML = ImpressumHTML();
+    let gameScreen = document.getElementById('gameScreen');
+        gameScreen.innerHTML = ImpressumHTML();
 }
 
 

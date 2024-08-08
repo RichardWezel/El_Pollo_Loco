@@ -232,29 +232,25 @@ class World {
                 }
 
         checkCollisionsOfBottles() {
-            this.throwableObject.forEach((bottle, bottleIndex) => { // bottle ist die einzelne Flasche
-                this.level.enemies.forEach((enemy, enemyIndex) => {
-                    if (bottle.isColliding(enemy)) {
-                        if (enemy instanceof Endboss) {
-                            this.handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex);  
-                        } else if (enemy instanceof Chicken) {
-                            this.handleChickenCollison(bottle, enemy, enemyIndex)
+            this.throwableObject.forEach((bottle, bottleIndex) => {
+                let enemiesCopy = [...this.level.enemies];
+                enemiesCopy.forEach((enemy, enemyIndex) => {
+                    if (bottle.isColliding(enemy) && !enemy.deadStatus) {
+                        if (enemy instanceof Chicken) {
+                            // this.handleChickenCollison(bottle, enemy, enemyIndex);
                         } else if (enemy instanceof Chick) {
                             this.handleChickCollison(bottle, enemy, bottleIndex, enemyIndex);
+                            console.log(enemyIndex)
+                        } else if (enemy instanceof Endboss) {
+                            // this.handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex);
                         }
                     }
                 });
             });
         }
 
-        handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex) {
-            this.hitEndboss(bottle, enemy, bottleIndex, enemyIndex)
-            if (this.energyEndboss == 0) {
-                this.handleWin();
-            }
-        }
-
         handleChickenCollison(bottle, enemy, enemyIndex) {
+            console.log(enemyIndex);
             enemy.hitChicken();
             setTimeout(() => {
                 this.removeEnemy(enemyIndex);
@@ -262,31 +258,37 @@ class World {
             bottle.bottleSplash();
         }
 
-        handleChickCollison(bottle, enemy, bottleIndex, enemyIndex) {
-            walkInterval
-            enemy.loadImage(enemy.IMAGE_DEAD)
+        handleChickCollison(bottle, enemy, enemyIndex) {
+            enemy.hitChick();
             setTimeout(() => {
-                this.removeEnemy(enemyIndex, 'Chick');
+                this.removeEnemy(enemyIndex);
             }, 3000);
             bottle.bottleSplash();
         }
 
-
-
-        // hitChicken(enemyIndex, enemy) {
-        //     enemy.loadImage(this.IMAGE_DEAD);
-        //     this.removeEnemy(enemyIndex, 'Chicken');
+        // handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex) {
+        //     this.hitEndboss(bottle, enemy, bottleIndex, enemyIndex)
+        //     if (this.energyEndboss == 0) {
+        //         this.handleWin();
+        //     }
         // }
 
-        hitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
-            console.log('Energy of Endboss is ', this.energyEndboss, '%')
-            bottle.lastHitEndboss = new Date().getTime();
-            this.handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex);
-            bottle.hasDealtDamage = true; // Markiere die Flasche als bereits Schaden zugefügt
-            this.energyEndboss -= 10;
-            this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
-            console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
-        }
+        // hitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
+        //     console.log('Energy of Endboss is ', this.energyEndboss, '%')
+        //     bottle.lastHitEndboss = new Date().getTime();
+        //     this.handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex);
+        //     bottle.hasDealtDamage = true; // Markiere die Flasche als bereits Schaden zugefügt
+        //     this.energyEndboss -= 10;
+        //     this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
+        //     console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
+        // }
+
+        // handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
+        //     if (this.character.isHurtEndboss()) {
+        //         bottle.splash_sound.play();
+        //         this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
+        //     }
+        // }
 
         hitEndboss() {
             if(this.energyEndboss > 0) {
@@ -305,15 +307,10 @@ class World {
             clearTimeout(this.sleepTimeout); 
         }
 
-        handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
-            if (this.character.isHurtEndboss()) {
-                bottle.splash_sound.play();
-                this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
-            }
-        }
-
-    removeEnemy(indexOfEnemy) {
-        this.level.enemies.splice(indexOfEnemy, 1)
+    removeEnemy(enemyIndex) {
+        console.log(enemyIndex)
+        this.level.enemies.splice(enemyIndex, 1)
+        console.log('The index ' + enemyIndex  + ' is deleted from enemies');
     }
 
     flipImage(mo) {

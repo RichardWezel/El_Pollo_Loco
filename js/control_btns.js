@@ -83,12 +83,15 @@ function showSettings() {
     let menuBtn = document.getElementById('menuBtn');
     let volumeBtn = document.getElementById('volumeBtn');
     let homeBtn = document.getElementById('home');
+    let helpBtn = document.getElementById('helpBtn');
+    let infoBtn = document.getElementById('infoBtn');
     menuStatus = true;
     menuBtn.innerHTML = svgX();
     volumeBtn.style.display = 'flex';
     homeBtn.style.display = 'flex';
-
-    if (checkMobileDeviceSize == false) {
+    helpBtn.style.display = 'flex';
+    infoBtn.style.display = 'flex';
+    if (checkMobileDeviceSize() == false) {
         let fullscreenBtn = document.getElementById('fullscreen');
         fullscreenBtn.style.display = 'flex';
     }
@@ -99,13 +102,14 @@ function hideSettings() {
     let menuBtn = document.getElementById('menuBtn');
     let volumeBtn = document.getElementById('volumeBtn');
     let homeBtn = document.getElementById('home');
-
+    let helpBtn = document.getElementById('helpBtn');
+    let infoBtn = document.getElementById('infoBtn');
     menuStatus = false;
     menuBtn.innerHTML = svgMenu();
     volumeBtn.style.display = 'none';
-    
     homeBtn.style.display = 'none';
-
+    helpBtn.style.display = 'none';
+    infoBtn.style.display = 'none';
     if (checkMobileDeviceSize == false) {
         let fullscreenBtn = document.getElementById('fullscreen');
         fullscreenBtn.style.display = 'none';
