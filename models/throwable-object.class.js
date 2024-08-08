@@ -39,9 +39,10 @@ class ThrowableObject extends MovableObject {
         this.intervalRotation = setInterval(() => {
             if (this.checkHitTheGround()) {
                 this.bottleSplash();
+
             } else {
                 this.bottleRotation();
-                this.checkCollisionWithEnemies();
+                // this.checkCollisionWithEnemies();
             }
         }, 50);
     }
@@ -70,14 +71,14 @@ class ThrowableObject extends MovableObject {
         }
     }
 
-    checkCollisionWithEnemies() {
-        world.level.enemies.forEach((enemy) => {
-            if (enemy instanceof Endboss && this.isColliding(enemy)) {
-                enemy.hitEndboss();
-                this.bottleSplash();
-            }
-        });
-    }
+    // checkCollisionWithEnemies() {
+    //     world.level.enemies.forEach((enemy) => {
+    //         if (enemy instanceof Endboss && this.isColliding(enemy)) {
+    //             enemy.hitEndboss();
+    //             this.bottleSplash();
+    //         }
+    //     });
+    // }
 
     playAnimationSplash(images) {
         let i = 100;

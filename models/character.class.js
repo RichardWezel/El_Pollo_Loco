@@ -68,7 +68,7 @@ class Character extends MovableObject{
     snoring_sound = new Audio('audio/snoring.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
-    collectedBottles = 0;
+    collectedBottles = 100;
     collectedCoins = 0;
     offset = {
         top: 120,
@@ -76,8 +76,8 @@ class Character extends MovableObject{
         bottom: 0,
         left: 40
     }
-    idleTime = 10000; // Zeit in Millisekunden, nach der der Charakter schlafen soll
-    idleTimeout; // Referenz zum Timeout
+    initialSleepTime = 14000; 
+    sleepTimeout; // Referenz zum Timeout
     idle;
     sleep;
 
@@ -205,7 +205,7 @@ class Character extends MovableObject{
         }
     
     characterIdle() {
-        this.startIdleTimer(); // Startet den Idle-Timer
+        this.startSleepTimer(); 
         clearInterval(this.idle);
         clearInterval(this.sleep);
         this.idle = setInterval(() => {
@@ -213,11 +213,11 @@ class Character extends MovableObject{
         }, 180); 
     }
 
-    startIdleTimer() {
-        this.idleTimeout = setTimeout(() => {
+    startSleepTimer() {
+        this.sleepTimeout = setTimeout(() => {
             this.characterSleep();
             clearTimeout(this.idle);
-        }, this.idleTime);
+        }, this.initialSleepTime);
     }
 
     characterSleep() {
@@ -242,11 +242,10 @@ class Character extends MovableObject{
     }
 
     resetIdleTimer() {
-        clearTimeout(this.idleTimeout); 
-        clearInterval(this.idle);
+        clearTimeout(this.sleepTimeout); 
+        // clearInterval(this.idle);
         clearInterval(this.sleep); 
-        this.characterIdle();
-        this.startIdleTimer(); 
-        console.log('resetIdleTimer()')
+        this.characterIdle(); 
+        this.snoring_sound.pause();
     }
 } 

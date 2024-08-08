@@ -23,7 +23,6 @@ class MovableObject extends DrawableObject {
                 this.speedY -= this.acceleration;
             } else {
                 this.y = this.groundPos;
-                this.world.character.resetIdleTimer();
             }
         }
         }, 1000 / 25);
@@ -72,12 +71,12 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    hitEndboss() {
-        if(this.energyEndboss > 0) {
-            this.lastHitEndboss = new Date().getTime();
-            console.log('Energy of Endboss is ', this.energyEndboss, '%')
-        }
-    }
+    // hitEndboss() {
+    //     if(this.energyEndboss > 0) {
+    //         this.lastHitEndboss = new Date().getTime();
+    //         console.log('Energy of Endboss is ', this.energyEndboss, '%')
+    //     }
+    // }
 
     collect(collectedObject) {
         if (collectedObject == 'bottle') {

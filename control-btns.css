@@ -1,5 +1,5 @@
 #btnContainer {
-    width: 100%;
+    width: 70%;
     display: flex;
     justify-content:space-between;
     margin-top: 10px;
@@ -166,5 +166,58 @@
 
     }
 
+@media(max-width: 600px) {
+    #btnContainer {
+        font-size: 20px;
+        margin-left: 60px;
+        margin-right: 60px;
+    }
 
+    .btn {
+        height: 40px;
+    }
+}
 
+@media(max-width: 500px) {
+
+    #btnContainer {
+        font-size: 16px;
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+    .btn {
+        height: 30px;
+    }
+}
+
+@media(max-width: 420px) {
+
+    #btnContainer {
+        font-size: 16px;
+        margin-left: 40px;
+        margin-right: 4;
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .btn {
+        height: 30px;
+    }
+}
+
+@media(max-height: 460px) {
+
+    #btnContainer {
+        margin-top: 20px;
+    }
+
+}
+
+@media(max-height: 390px) {
+
+    #btnContainer {
+        margin-top: 10px;
+    }
+
+}
