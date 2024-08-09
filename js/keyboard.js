@@ -114,16 +114,20 @@ function keyUpM(event) {
 }
 
 function keydownF(event) {
-    if (event) event.preventDefault();
-    keyboard.KeyF = true;
-    markUsedControlBtn('fullscreen');
-    fullscreen();
+    if (checkMobileDeviceSize()) {
+        if (event) event.preventDefault();
+        keyboard.KeyF = true;
+        markUsedControlBtn('fullscreen');
+        fullscreen();
+    }
 }
 
 function keyUpF(event) {
-    if (event) event.preventDefault();
-    keyboard.KeyF = false;
-    demarcateUsedControlBtn('fullscreen');
+    if (checkMobileDeviceSize()) {
+        if (event) event.preventDefault();
+        keyboard.KeyF = false;
+        demarcateUsedControlBtn('fullscreen');
+    }
 }
 
 function keydownD(event) {

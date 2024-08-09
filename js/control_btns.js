@@ -54,19 +54,15 @@ function fullscreen() {
     let gameScreen = document.getElementById('gameScreen');
     if (gameScreen.requestFullscreen) {
         gameScreen.requestFullscreen({ navigationUI: "show" }).catch((err) => {
-            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
         });
     } else if (gameScreen.mozRequestFullScreen) { // Firefox
         gameScreen.mozRequestFullScreen().catch((err) => {
-            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
         });
     } else if (gameScreen.webkitRequestFullscreen) { // Chrome, Safari and Opera
         gameScreen.webkitRequestFullscreen().catch((err) => {
-            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
         });
     } else if (gameScreen.msRequestFullscreen) { // IE/Edge
         gameScreen.msRequestFullscreen().catch((err) => {
-            console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
         });
     }
 }
@@ -85,18 +81,17 @@ function showSettings() {
     let homeBtn = document.getElementById('home');
     let helpBtn = document.getElementById('helpBtn');
     let infoBtn = document.getElementById('infoBtn');
+    let fullscreenBtn = document.getElementById('fullscreen');
     menuStatus = true;
     menuBtn.innerHTML = svgX();
     volumeBtn.style.display = 'flex';
     homeBtn.style.display = 'flex';
     helpBtn.style.display = 'flex';
     infoBtn.style.display = 'flex';
-    if (checkMobileDeviceSize() == false) {
-        let fullscreenBtn = document.getElementById('fullscreen');
+    if (checkMobileDeviceSize() == false && fullscreenBtn) {
         fullscreenBtn.style.display = 'flex';
     }
 }
-
 
 function hideSettings() {
     let menuBtn = document.getElementById('menuBtn');

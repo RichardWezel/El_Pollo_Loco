@@ -196,35 +196,17 @@ class World {
         this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
     }
 
-    // checkCollisionsOfBottles() {
-    //     this.throwableObject.forEach((bottle, bottleIndex) => {
-    //         let enemiesCopy = [...this.level.enemies];
-    //         enemiesCopy.forEach((enemy, enemyIndex) => {
-    //             if (bottle.isColliding(enemy) && !enemy.deadStatus) {
-    //                 if (enemy instanceof Chicken) {
-    //                     // this.handleChickenCollison(bottle, enemy, enemyIndex);
-    //                 } else if (enemy instanceof Chick) {
-    //                     this.handleChickCollison(bottle, enemy, bottleIndex, enemyIndex);
-    //                     console.log(enemyIndex)
-    //                 } else if (enemy instanceof Endboss) {
-    //                     // this.handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex);
-    //                 }
-    //             }
-    //         });
-    //     });
-    // }
-
     checkCollisionsOfBottles() {
         this.throwableObject.forEach((bottle, bottleIndex) => {
             for (let i = this.level.enemies.length - 1; i >= 0; i--) {
                 let enemy = this.level.enemies[i];
                 if (bottle.isColliding(enemy) && !enemy.deadStatus) {
-                    if (enemy instanceof Chicken) {
-                        this.handleChickenCollison(bottle, enemy, i);
-                    } else if (enemy instanceof Chick) {
+                    if          (enemy instanceof Chicken) {
+                        this.handleChickenCollison(bottle, bottleIndex, enemy, i);
+                    } else if   (enemy instanceof Chick) {
                         this.handleChickCollison(bottle, enemy, bottleIndex, i);
-                    } else if (enemy instanceof Endboss) {
-                        // this.handleEndbossCollison(bottle, enemy, bottleIndex, i);
+                    } else if   (enemy instanceof Endboss) {
+                        this.handleEndbossCollison(bottle, enemy, bottleIndex, i);
                     }
                 }
             }
@@ -248,54 +230,38 @@ class World {
         bottle.bottleSplash();
     }
 
-    // handleChickCollison(bottle, enemy, enemyIndex) {
-    //     enemy.hitChick();
-    //     setTimeout(() => {
-    //         this.removeEnemy(enemyIndex);
-    //     }, 3000);
-    //     bottle.bottleSplash();
-    // }
-
-        // handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex) {
-        //     this.hitEndboss(bottle, enemy, bottleIndex, enemyIndex)
-        //     if (this.energyEndboss == 0) {
-        //         this.handleWin();
-        //     }
-        // }
-
-        // hitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
-        //     console.log('Energy of Endboss is ', this.energyEndboss, '%')
-        //     bottle.lastHitEndboss = new Date().getTime();
-        //     this.handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex);
-        //     bottle.hasDealtDamage = true; // Markiere die Flasche als bereits Schaden zugefügt
-        //     this.energyEndboss -= 10;
-        //     this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
-        //     console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
-        // }
-
-        // handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
-        //     if (this.character.isHurtEndboss()) {
-        //         bottle.splash_sound.play();
-        //         this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
-        //     }
-        // }
-
-        hitEndboss() {
-            if(this.energyEndboss > 0) {
-                this.lastHitEndboss = new Date().getTime();
-               
-            }
+    handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex) {
+        this.hitEndboss(bottle, enemy, bottleIndex, enemyIndex)
+        if (this.energyEndboss == 0) {
+            this.handleWin();
         }
+    }
 
-        handleWin() {
-            renderWin();
-            this.win_sound.play();
-            this.backgroundmusic.pause();
-            this.character.snoring_sound.pause();
-            clearInterval(this.character.idle);
-            clearInterval(this.character.sleep); 
-            clearTimeout(this.sleepTimeout); 
+    hitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
+        bottle.lastHitEndboss = new Date().getTime();
+        this.handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex);
+        bottle.hasDealtDamage = true; // Markiere die Flasche als bereits Schaden zugefügt
+        this.energyEndboss -= 10;
+        this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
+        console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
+    }
+
+    handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
+        if (this.character.isHurtEndboss()) {
+            bottle.splash_sound.play();
+            this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
         }
+    }
+
+    handleWin() {
+        renderWin();
+        this.win_sound.play();
+        this.backgroundmusic.pause();
+        this.character.snoring_sound.pause();
+        clearInterval(this.character.idle);
+        clearInterval(this.character.sleep); 
+        clearTimeout(this.sleepTimeout); 
+    }
 
     removeEnemy(enemyIndex) {
         this.level.enemies.splice(enemyIndex, 1)

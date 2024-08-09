@@ -72,9 +72,9 @@ class Character extends MovableObject{
     collectedCoins = 0;
     offset = {
         top: 120,
-        right: 20,
+        right: 10,
         bottom: 0,
-        left: 40
+        left: 30
     }
     initialSleepTime = 14000; 
     sleepTimeout; // Referenz zum Timeout
@@ -205,11 +205,12 @@ class Character extends MovableObject{
 
                     initGameOver() {
                         let gameScreen = document.getElementById('gameScreen');
-                        clearInterval(this.GameOverInterval);
-                        gameScreen.remove('btnContainer');
-                        gameScreen.remove('controlBtnSection');
-                        gameScreen.remove('navbar');
                         gameScreen.innerHTML += gameOverHTML();
+                        clearInterval(this.GameOverInterval);
+                        // gameScreen.remove('btnContainer');
+                        // gameScreen.remove('controlBtnSection');
+                        // gameScreen.remove('navbar');
+                        
 
                     }
 

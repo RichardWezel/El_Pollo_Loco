@@ -60,6 +60,7 @@ class Endboss extends MovableObject {
         bottom: 150,
         left: 100
     }
+    deadStatus = false;
     
     constructor() {
         super().loadImage(this.IMAGES_ALERTNESS[0]);
