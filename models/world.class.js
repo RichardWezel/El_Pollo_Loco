@@ -117,7 +117,10 @@ class World {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround() && this.character.speedY < 0) {
-                    this.handleJumpingOnEnemy(index, enemy);
+                    if (!enemy instanceof Endboss) {
+                        this.handleJumpingOnEnemy(index, enemy);
+                    }
+                    
                 } else {
                     this.handleRunningIntoEnemy(enemy);
                 }
