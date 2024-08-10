@@ -88,6 +88,7 @@ class World {
         this.statusbar_health.world = this;
         this.statusbar_endboss.world = this;
         this.statusbar_endboss.updateX();
+        this.level.enemies[0].world = this;
     }
 
     playBackgroundMusic() {
@@ -120,7 +121,6 @@ class World {
                     if (!enemy instanceof Endboss) {
                         this.handleJumpingOnEnemy(index, enemy);
                     }
-                    
                 } else {
                     this.handleRunningIntoEnemy(enemy);
                 }

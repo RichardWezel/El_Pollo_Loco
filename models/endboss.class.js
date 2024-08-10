@@ -1,6 +1,7 @@
 class Endboss extends MovableObject {
     
     y = 100;
+    groundPos = 100; 
     height = 350;
     width = this.height;
     IMAGES_ALERTNESS = [
@@ -13,7 +14,7 @@ class Endboss extends MovableObject {
         'images/endboss/alertness/endboss_alertness_7.png',
         'images/endboss/alertness/endboss_alertness_8.png',
     ];
-    IMAGE_WALKING = [
+    IMAGES_WALKING = [
         'images/endboss/walk/endboss_walk_1.png',
         'images/endboss/walk/endboss_walk_2.png',
         'images/endboss/walk/endboss_walk_3.png',
@@ -52,34 +53,155 @@ class Endboss extends MovableObject {
         'images/endboss/attack/endboss_attack_7.png',
         'images/endboss/attack/endboss_attack_8.png',
     ];
-    speed = 0.5;
+    speed = 0.15;
     BorderColor = 'yellow';
     offset = {
         top: 100,
         right: 150,
         bottom: 150,
-        left: 100
+        left: 70
     }
+    walk = false;
     deadStatus = false;
+    contactCharacter = false;
+    animationStatus = 'alertness';
+    walkInterval;
+    walkAnimationInterval;
+    altertnessStatus = false;
+    hurtStatus = false;
+    world;
+    deathAnimationInterval;
+    
     
     constructor() {
         super().loadImage(this.IMAGES_ALERTNESS[0]);
         this.loadImages(this.IMAGES_ALERTNESS);
-        this.loadImages(this.IMAGE_WALKING);
+        this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.x = 4500;
-        this.animateEndbossMoves();
+        this.walkAnimation();
+        this.applyGravity();
+    }
+
+    walkAnimation() {
+        this.walkInterval = setInterval(() => {
+            if (this.contactCharacter == true) {
+                this.moveLeft();
+            }
+         }, 50);
+        this.walkAnimationInterval = setInterval(() => {
+            if (this.contactCharacter == true) {
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+        }, 300);
+    }
+
+    stopWalking() {
+        clearInterval(this.walkInterval); 
+        clearInterval(this.walkAnimationInterval); 
+    }
+
+    EndbossDies() {
+        this.stopWalking();
+        this.playDeathAnimationEndboss(); 
+       
+        world.backgroundmusic.pause();
+        if (volumeStatus === true) {
+            // this.death_sound.play();
+        }
+        this.world.character.resetSounds();
+    }
+
+    playDeathAnimationEndboss() {
+        let deathIndex = 0; 
+        this.deathAnimationInterval = setInterval(() => {
+            if (deathIndex < this.IMAGES_DEAD.length) {
+                this.img = this.imageCache[this.IMAGES_DEAD[deathIndex]];
+                deathIndex++;
+            } else {
+                this.endOfDeathAnimation();
+            }
+        }, 100); 
+    }
+
+    endOfDeathAnimation() {
+        setTimeout(() => {
+            clearInterval(this.deathAnimationInterval); 
+            this.world.handleWin();
+            this.jumpEndboss(); 
+            this.fallBelowGround(); 
+        }, 100);
+    }
+
+    jumpEndboss() {
+        this.speedY = 20;
     }
 
     animateEndbossMoves() {
-        this.endbossAnimationInterval = setInterval(() => {
-             if (this.isHurtEndboss()) {
-                this.playAnimation(this.IMAGES_HURT)
+        this.EndbossAnimationInterval = setInterval(() => {
+            if (this.isDeadEndboss()) {
+                this.stopWalking();
+                this.EndbossDies();
+            } else if (this.isHurtEndboss()) {
+                this.EndbossHurtsHimself()
+            } else if (irdendwas) {
+                this.playAnimation(irgendwas);
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
             } else {
-                this.playAnimation(this.IMAGES_ALERTNESS)
-            };
-        }, 200);
+                walkAnimation();
+            }
+            if (this.x > 3870) {
+                this.world.level.enemies[0].contactCharacter = true;
+            }
+        }, 40);
     }
+
+    isDeadEndboss() {
+        return this.world.energyEndboss == 0;
+    }
+
+    
+
+    // hurtAnimation() {
+    //     this.hurtInterval = setInterval(() => {
+    //         if (this.contactCharacter == true) {
+    //             this.moveLeft();
+    //         }
+    //      }, 50);
+    //     this.animationInterval = setInterval(() => {
+    //         if (this.contactCharacter == true) {
+    //             this.playAnimation(this.IMAGES_HURT);
+            
+    //     }, 300);
+    // }
+
+    // checkAnimationStatus() {
+    //     setInterval(() => {
+    //           if (this.animationStatus == 'hurt') {
+    //             if (this.hurtStatus == false) {
+    //             this.alertnessStatus = false;
+    //             this.hurtStatus = true;
+    //             clearInterval(this.animationInterval);
+    //             this.animateEndboss(this.IMAGES_HURT);
+    //             }
+    //         } else {
+    //             if (this.alertnessStatus == false) {
+    //                 this.hurtStatus = false;
+    //                 this.alertnessStatus = true;
+    //                 clearInterval(this.animationInterval);
+    //                 this.animateEndboss(this.IMAGES_ALERTNESS);
+    //             }
+    //         }
+    //     }, 100);
+    // }
+
+    // animateEndboss(IMAGES) {
+    //     clearInterval(this.animationInterval); 
+    //     this.animationInterval = setInterval(() => {
+    //             this.playAnimation(IMAGES) 
+    //     }, 200);
+    // }
 }

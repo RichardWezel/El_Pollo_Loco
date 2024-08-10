@@ -32,9 +32,8 @@ class MovableObject extends DrawableObject {
             return this.y < this.groundPos;
     }
 
-     // Methode für den Todessturz
-     fallBelowGround() {
-        this.groundPos = 500; // Neue groundPos, die weiter unten liegt als das Sichtfeld
+    fallBelowGround() {
+        this.groundPos = 500;
     }
 
     moveRight() {
@@ -69,12 +68,12 @@ class MovableObject extends DrawableObject {
         this.lastHitCharacter = new Date().getTime();
     }
 
-    // hitEndboss() {
-    //     if(this.energyEndboss > 0) {
-    //         this.lastHitEndboss = new Date().getTime();
-    //         console.log('Energy of Endboss is ', this.energyEndboss, '%')
-    //     }
-    // }
+    hitEndboss() {
+        if(this.energyEndboss > 0) {
+            this.lastHitEndboss = new Date().getTime();
+            console.log('Energy of Endboss is ', this.energyEndboss, '%')
+        }
+    }
 
     collect(collectedObject) {
         if (collectedObject == 'bottle') {
@@ -100,4 +99,6 @@ class MovableObject extends DrawableObject {
     isDead() {
         return this.energyCharacter == 0;
     }
+
+    
 }

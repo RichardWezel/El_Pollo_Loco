@@ -159,6 +159,9 @@ class Character extends MovableObject{
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
             } 
+            if (this.x > 3870) {
+                this.world.level.enemies[0].contactCharacter = true;
+            }
         }, 40);
     }
 
@@ -204,14 +207,9 @@ class Character extends MovableObject{
                 }
 
                     initGameOver() {
-                        let gameScreen = document.getElementById('gameScreen');
-                        gameScreen.innerHTML += gameOverHTML();
+                        let gameOver = document.getElementById('gameOver');
+                        gameOver.style.display = 'flex';
                         clearInterval(this.GameOverInterval);
-                        // gameScreen.remove('btnContainer');
-                        // gameScreen.remove('controlBtnSection');
-                        // gameScreen.remove('navbar');
-                        
-
                     }
 
         characterHurtsHimself() {

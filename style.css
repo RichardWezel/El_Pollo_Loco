@@ -95,6 +95,9 @@ body {
     color: rgb(250, 222, 75);
     box-shadow: 0px 5px 15px -2px rgba(0, 0, 0, 0.46);
     cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #gameOver {
@@ -119,6 +122,9 @@ body {
     display: flex;
     width: 70%;
     height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #reloadGameBtn {
