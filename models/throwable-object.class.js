@@ -19,6 +19,7 @@ class ThrowableObject extends MovableObject {
     ];
     intervalRotation;
     splash_sound = new Audio('audio/bottle_break.mp3');
+    hasCollided = false;
    
     constructor(x, y) {
         super().loadImage('images/bottle/solo/salsa_bottle_standing.png');

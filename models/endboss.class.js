@@ -71,6 +71,7 @@ class Endboss extends MovableObject {
     hurtStatus = false;
     world;
     deathAnimationInterval;
+    hurtAnimationInterval;
     
     
     constructor() {
@@ -81,21 +82,27 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.x = 4500;
-        this.walkAnimation();
+        this.checkContactWithCharacter();
         this.applyGravity();
+    }
+
+    checkContactWithCharacter() {
+        let check = setInterval(() => {
+            if (this.contactCharacter == true) {
+                this.walkAnimation();
+                clearInterval(check); 
+            }
+         }, 50);
     }
 
     walkAnimation() {
         this.walkInterval = setInterval(() => {
-            if (this.contactCharacter == true) {
                 this.moveLeft();
-            }
          }, 50);
         this.walkAnimationInterval = setInterval(() => {
-            if (this.contactCharacter == true) {
                 this.playAnimation(this.IMAGES_WALKING);
-            }
         }, 300);
+        console.log('walkAnimation() is started');
     }
 
     stopWalking() {
@@ -103,10 +110,9 @@ class Endboss extends MovableObject {
         clearInterval(this.walkAnimationInterval); 
     }
 
-    EndbossDies() {
+    endbossDies() {
         this.stopWalking();
         this.playDeathAnimationEndboss(); 
-       
         world.backgroundmusic.pause();
         if (volumeStatus === true) {
             // this.death_sound.play();
@@ -129,41 +135,43 @@ class Endboss extends MovableObject {
     endOfDeathAnimation() {
         setTimeout(() => {
             clearInterval(this.deathAnimationInterval); 
-            this.world.handleWin();
+            this.test();
             this.jumpEndboss(); 
             this.fallBelowGround(); 
         }, 100);
+    }
+
+    test() {
+        setTimeout(() => {
+            this.world.handleWin();
+        }, 700);
     }
 
     jumpEndboss() {
         this.speedY = 20;
     }
 
-    animateEndbossMoves() {
-        this.EndbossAnimationInterval = setInterval(() => {
-            if (this.isDeadEndboss()) {
-                this.stopWalking();
-                this.EndbossDies();
-            } else if (this.isHurtEndboss()) {
-                this.EndbossHurtsHimself()
-            } else if (irdendwas) {
-                this.playAnimation(irgendwas);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else {
-                walkAnimation();
-            }
-            if (this.x > 3870) {
-                this.world.level.enemies[0].contactCharacter = true;
-            }
-        }, 40);
-    }
-
     isDeadEndboss() {
         return this.world.energyEndboss == 0;
     }
 
-    
+    endbossHurtsHimself() {
+        this.stopWalking();
+        this.playHurtAnimationEndboss(); 
+    }
+
+    playHurtAnimationEndboss() {
+        let hurtIndex = 0; 
+        this.hurtAnimationInterval = setInterval(() => {
+            if (hurtIndex < this.IMAGES_HURT.length) {
+                this.img = this.imageCache[this.IMAGES_HURT[hurtIndex]];
+                hurtIndex++;
+            } else {
+                this.walkAnimation();
+                clearInterval(this.hurtAnimationInterval); 
+            }
+        }, 100); 
+    }
 
     // hurtAnimation() {
     //     this.hurtInterval = setInterval(() => {
@@ -203,5 +211,25 @@ class Endboss extends MovableObject {
     //     this.animationInterval = setInterval(() => {
     //             this.playAnimation(IMAGES) 
     //     }, 200);
+    // }
+
+    // animateEndbossMoves() {
+    //     this.EndbossAnimationInterval = setInterval(() => {
+    //         if (this.isDeadEndboss()) {
+    //             this.stopWalking();
+    //             this.EndbossDies();
+    //         } else if (this.isHurtEndboss()) {
+    //             this.EndbossHurtsHimself()
+    //         } else if (irdendwas) {
+    //             this.playAnimation(irgendwas);
+    //         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+    //             this.playAnimation(this.IMAGES_WALKING);
+    //         } else {
+    //             walkAnimation();
+    //         }
+    //         if (this.x > 3870) {
+    //             this.world.level.enemies[0].contactCharacter = true;
+    //         }
+    //     }, 40);
     // }
 }

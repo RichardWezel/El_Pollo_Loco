@@ -201,6 +201,9 @@ class World {
 
     checkCollisionsOfBottles() {
         this.throwableObject.forEach((bottle, bottleIndex) => {
+            if (bottle.hasCollided) {
+                return; // Überspringe dieses Objekt, wenn es bereits kollidiert ist
+            }
             for (let i = this.level.enemies.length - 1; i >= 0; i--) {
                 let enemy = this.level.enemies[i];
                 if (bottle.isColliding(enemy) && !enemy.deadStatus) {
@@ -234,26 +237,37 @@ class World {
     }
 
     handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex) {
-        this.hitEndboss(bottle, enemy, bottleIndex, enemyIndex)
-        if (this.energyEndboss == 0) {
-            this.handleWin();
-        }
+        this.reduceEndbossEnergy()
+        this.handleBottleHitEndboss(bottle, bottleIndex);
+        this.level.enemies[0].endbossHurtsHimself();
     }
 
-    hitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
-        bottle.lastHitEndboss = new Date().getTime();
-        this.handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex);
-        bottle.hasDealtDamage = true; // Markiere die Flasche als bereits Schaden zugefügt
+    reduceEndbossEnergy() {
         this.energyEndboss -= 10;
         this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
         console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
+        if (this.energyEndboss == 0) {
+            this.level.enemies[0].endbossDies();
+        }
     }
 
-    handleBottleHitEndboss(bottle, enemy, bottleIndex, enemyIndex) {
-        if (this.character.isHurtEndboss()) {
-            bottle.splash_sound.play();
-            this.throwableObject.splice(bottleIndex, 1); // Entferne die Flasche nach dem Treffer
-        }
+    handleBottleHitEndboss(bottle, bottleIndex) {
+        bottle.splash_sound.play();
+        this.playSplashAnimation(bottle, bottleIndex)
+        // this.throwableObject.splice(bottleIndex, 1); 
+    }
+
+    playSplashAnimation(bottle, bottleIndex) {
+        let splashIndex = 0; 
+        let splashAnimationInterval = setInterval(() => {
+            if (splashIndex < bottle.IMAGES_SPLASH.length) {
+                bottle.img = bottle.imageCache[bottle.IMAGES_SPLASH[splashIndex]];
+                splashIndex++;
+            } else {
+                clearInterval(splashAnimationInterval); 
+                this.throwableObject.splice(bottleIndex, 1);
+            }
+        }, 100); 
     }
 
     handleWin() {
