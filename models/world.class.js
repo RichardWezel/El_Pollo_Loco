@@ -226,7 +226,6 @@ d
     }
 
     handleChickenCollison(bottle, enemy, enemyIndex) {
-        console.log(enemyIndex);
         enemy.hitChicken();
         setTimeout(() => {
             this.removeEnemy(enemyIndex);
@@ -252,10 +251,26 @@ d
 
     reduceEndbossEnergy() {
         this.energyEndboss -= 10;
+        this.setAnimationStatus();
         this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
         console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
         if (this.energyEndboss == 0) {
             this.level.enemies[0].endbossDies();
+        }
+    }
+
+    setAnimationStatus() {
+        let endboss = this.level.enemies[0];
+        if (this.energyEndboss > 70) {
+            endboss.animationStatus = 'normal';
+        } else if (this.energyEndboss < 70 && this.energyEndboss > 40) {
+            endboss.animationStatus = 'alertness';
+            endboss.walkingspeed = 10;
+            endboss.animationSpeed = 200;
+        } else if (this.energyEndboss < 40) {
+            endboss.animationStatus = 'attack';
+            endboss.walkingspeed = 1;
+            endboss.animationSpeed = 200;
         }
     }
 

@@ -5,14 +5,22 @@ class Endboss extends MovableObject {
     height = 350;
     width = this.height;
     IMAGES_ALERTNESS = [
+        'images/endboss/walk/endboss_walk_1.png',
+        'images/endboss/walk/endboss_walk_2.png',
+        'images/endboss/walk/endboss_walk_3.png',
+        'images/endboss/walk/endboss_walk_4.png',
         'images/endboss/alertness/endboss_alertness_1.png',
         'images/endboss/alertness/endboss_alertness_2.png',
         'images/endboss/alertness/endboss_alertness_3.png',
         'images/endboss/alertness/endboss_alertness_4.png',
+        'images/endboss/walk/endboss_walk_1.png',
+        'images/endboss/walk/endboss_walk_2.png',
+        'images/endboss/walk/endboss_walk_3.png',
+        'images/endboss/walk/endboss_walk_4.png',
         'images/endboss/alertness/endboss_alertness_5.png',
         'images/endboss/alertness/endboss_alertness_6.png',
         'images/endboss/alertness/endboss_alertness_7.png',
-        'images/endboss/alertness/endboss_alertness_8.png',
+        'images/endboss/alertness/endboss_alertness_8.png'
     ];
     IMAGES_WALKING = [
         'images/endboss/walk/endboss_walk_1.png',
@@ -44,16 +52,26 @@ class Endboss extends MovableObject {
         'images/endboss/dead/endboss_dead_16.png'
     ];
     IMAGES_ATTACK = [
+        'images/endboss/walk/endboss_walk_1.png',
+        'images/endboss/walk/endboss_walk_2.png',
+        'images/endboss/walk/endboss_walk_3.png',
+        'images/endboss/walk/endboss_walk_4.png',
         'images/endboss/attack/endboss_attack_1.png',
         'images/endboss/attack/endboss_attack_2.png',
         'images/endboss/attack/endboss_attack_3.png',
         'images/endboss/attack/endboss_attack_4.png',
+        'images/endboss/walk/endboss_walk_1.png',
+        'images/endboss/walk/endboss_walk_2.png',
+        'images/endboss/walk/endboss_walk_3.png',
+        'images/endboss/walk/endboss_walk_4.png',
         'images/endboss/attack/endboss_attack_5.png',
         'images/endboss/attack/endboss_attack_6.png',
         'images/endboss/attack/endboss_attack_7.png',
-        'images/endboss/attack/endboss_attack_8.png',
+        'images/endboss/attack/endboss_attack_8.png'
     ];
     speed = 0.15;
+    walkingspeed = 50;
+    animationSpeed = 400;
     BorderColor = 'yellow';
     offset = {
         top: 100,
@@ -61,13 +79,11 @@ class Endboss extends MovableObject {
         bottom: 150,
         left: 70
     }
-    walk = false;
     deadStatus = false;
     contactCharacter = false;
-    animationStatus = 'alertness';
+    animationStatus = 'normal';
     walkInterval;
     walkAnimationInterval;
-    altertnessStatus = false;
     hurtStatus = false;
     world;
     deathAnimationInterval;
@@ -100,10 +116,17 @@ class Endboss extends MovableObject {
     walkAnimation() {
         this.walkInterval = setInterval(() => {
                 this.moveLeft();
-         }, 50);
+         }, this.walkingspeed);
         this.walkAnimationInterval = setInterval(() => {
+            if (this.animationStatus == 'normal') {
                 this.playAnimation(this.IMAGES_WALKING);
-        }, 300);
+            } else if (this.animationStatus == 'alertness') {
+                this.playAnimation(this.IMAGES_ALERTNESS);
+            } else {
+                this.playAnimation(this.IMAGES_ATTACK);
+            }
+               
+        }, this.animationSpeed);
     }
 
     stopWalking() {

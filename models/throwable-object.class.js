@@ -51,7 +51,6 @@ class ThrowableObject extends MovableObject {
             this.x += 20;
             this.playAnimation(this.IMAGES_ROTATION);
         }
-        
     }
 
     bottleSplash() {
@@ -96,6 +95,4 @@ class ThrowableObject extends MovableObject {
         world.throwableObject.splice(0,1);
         clearInterval(this.intervalRotation);
     }
-    
-   
 }
