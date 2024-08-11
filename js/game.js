@@ -14,6 +14,7 @@ function startGame() {
     setNavbar();
     addCanvasHTMLElement();
     initCanvas();
+    changeVolumeStatus();
 }
 
 // function setWinHTML() {

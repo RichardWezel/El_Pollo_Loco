@@ -29,7 +29,7 @@ class World {
         this.setWorld();
         this.run();
         this.checkUseOf_KeyD();
-        this.playBackgroundMusic();
+        // this.playBackgroundMusic();
     }
     
     draw() {

@@ -1,10 +1,11 @@
 function init() {
     initStartScreen();
-    handleScreenOrientation();
-    window.addEventListener('orientationchange', handleScreenOrientation);
+    // handleScreenOrientation();
+    // window.addEventListener('orientationchange', handleScreenOrientation);
     if (checkMobileDeviceSize()) {
         setMobileScreenCustomization();
     }
+    
 }
 
 function initStartScreen() {
