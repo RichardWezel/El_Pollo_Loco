@@ -72,6 +72,7 @@ class Endboss extends MovableObject {
     world;
     deathAnimationInterval;
     hurtAnimationInterval;
+    cocorido = new Audio('audio/cocorico.mp3');
     
     
     constructor() {
@@ -90,6 +91,7 @@ class Endboss extends MovableObject {
         let check = setInterval(() => {
             if (this.contactCharacter == true) {
                 this.walkAnimation();
+                this.cocorido.play();
                 clearInterval(check); 
             }
          }, 50);
@@ -102,7 +104,6 @@ class Endboss extends MovableObject {
         this.walkAnimationInterval = setInterval(() => {
                 this.playAnimation(this.IMAGES_WALKING);
         }, 300);
-        console.log('walkAnimation() is started');
     }
 
     stopWalking() {
@@ -111,12 +112,10 @@ class Endboss extends MovableObject {
     }
 
     endbossDies() {
+        this.cocorido.play();
         this.stopWalking();
         this.playDeathAnimationEndboss(); 
         world.backgroundmusic.pause();
-        if (volumeStatus === true) {
-            // this.death_sound.play();
-        }
         this.world.character.resetSounds();
     }
 
@@ -167,69 +166,11 @@ class Endboss extends MovableObject {
                 this.img = this.imageCache[this.IMAGES_HURT[hurtIndex]];
                 hurtIndex++;
             } else {
-                this.walkAnimation();
+                if (this.world.energyEndboss > 0){
+                    this.walkAnimation();
+                }
                 clearInterval(this.hurtAnimationInterval); 
             }
-        }, 100); 
+        }, 80); 
     }
-
-    // hurtAnimation() {
-    //     this.hurtInterval = setInterval(() => {
-    //         if (this.contactCharacter == true) {
-    //             this.moveLeft();
-    //         }
-    //      }, 50);
-    //     this.animationInterval = setInterval(() => {
-    //         if (this.contactCharacter == true) {
-    //             this.playAnimation(this.IMAGES_HURT);
-            
-    //     }, 300);
-    // }
-
-    // checkAnimationStatus() {
-    //     setInterval(() => {
-    //           if (this.animationStatus == 'hurt') {
-    //             if (this.hurtStatus == false) {
-    //             this.alertnessStatus = false;
-    //             this.hurtStatus = true;
-    //             clearInterval(this.animationInterval);
-    //             this.animateEndboss(this.IMAGES_HURT);
-    //             }
-    //         } else {
-    //             if (this.alertnessStatus == false) {
-    //                 this.hurtStatus = false;
-    //                 this.alertnessStatus = true;
-    //                 clearInterval(this.animationInterval);
-    //                 this.animateEndboss(this.IMAGES_ALERTNESS);
-    //             }
-    //         }
-    //     }, 100);
-    // }
-
-    // animateEndboss(IMAGES) {
-    //     clearInterval(this.animationInterval); 
-    //     this.animationInterval = setInterval(() => {
-    //             this.playAnimation(IMAGES) 
-    //     }, 200);
-    // }
-
-    // animateEndbossMoves() {
-    //     this.EndbossAnimationInterval = setInterval(() => {
-    //         if (this.isDeadEndboss()) {
-    //             this.stopWalking();
-    //             this.EndbossDies();
-    //         } else if (this.isHurtEndboss()) {
-    //             this.EndbossHurtsHimself()
-    //         } else if (irdendwas) {
-    //             this.playAnimation(irgendwas);
-    //         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-    //             this.playAnimation(this.IMAGES_WALKING);
-    //         } else {
-    //             walkAnimation();
-    //         }
-    //         if (this.x > 3870) {
-    //             this.world.level.enemies[0].contactCharacter = true;
-    //         }
-    //     }, 40);
-    // }
 }

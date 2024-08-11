@@ -16,6 +16,7 @@ class World {
     bounceChicken = new Audio('audio/hitChicken.m4a');
     backgroundmusic = new Audio('audio/backgroundmusic.mp3');
     win_sound = new Audio('audio/win.mp3');
+    endbossHurtSound = new Audio('audio/endbossHurt.m4a');
     start = false;
     energyEndboss = 100;
 
@@ -27,6 +28,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.checkUseOf_KeyD();
         this.playBackgroundMusic();
     }
     
@@ -103,7 +105,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisionsofCharacter();
-            this.checkUseOf_KeyD();
+            // this.checkUseOf_KeyD();
             this.checkCollisionsOfBottles();
         }, 150);
     }
@@ -178,11 +180,15 @@ class World {
     }
         
     checkUseOf_KeyD() {
-        if(this.keyboard.KeyD && this.character.collectedBottles > 1) {
-            this.characterThrowBottle();
-        }
+        setInterval(() => {
+            let hasBottle = this.throwableObject.some(bottle => bottle instanceof ThrowableObject && !bottle.hasCollided);
+            if(this.keyboard.KeyD && this.character.collectedBottles > 1 && !hasBottle) {
+                this.characterThrowBottle();
+            }
+        }, 150);
     }
-
+    
+d
     characterThrowBottle() {
         this.createBottleObject();
         this.reduceBottleSupply();
@@ -237,9 +243,11 @@ class World {
     }
 
     handleEndbossCollison(bottle, enemy, bottleIndex, enemyIndex) {
-        this.reduceEndbossEnergy()
-        this.handleBottleHitEndboss(bottle, bottleIndex);
-        this.level.enemies[0].endbossHurtsHimself();
+        if (bottle.hasCollided == false) {
+            this.reduceEndbossEnergy()
+            this.handleBottleHitEndboss(bottle, bottleIndex);
+            this.level.enemies[0].endbossHurtsHimself();
+        }
     }
 
     reduceEndbossEnergy() {
@@ -252,9 +260,10 @@ class World {
     }
 
     handleBottleHitEndboss(bottle, bottleIndex) {
-        bottle.splash_sound.play();
+        clearInterval(bottle.intervalRotation);
+        this.endbossHurtSound.play();
         this.playSplashAnimation(bottle, bottleIndex)
-        // this.throwableObject.splice(bottleIndex, 1); 
+        bottle.hasCollided = true;
     }
 
     playSplashAnimation(bottle, bottleIndex) {

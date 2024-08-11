@@ -152,7 +152,7 @@ function keyUpH(event) {
     if (event) event.preventDefault();
     keyboard.KeyH = false;
     demarcateUsedControlBtn('home');
-    initStartScreen();
+    reloadGame();
 }
 
 function addTouchListeners() {

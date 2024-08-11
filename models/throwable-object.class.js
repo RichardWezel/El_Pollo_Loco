@@ -40,10 +40,8 @@ class ThrowableObject extends MovableObject {
         this.intervalRotation = setInterval(() => {
             if (this.checkHitTheGround()) {
                 this.bottleSplash();
-
             } else {
                 this.bottleRotation();
-                // this.checkCollisionWithEnemies();
             }
         }, 50);
     }
@@ -57,12 +55,14 @@ class ThrowableObject extends MovableObject {
     }
 
     bottleSplash() {
-        this.playAnimationSplash(this.IMAGES_SPLASH)
+        this.playAnimationSplash(this.IMAGES_SPLASH);
+        this.hasCollided = true; // Flasche markiert als zerschellt
         this.splash_sound.playbackRate = 3;
-        if ( volumeStatus == false) {
+        if (volumeStatus == false) {
             this.splash_sound.play();
         }
     }
+    
 
     checkHitTheGround() {
         if (this.y == 350) {
