@@ -7,7 +7,6 @@ class DrawableObject {
     width = 100;
     currentImage = 0;
 
-    // loadImage('img/test.png');
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
@@ -33,10 +32,6 @@ class DrawableObject {
         
     }
 
-    /**
-     * 
-     * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...] 
-     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();

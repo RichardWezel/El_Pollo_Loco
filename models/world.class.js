@@ -29,7 +29,7 @@ class World {
         this.setWorld();
         this.run();
         this.checkUseOf_KeyD();
-        // this.playBackgroundMusic();
+        this.playBackgroundMusic();
     }
     
     draw() {
@@ -105,9 +105,8 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisionsofCharacter();
-            // this.checkUseOf_KeyD();
             this.checkCollisionsOfBottles();
-        }, 150);
+        }, 50);
     }
 
     checkCollisionsofCharacter() {
@@ -120,7 +119,7 @@ class World {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround() && this.character.speedY < 0) {
-                    if (!enemy instanceof Endboss) {
+                    if (!(enemy instanceof Endboss)) {
                         this.handleJumpingOnEnemy(index, enemy);
                     }
                 } else {
@@ -208,7 +207,7 @@ d
     checkCollisionsOfBottles() {
         this.throwableObject.forEach((bottle, bottleIndex) => {
             if (bottle.hasCollided) {
-                return; // Überspringe dieses Objekt, wenn es bereits kollidiert ist
+                return; 
             }
             for (let i = this.level.enemies.length - 1; i >= 0; i--) {
                 let enemy = this.level.enemies[i];

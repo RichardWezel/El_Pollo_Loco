@@ -9,15 +9,14 @@ class Statusbar_endboss extends Statusbar {
     ];
     world;
 
-    constructor(y) { // wird über die Erstellung eines neuen BackgroundObjects in world übergeben
+    constructor(y) { 
         super();
         this.loadImages(this.STATUS_IMGAES);
         this.y = y;
-        this.setPercentage(100, 'decrease') // setzt initial die 100%, weitere Veränderungen über die world
+        this.setPercentage(100, 'decrease') 
         this.loadImage(this.STATUS_IMGAES[0]);
     }
 
-    // Neue Methode zum Setzen der X-Position
     updateX() {
         if (this.world && this.world.level && this.world.level.enemies[0]) {
             this.x = this.world.level.enemies[0].x;

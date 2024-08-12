@@ -9,7 +9,7 @@
 }
 
 .control_circle {
-    touch-action: none; /* Verhindert die Standard-Scroll-Aktion auf Touch-Geräten */
+    touch-action: none; 
 }
 
 .btn {
@@ -34,8 +34,6 @@
     position: relative;
     z-index: 9999; 
 }
-
-/* menu */
 
 .nextBtn_right {
     position: absolute;

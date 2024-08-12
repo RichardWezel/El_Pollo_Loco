@@ -77,7 +77,7 @@ class Character extends MovableObject{
         left: 30
     }
     initialSleepTime = 14000; 
-    sleepTimeout; // Referenz zum Timeout
+    sleepTimeout; 
     idle;
     sleep;
     GameOverInterval;
@@ -117,7 +117,7 @@ class Character extends MovableObject{
                 if(volumeStatus == true) {
                     this.walking_sound.play();
                 }
-                this.resetIdleTimer(); // Beendet den Idle-Timer, wenn sich der Charakter bewegt
+                this.resetIdleTimer(); 
             }
         }
 
@@ -128,7 +128,7 @@ class Character extends MovableObject{
                 if(volumeStatus == true) {
                     this.walking_sound.play();
                 }
-                this.resetIdleTimer(); // Beendet den Idle-Timer, wenn sich der Charakter bewegt
+                this.resetIdleTimer(); 
             }
         }
     
@@ -138,7 +138,7 @@ class Character extends MovableObject{
                 if(volumeStatus == true) {
                     this.jump_sound.play();
                 }
-                this.resetIdleTimer(); // Beendet den Idle-Timer, wenn sich der Charakter bewegt
+                this.resetIdleTimer(); 
             }
         }
 
@@ -203,7 +203,7 @@ class Character extends MovableObject{
                         if (this.y == 500) {
                            this.initGameOver();
                         }
-                    }, 100); // Anpassung des Intervalls je nach Geschwindigkeit der Animation
+                    }, 100); 
                 }
 
                     initGameOver() {
@@ -258,15 +258,13 @@ class Character extends MovableObject{
 
     resetIdleTimer() {
         clearTimeout(this.sleepTimeout); 
-        // clearInterval(this.idle);
         clearInterval(this.sleep); 
         this.characterIdle(); 
         this.snoring_sound.pause();
     }
 
     bounce() {
-        this.speedY = 20; // Bounce up
-        this.y = this.groundPos - 20; // Adjust the y position to be slightly above the ground position
+        this.speedY = 20; 
+        this.y = this.groundPos - 20; 
     }
 } 
-

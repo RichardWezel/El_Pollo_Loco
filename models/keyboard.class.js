@@ -11,4 +11,3 @@ class Keyboard {
     KeyF = false;
     KeyH = false;
 }
-

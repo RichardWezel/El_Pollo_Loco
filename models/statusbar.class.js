@@ -6,25 +6,12 @@ class Statusbar extends MovableObject {
     world;
     percentage = 100;
 
-    /**
-     * Used in the world, sets the variable "percentage".
-     * Changes the Image of statusbar depending on resolveImageIndex() return.
-     * 
-     * @param {Number} percentage Value from 0 to 100.
-     * @param {String} mode 'increase' or 'decrease'
-     */
     setPercentage(percentage, mode) {
         this.percentage = percentage;
         let imagePath = this.STATUS_IMGAES[this.resolveImageIndex(mode)];
         this.img = this.imageCache[imagePath];
     }
     
-    /**
-     * Calls decreaseSequence() or increaseSequence() to return the Index of statusbar-image depending on mode.
-     * 
-     * @param {String} mode 'increase' or 'decrease'
-     * @returns {Number} - Index of image
-     */
     resolveImageIndex(mode) {
         if(mode == 'increase') {
             return this.increaseSequence();
@@ -33,11 +20,6 @@ class Statusbar extends MovableObject {
         }
     }
 
-    /**
-     * Returns the Index of statusbar-image
-     * 
-     * @returns {Number}
-     */
     increaseSequence() {
         if(this.percentage == 100) {
             return 5
@@ -68,9 +50,5 @@ class Statusbar extends MovableObject {
         } else {
             return 5
         }
-    }
-
-    
-       
+    }  
 }
-

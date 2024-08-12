@@ -31,8 +31,8 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.speedY = 30; // Geschwindigkeit des Falls
-        this.applyGravity(); // senkt speedY
+        this.speedY = 30; 
+        this.applyGravity(); 
         this.bottleFly();
     }
 
@@ -55,7 +55,7 @@ class ThrowableObject extends MovableObject {
 
     bottleSplash() {
         this.playAnimationSplash(this.IMAGES_SPLASH);
-        this.hasCollided = true; // Flasche markiert als zerschellt
+        this.hasCollided = true; 
         this.splash_sound.playbackRate = 3;
         if (volumeStatus == false) {
             this.splash_sound.play();
@@ -71,18 +71,9 @@ class ThrowableObject extends MovableObject {
         }
     }
 
-    // checkCollisionWithEnemies() {
-    //     world.level.enemies.forEach((enemy) => {
-    //         if (enemy instanceof Endboss && this.isColliding(enemy)) {
-    //             enemy.hitEndboss();
-    //             this.bottleSplash();
-    //         }
-    //     });
-    // }
-
     playAnimationSplash(images) {
         let i = 100;
-        i = this.currentImage % images.length; // let i = 0 % 6; => 0, Rest 0
+        i = this.currentImage % images.length; 
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;

@@ -187,4 +187,3 @@ document.querySelectorAll('.control_circle').forEach(element => {
     element.addEventListener('touchend', preventContextMenu);   // Add this line
     element.addEventListener('touchcancel', preventContextMenu); // Add this line
 });
-

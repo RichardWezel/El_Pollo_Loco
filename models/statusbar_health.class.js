@@ -8,11 +8,11 @@ class Statusbar_health extends Statusbar {
         'images/statusbar_health/0.png'
     ];
 
-    constructor(x, y) { // wird über die Erstellung eines neuen BackgroundObjects in world übergeben
+    constructor(x, y) { 
         super();
         this.loadImages(this.STATUS_IMGAES);
-        this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
+        this.x = x; 
         this.y = y;
-        this.setPercentage(100, 'decrease') // setzt initial die 100%, weitere Veränderungen über die world
+        this.setPercentage(100, 'decrease') 
     }
 }

@@ -14,7 +14,7 @@ class CollectableObjects_bottle extends MovableObject {
 
     constructor(imagePath, x) {
         super().loadImage(imagePath);
-        this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
+        this.x = x;
         this.height;
         this.y;
     }

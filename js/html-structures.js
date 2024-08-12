@@ -8,17 +8,6 @@ function renderStartBtns() {
     `
 }
 
-function svgScreenRotation() {
-    return `
-        <div id='pleaseRotateScreenImage' class="overlay">
-            <svg xmlns="http://www.w3.org/2000/svg" height="100px" viewBox="0 -960 960 960" width="100px" fill="#000000">
-                <path d="M496-182 182-496q-23-23-23-54t23-54l174-174q23-23 54-23t54 23l314 314q23 23 23 54t-23 54L604-182q-23 23-54 23t-54-23Zm54-58 170-170-310-310-170 170 310 310ZM480 0q-99 0-186.5-37.5t-153-103Q75-206 37.5-293.5T0-480h80q0 71 24 136t66.5 117Q213-175 272-138.5T401-87L296-192l56-56L588-12q-26 6-53.5 9T480 0Zm400-480q0-71-24-136t-66.5-117Q747-785 688-821.5T559-873l105 105-56 56-236-236q26-6 53.5-9t54.5-3q99 0 186.5 37.5t153 103q65.5 65.5 103 153T960-480h-80Zm-400 0Z"/>
-            </svg>
-            <p>Bitte drehe dein Gerät ins Querformat!</p>
-        </div>
-    `
-}
-
 function canvasHTML_Element() {
     return `
         <canvas id="gameCanvas" width='720' height='480'>
@@ -270,7 +259,7 @@ function ImpressumHTML() {
             <p class="text_info">
                 Richard Wezel<br>
                 Eschholzstr. 74<br>
-                12345 Musterstadt
+                79115 Freiburg
             </p>
         </article>
     </div>

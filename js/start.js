@@ -1,11 +1,10 @@
 function init() {
     initStartScreen();
-    // handleScreenOrientation();
-    // window.addEventListener('orientationchange', handleScreenOrientation);
+    handleScreenOrientation();
+    window.addEventListener('resize', handleScreenOrientation);
     if (checkMobileDeviceSize()) {
         setMobileScreenCustomization();
     }
-    
 }
 
 function initStartScreen() {
@@ -15,31 +14,28 @@ function initStartScreen() {
 }
 
 function handleScreenOrientation() {
+    let pleaseRotateScreenImage = document.getElementById('pleaseRotateScreenImage');
     if (checkPageOrientation() == 'portrait') {
-        setRotateScreenImage();
+        pleaseRotateScreenImage.style.display = 'flex'
     } else {
-        removeRotateScreenImage() 
+        pleaseRotateScreenImage.style.display = 'none'
     }
 }
 
 function checkPageOrientation() {
-    if (screen.availHeight > screen.availWidth) {
-        console.log('Hochformat');
-        return 'portrait';
+    if (typeof window.orientation !== 'undefined') {
+        if (window.orientation === 0 || window.orientation === 180) {
+            return 'portrait';
+        } else {
+            return 'landscape';
+        }
     } else {
-        console.log('Querformat');
-        return 'landscape';
+        if (screen.availHeight > screen.availWidth) {
+            return 'portrait';
+        } else {
+            return 'landscape';
+        }
     }
-}
-
-function setRotateScreenImage() {
-    let rotateScreenMessage = document.getElementById('rotateScreenMessage');
-    rotateScreenMessage.innerHTML = svgScreenRotation();
-}
-
-function removeRotateScreenImage() {
-    let rotateScreenMessage = document.getElementById('rotateScreenMessage');
-    rotateScreenMessage.innerHTML = '';
 }
 
 function checkMobileDeviceSize() {

@@ -19,7 +19,7 @@ class CollectableObjects_coin extends MovableObject {
     constructor(x, y) {
         super().loadImage(this.IMAGE_COIN[0]);
         this.loadImages(this.IMAGE_COIN);
-        this.x = x; // this.x ist x des Objects // x ist die übergebene Variable
+        this.x = x; 
         this.height;
         this.y = y;
         this.animate();
