@@ -17,7 +17,7 @@ class Chick extends MovableObject{
         top: 0,
         right: 10,
         bottom: 0,
-        left: 10
+        left: 20
     }
     walkingInterval;
     animationInterval;
@@ -27,7 +27,7 @@ class Chick extends MovableObject{
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.x = 400 + Math.random() * 5000;
-        this.speed = 0.15 + Math.random() * 0.5;
+        this.speed = 0.25 + Math.random() * 0.5;
         this.animate();
     }
 

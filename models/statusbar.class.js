@@ -21,7 +21,7 @@ class Statusbar extends MovableObject {
     }
 
     increaseSequence() {
-        if(this.percentage == 100) {
+        if(this.percentage >= 100) {
             return 5
         } else if (this.percentage > 80) {
             return 4
@@ -37,7 +37,7 @@ class Statusbar extends MovableObject {
     }
 
     decreaseSequence() {
-        if(this.percentage == 100) {
+        if(this.percentage >= 100) {
             return 0
         } else if (this.percentage > 80) {
             return 1

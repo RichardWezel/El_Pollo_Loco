@@ -19,6 +19,7 @@ class DrawableObject {
     drawFrame(ctx) {
         if(this instanceof Character || 
             this instanceof Chicken || 
+            this instanceof Chick || 
             this instanceof Endboss || 
             this instanceof CollectableObjects_bottle|| 
             this instanceof CollectableObjects_coin)

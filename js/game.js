@@ -14,13 +14,7 @@ function startGame() {
     setNavbar();
     addCanvasHTMLElement();
     initCanvas();
-    changeVolumeStatus();
 }
-
-// function setWinHTML() {
-//     let gameScreen = document.getElementById('gameScreen');
-//     gameScreen.innerHTML += winHTML();
-// }
 
 function removeStartBtns() {
     let btnContainer = document.getElementById('btnContainer');

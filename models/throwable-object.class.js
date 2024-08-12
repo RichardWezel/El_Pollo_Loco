@@ -62,7 +62,6 @@ class ThrowableObject extends MovableObject {
         }
     }
     
-
     checkHitTheGround() {
         if (this.y == 350) {
             return true

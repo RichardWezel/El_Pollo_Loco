@@ -12,9 +12,9 @@ class CollectableObjects_bottle extends MovableObject {
         left: 30
     }
 
-    constructor(imagePath, x) {
+    constructor(imagePath) {
         super().loadImage(imagePath);
-        this.x = x;
+        this.x = 200 + Math.random() * 4000;
         this.height;
         this.y;
     }

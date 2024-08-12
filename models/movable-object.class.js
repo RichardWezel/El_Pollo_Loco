@@ -77,11 +77,23 @@ class MovableObject extends DrawableObject {
 
     collect(collectedObject) {
         if (collectedObject == 'bottle') {
-            this.world.character.collectedBottles += 12;
+            this.world.character.collectedBottles += this.calcBottleAddion();
         } 
         if (collectedObject == 'coin') {
-            this.world.character.collectedCoins += 12;
+            this.world.character.collectedCoins += this.calcCoinAddion();
         } 
+    }
+
+    calcCoinAddion() {
+        let amoundOfCoins = this.world.level.collectableObjects_coin.length;
+        let number = 100 / amoundOfCoins;
+        return number;
+    }
+
+    calcBottleAddion() {
+        let amoundOfCoins = this.world.level.collectableObjects_coin.length;
+        let number = 100 / amoundOfCoins;
+        return number;
     }
 
     isHurtCharacter() {

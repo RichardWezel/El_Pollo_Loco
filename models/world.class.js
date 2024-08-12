@@ -29,6 +29,7 @@ class World {
         this.setWorld();
         this.run();
         this.checkUseOf_KeyD();
+        this.backgroundmusic.load();
         this.playBackgroundMusic();
     }
     
@@ -79,7 +80,7 @@ class World {
             this.flipImage(mo);
         }              
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -106,7 +107,7 @@ class World {
         setInterval(() => {
             this.checkCollisionsofCharacter();
             this.checkCollisionsOfBottles();
-        }, 50);
+        }, 150);
     }
 
     checkCollisionsofCharacter() {
@@ -133,7 +134,6 @@ class World {
         this.character.bounce();
         this.removeEnemy(index, enemy.constructor.name);
         this.bounceChicken.play();
-        console.log('handleJumpingOnEnemy')
     }
                 
     handleRunningIntoEnemy(enemy) {
@@ -153,7 +153,7 @@ class World {
 
     characterCollectBottle(index) {
         this.character.collect('bottle');
-        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'increase');
+        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
         this.level.collectableObjects_bottles.splice(index, 1);
         if(volumeStatus == true) {
             this.bottle_collecting_sound.play();
@@ -224,7 +224,7 @@ d
         });
     }
 
-    handleChickenCollison(bottle, enemy, enemyIndex) {
+    handleChickenCollison(bottle, bottleIndex, enemy, enemyIndex) {
         enemy.hitChicken();
         setTimeout(() => {
             this.removeEnemy(enemyIndex);
@@ -252,7 +252,7 @@ d
         this.energyEndboss -= 10;
         this.setAnimationStatus();
         this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
-        console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
+        // console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
         if (this.energyEndboss == 0) {
             this.level.enemies[0].endbossDies();
         }
@@ -305,7 +305,6 @@ d
 
     removeEnemy(enemyIndex) {
         this.level.enemies.splice(enemyIndex, 1)
-        console.log('The index ' + enemyIndex  + ' is deleted from enemies');
     }
 
     flipImage(mo) {

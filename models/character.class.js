@@ -68,11 +68,11 @@ class Character extends MovableObject{
     snoring_sound = new Audio('audio/snoring.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
-    collectedBottles = 100;
+    collectedBottles = 0;
     collectedCoins = 0;
     offset = {
         top: 120,
-        right: 10,
+        right: 20,
         bottom: 0,
         left: 30
     }

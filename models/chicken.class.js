@@ -17,7 +17,7 @@ class Chicken extends MovableObject{
         top: 0,
         right: 0,
         bottom: 0,
-        left: 5
+        left: 10
     }
     walkingInterval;
     animationInterval;
@@ -27,7 +27,7 @@ class Chicken extends MovableObject{
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImage(this.IMAGE_DEAD);
-        this.x = 400 + Math.random() * 5000;
+        this.x = 400 + Math.random() * 4500;
         this.speed = 0.15 + Math.random() * 0.5;
         this.animate();
     }
