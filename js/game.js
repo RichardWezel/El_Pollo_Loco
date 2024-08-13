@@ -5,16 +5,20 @@ let canvas;
 
 function startGame() {
     document.getElementById('gameScreen').style.backgroundImage = 'none';
-    if (checkMobileDeviceSize() == true) {
-        setControlBtns();
-        document.getElementById('header').style.display = 'none';
-    } else {
-        removeStartBtns();
-    }
+    // if (checkMobileDeviceSize() == true) {
+    //     setControlBtns();
+    //     document.getElementById('header').style.display = 'none';
+    // } else {
+    //     removeStartBtns();
+    // }
+    setControlBtns();
+    removeStartBtns();
     setNavbar();
     addCanvasHTMLElement();
     initCanvas();
 }
+
+window.addEventListener('resize', setFullscreenGame());
 
 function removeStartBtns() {
     let btnContainer = document.getElementById('btnContainer');
@@ -52,12 +56,14 @@ function removeStartBtns() {
     function initCanvas() {
         canvas = document.getElementById('gameCanvas');
         world = new World(canvas, keyboard);
-        if (canvas) {
-            if (window.innerWidth <= 1024 && window.innerHeight <= 768) {
-                canvas.classList.add('fullscreen');
-            } else {
-                canvas.classList.remove('fullscreen');
-            }
+    }
+
+    function setFullscreenGame(canvas) {
+        canvas = document.getElementById('gameCanvas');
+        if (window.matchMedia('(pointer: fine)').matches && canvas) {
+            canvas.classList.remove('fullscreen');
+        } else if(canvas){
+            canvas.classList.add('fullscreen');
         }
     }
 

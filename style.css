@@ -179,3 +179,42 @@ canvas.fullscreen {
     height: 100dvh !important;
     max-height: none;
 }
+
+@media (pointer: coarse) {
+    
+    #controlBtnSection {
+        display: flex;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0px;
+        left: 0;
+    }
+
+    #fullscreen {
+        display: none !important;
+    }
+
+    #header {
+        display: none;
+    }
+}
+
+@media (pointer: fine) {
+    #controlBtnSection {
+        display: none;
+    }
+
+    #fullscreen {
+        display: flex;
+    }
+
+
+    #pleaseRotateScreenImage {
+        display: none;
+    }
+
+    #header {
+        display: flex;
+    }
+}

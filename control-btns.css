@@ -8,6 +8,10 @@
     text-shadow: 2px 2px 5px black;
 }
 
+/* #controlBtnSection {
+    display: block;
+} */
+
 .control_circle {
     touch-action: none; 
 }
