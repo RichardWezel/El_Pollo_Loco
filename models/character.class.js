@@ -74,7 +74,7 @@ class Character extends MovableObject{
         top: 120,
         right: 20,
         bottom: 0,
-        left: 30
+        left: 20
     }
     initialSleepTime = 14000; 
     sleepTimeout; 

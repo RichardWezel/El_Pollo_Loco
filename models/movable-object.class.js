@@ -79,8 +79,7 @@ class MovableObject extends DrawableObject {
 
     collect(collectedObject) {
         if (collectedObject == 'bottle') {
-            this.world.character.collectedBottles += this.calcBottleAddion();
-            console.log('collect bottle')
+            this.world.character.collectedBottles += 1;
         } 
         if (collectedObject == 'coin') {
             this.world.character.collectedCoins += this.calcCoinAddion();

@@ -19,6 +19,7 @@ class World {
     endbossHurtSound = new Audio('audio/endbossHurt.m4a');
     start = false;
     energyEndboss = 100;
+    startBottleAmound = 0;
 
 
     constructor(canvas, keyboard) {
@@ -27,10 +28,13 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.run();
+        // this.run();
+        this.intervalCollCharacter();
+        this.intervalCollBottle();
         this.checkUseOf_KeyD();
         this.backgroundmusic.load();
         this.playBackgroundMusic();
+        this.startBottleAmound = this.level.collectableObjects_bottles.length;
     }
     
     draw() {
@@ -103,11 +107,24 @@ class World {
         });
     }
 
-    run() {
+    // run() {
+    //     setInterval(() => {
+    //         this.checkCollisionsofCharacter();
+    //         this.checkCollisionsOfBottles();
+    //     }, 150);
+    // }
+
+    intervalCollCharacter() {
         setInterval(() => {
             this.checkCollisionsofCharacter();
-            this.checkCollisionsOfBottles();
+            
         }, 150);
+    }
+
+    intervalCollBottle() {
+        setInterval(() => {
+            this.checkCollisionsOfBottles();
+        }, 50);
     }
 
     checkCollisionsofCharacter() {
@@ -153,12 +170,19 @@ class World {
 
     characterCollectBottle(index) {
         this.character.collect('bottle');
-        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'increase');
+        this.updateStatusbarBottle();
         this.level.collectableObjects_bottles.splice(index, 1);
         if(volumeStatus == true) {
             this.bottle_collecting_sound.play();
             this.bottle_collecting_sound.playbackRate=0.5;
         } 
+    }
+
+    updateStatusbarBottle() {
+        let bottleStorage = this.character.collectedBottles;
+        let percentage = (bottleStorage / this.startBottleAmound) * 100;
+        this.statusbar_bottle.setPercentage(percentage, 'increase');
+        console.log(percentage);
     }
 
     collisionsOfCharacterWithCoins() {
@@ -199,8 +223,8 @@ class World {
     }
 
     reduceBottleSupply() {
-        this.character.collectedBottles -= this.character.calcBottleAddion();
-        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'increase');
+        this.character.collectedBottles -= 1;
+        this.updateStatusbarBottle();
     }
 
     checkCollisionsOfBottles() {

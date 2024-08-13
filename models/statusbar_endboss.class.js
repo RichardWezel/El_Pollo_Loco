@@ -1,5 +1,5 @@
 class Statusbar_endboss extends Statusbar {
-    STATUS_IMGAES = [
+    STATUS_IMAGES = [
         'images/statusbar_endboss/100.png',
         'images/statusbar_endboss/80.png',
         'images/statusbar_endboss/60.png',
@@ -11,10 +11,10 @@ class Statusbar_endboss extends Statusbar {
 
     constructor(y) { 
         super();
-        this.loadImages(this.STATUS_IMGAES);
+        this.loadImages(this.STATUS_IMAGES);
         this.y = y;
         this.setPercentage(100, 'decrease') 
-        this.loadImage(this.STATUS_IMGAES[0]);
+        this.loadImage(this.STATUS_IMAGES[0]);
     }
 
     updateX() {
