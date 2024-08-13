@@ -153,7 +153,7 @@ class World {
 
     characterCollectBottle(index) {
         this.character.collect('bottle');
-        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
+        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'increase');
         this.level.collectableObjects_bottles.splice(index, 1);
         if(volumeStatus == true) {
             this.bottle_collecting_sound.play();
@@ -171,7 +171,7 @@ class World {
 
     characterCollectCoin(index) {
         this.character.collect('coin');
-        this.statusbar_coin.setPercentage(this.character.collectedCoins, 'decrease');
+        this.statusbar_coin.setPercentage(this.character.collectedCoins, 'increase');
         this.level.collectableObjects_coin.splice(index, 1);
         if(volumeStatus == true) {
             this.coin_collecting_sound.play();
@@ -187,7 +187,6 @@ class World {
         }, 150);
     }
     
-d
     characterThrowBottle() {
         this.createBottleObject();
         this.reduceBottleSupply();
@@ -200,8 +199,8 @@ d
     }
 
     reduceBottleSupply() {
-        this.character.collectedBottles -= 12;
-        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'decrease');
+        this.character.collectedBottles -= this.character.calcBottleAddion();
+        this.statusbar_bottle.setPercentage(this.character.collectedBottles, 'increase');
     }
 
     checkCollisionsOfBottles() {

@@ -63,9 +63,11 @@ class MovableObject extends DrawableObject {
     }
 
     hitCharacter() {
-        this.energyCharacter -= 2.5;
-        console.log('Energy of Pepe is ', this.energyCharacter, '%');
-        this.lastHitCharacter = new Date().getTime();
+        if (!this.isHurtCharacter()) {
+            this.energyCharacter -= 2.5;
+            console.log('Energy of Pepe is ', this.energyCharacter, '%');
+            this.lastHitCharacter = new Date().getTime();
+        }
     }
 
     hitEndboss() {
@@ -78,6 +80,7 @@ class MovableObject extends DrawableObject {
     collect(collectedObject) {
         if (collectedObject == 'bottle') {
             this.world.character.collectedBottles += this.calcBottleAddion();
+            console.log('collect bottle')
         } 
         if (collectedObject == 'coin') {
             this.world.character.collectedCoins += this.calcCoinAddion();
@@ -91,8 +94,8 @@ class MovableObject extends DrawableObject {
     }
 
     calcBottleAddion() {
-        let amoundOfCoins = this.world.level.collectableObjects_coin.length;
-        let number = 100 / amoundOfCoins;
+        let amoundOfBottles = this.world.level.collectableObjects_bottles.length;
+        let number = 100 / amoundOfBottles;
         return number;
     }
 

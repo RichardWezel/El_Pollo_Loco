@@ -1,5 +1,5 @@
 class Statusbar_coin extends Statusbar {
-    STATUS_IMGAES = [
+    STATUS_IMAGES = [
         'images/statusbar_coin/100.png',
         'images/statusbar_coin/80.png',
         'images/statusbar_coin/60.png',
@@ -10,10 +10,10 @@ class Statusbar_coin extends Statusbar {
 
     constructor(x, y) { 
         super();
-        this.loadImages(this.STATUS_IMGAES);
+        this.loadImages(this.STATUS_IMAGES);
         this.x = x; 
         this.height;
         this.y = y;
-        this.setPercentage(0, 'decrease') 
+        this.setPercentage(0, 'increase') 
     }
 }
