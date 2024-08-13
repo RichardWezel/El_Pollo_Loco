@@ -116,15 +116,14 @@ class World {
 
     intervalCollCharacter() {
         setInterval(() => {
-            this.checkCollisionsofCharacter();
-            
+            this.checkCollisionsofCharacter();  
         }, 150);
     }
 
     intervalCollBottle() {
         setInterval(() => {
             this.checkCollisionsOfBottles();
-        }, 50);
+        }, 20);
     }
 
     checkCollisionsofCharacter() {
