@@ -27,6 +27,8 @@
     color: rgb(250, 222, 75);
     box-shadow: 0px 5px 15px -2px rgba(0,0,0,0.46);
     cursor: pointer;
+    font-size: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .btn:hover {
