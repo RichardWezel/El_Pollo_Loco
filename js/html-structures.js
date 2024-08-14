@@ -219,7 +219,7 @@ function winHTML() {
      return `
         <div class="endScreen" id="gameWin">
             <img class="gameWinImage" src="images/intro_outro_screens/win/won_2.png" alt="">
-            <button class="endScreenBtn" onclick="reloadGame()">Noch einmal!</button>
+            <button class="endScreenBtn btn" onclick="reloadGame()">Noch einmal!</button>
         <div>
     `;
 }

@@ -82,7 +82,7 @@ class World {
             this.flipImage(mo);
         }              
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
+        mo.drawFrame(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -172,7 +172,6 @@ class World {
         let bottleStorage = this.character.collectedBottles;
         let percentage = (bottleStorage / this.startBottleAmound) * 100;
         this.statusbar_bottle.setPercentage(percentage, 'increase');
-        console.log(percentage);
     }
 
     collisionsOfCharacterWithCoins() {
@@ -263,8 +262,9 @@ class World {
 
     reduceEndbossEnergy() {
         this.energyEndboss -= 10;
+        console.log('Energy of Endboss is: ', this.energyEndboss);
         this.setAnimationStatus();
-        this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
+        this.statusbar_endboss.setPercentage(this.energyEndboss, 'increase');
         if (this.energyEndboss == 0) {
             this.level.enemies[0].endbossDies();
         }
@@ -272,9 +272,9 @@ class World {
 
     setAnimationStatus() {
         let endboss = this.level.enemies[0];
-        if (this.energyEndboss > 70) {
+        if (this.energyEndboss > 90) {
             endboss.animationStatus = 'normal';
-        } else if (this.energyEndboss < 70 && this.energyEndboss > 40) {
+        } else if (this.energyEndboss <= 90 && this.energyEndboss >= 50) {
             endboss.animationStatus = 'alertness';
             endboss.walkingspeed = 10;
             endboss.animationSpeed = 200;

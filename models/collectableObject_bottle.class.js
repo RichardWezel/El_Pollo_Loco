@@ -7,7 +7,7 @@ class CollectableObjects_bottle extends MovableObject {
     BorderColor = 'yellow';
     offset = {
         top: 20,
-        right: 10,
+        right: 20,
         bottom: 0,
         left: 30
     }

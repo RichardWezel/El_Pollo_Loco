@@ -6,10 +6,10 @@ class CollectableObjects_coin extends MovableObject {
     width = this.height;
     BorderColor = 'yellow';
     offset = {
-        top: 30,
-        right: 30,
-        bottom: 20,
-        left: 30
+        top: 40,
+        right: 40,
+        bottom: 40,
+        left: 40
     }
     IMAGE_COIN = [
         'images/coin/coin_1.png',

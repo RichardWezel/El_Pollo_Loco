@@ -17,7 +17,7 @@ class Chick extends MovableObject{
         top: 0,
         right: 10,
         bottom: 0,
-        left: 20
+        left: 10
     }
     walkingInterval;
     animationInterval;
