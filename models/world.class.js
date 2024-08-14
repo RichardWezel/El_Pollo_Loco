@@ -108,7 +108,7 @@ class World {
     intervalCollCharacter() {
         setInterval(() => {
             this.checkCollisionsofCharacter();  
-        }, 150);
+        }, 50);
     }
 
     intervalCollBottle() {
@@ -272,17 +272,22 @@ class World {
 
     setAnimationStatus() {
         let endboss = this.level.enemies[0];
-        if (this.energyEndboss > 90) {
+        if (this.energyEndboss > 91) {
             endboss.animationStatus = 'normal';
-        } else if (this.energyEndboss <= 90 && this.energyEndboss >= 50) {
+        } else if (this.energyEndboss > 60) {  
+            endboss.stopWalking();
             endboss.animationStatus = 'alertness';
-            endboss.walkingspeed = 10;
+            endboss.speed = 1
             endboss.animationSpeed = 200;
-        } else if (this.energyEndboss < 40) {
+            endboss.walkAnimation();
+        } else {  
+            endboss.stopWalking();
             endboss.animationStatus = 'attack';
-            endboss.walkingspeed = 1;
-            endboss.animationSpeed = 200;
+            endboss.speed = 3
+            endboss.animationSpeed = 100;
+            endboss.walkAnimation();
         }
+        
     }
 
     handleBottleHitEndboss(bottle, bottleIndex) {
@@ -309,7 +314,7 @@ class World {
         renderWin();
         this.win_sound.play();
         this.backgroundmusic.pause();
-        this.character.snoring_sound.pause();
+        this.character.snoring_sound.muted = true;
         clearInterval(this.character.idle);
         clearInterval(this.character.sleep); 
         clearTimeout(this.sleepTimeout); 
