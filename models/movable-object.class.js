@@ -62,11 +62,17 @@ class MovableObject extends DrawableObject {
                this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom;
     }
 
-    hitCharacter() {
+    hitCharacter(enemy) {
         if (!this.isHurtCharacter()) {
-            this.energyCharacter -= 2.5;
+            if (enemy instanceof Endboss) {
+                this.energyCharacter -= 20;
+            } else {
+                this.energyCharacter -= 3;
+            }
+            this.energyCharacter -= 3;
             console.log('Energy of Pepe is ', this.energyCharacter, '%');
             this.lastHitCharacter = new Date().getTime();
+            this.checkGameOver();
         }
     }
 
@@ -111,6 +117,6 @@ class MovableObject extends DrawableObject {
     }
 
     isDead() {
-        return this.energyCharacter == 0;
+        return this.energyCharacter <= 0;
     }
 }

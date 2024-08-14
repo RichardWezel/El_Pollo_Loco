@@ -145,7 +145,7 @@ class World {
                 
     handleRunningIntoEnemy(enemy) {
         if (enemy.deadStatus == false && this.character.energyCharacter > 0) {
-            this.character.hitCharacter();
+            this.character.hitCharacter(enemy);
             this.statusbar_health.setPercentage(this.character.energyCharacter, 'decrease');
         }
     }

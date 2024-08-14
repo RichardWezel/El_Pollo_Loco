@@ -210,7 +210,7 @@ function gameOverHTML() {
     return `
         <div class="endScreen" id="gameOver">
             <img src="images/intro_outro_screens/game_over/game over.png" alt="">
-            <button class="endScreenBtn" onclick="reloadGame()">Noch einmal!</button>
+            <button class="endScreenBtn btn" onclick="reloadGame()">Noch einmal!</button>
         <div>
     `;
 }
