@@ -140,7 +140,9 @@ class World {
     handleJumpingOnEnemy(index, enemy) {
         this.character.bounce();
         this.removeEnemy(index, enemy.constructor.name);
-        this.bounceChicken.play();
+        if(volumeStatus == true) {
+            this.bounceChicken.play();
+        }
     }
                 
     handleRunningIntoEnemy(enemy) {
@@ -194,7 +196,7 @@ class World {
     checkUseOf_KeyD() {
         setInterval(() => {
             let hasBottle = this.throwableObject.some(bottle => bottle instanceof ThrowableObject && !bottle.hasCollided);
-            if(this.keyboard.KeyD && this.character.collectedBottles > 1 && !hasBottle) {
+            if(this.keyboard.KeyD && this.character.collectedBottles > 1 && !hasBottle && this.character.otherDirection == false) {
                 this.characterThrowBottle();
             }
         }, 150);
@@ -312,7 +314,9 @@ class World {
 
     handleWin() {
         renderWin();
-        this.win_sound.play();
+        if(volumeStatus == true) {
+            this.win_sound.play();
+        }
         this.backgroundmusic.pause();
         this.character.snoring_sound.muted = true;
         clearInterval(this.character.idle);

@@ -111,7 +111,7 @@ class Character extends MovableObject{
     }
 
         checkPressArrowRight() {
-            if(this.world.keyboard.RIGHT && this.x < 5130) {
+            if(this.world.keyboard.RIGHT && this.x < 5130 && this.x < this.world.level.enemies[0].x) {
                 this.moveRight();
                 this.otherDirection = false;
                 if(volumeStatus == true) {
@@ -210,6 +210,7 @@ class Character extends MovableObject{
                         let gameOver = document.getElementById('gameOver');
                         gameOver.style.display = 'flex';
                         clearInterval(this.GameOverInterval);
+
                     }
 
         characterHurtsHimself() {
