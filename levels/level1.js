@@ -94,9 +94,9 @@ function initlevel() {
         new CollectableObjects_coin(1200, 50),
         new CollectableObjects_coin(1300, 50),
         new CollectableObjects_coin(1400, 50),
-        new CollectableObjects_coin(1800, 350),
-        new CollectableObjects_coin(1900, 350),
-        new CollectableObjects_coin(2000, 350),
+        new CollectableObjects_coin(1800, 340),
+        new CollectableObjects_coin(1900, 340),
+        new CollectableObjects_coin(2000, 340),
         new CollectableObjects_coin(270 +  2000, 60),
         new CollectableObjects_coin(370 +  2000, 60),
         new CollectableObjects_coin(470 +  2000, 60),
@@ -106,9 +106,9 @@ function initlevel() {
         new CollectableObjects_coin(1200 + 2000, 50),
         new CollectableObjects_coin(1300 + 2000, 50),
         new CollectableObjects_coin(1400 + 2000, 50),
-        new CollectableObjects_coin(1800 + 2000, 350),
-        new CollectableObjects_coin(1900 + 2000, 350),
-        new CollectableObjects_coin(2000 + 2000, 350),
+        new CollectableObjects_coin(1800 + 2000, 340),
+        new CollectableObjects_coin(1900 + 2000, 340),
+        new CollectableObjects_coin(2000 + 2000, 340),
     ]
 );
 }
