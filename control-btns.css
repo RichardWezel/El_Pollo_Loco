@@ -129,7 +129,7 @@
     bottom: 70px;
     left: 10px;
     cursor: pointer;
-    -webkit-user-select: none; /* Verhindert Textauswahl auf iOS */
+    -webkit-user-select: none; 
     user-select: none;
 }
 

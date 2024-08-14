@@ -1,6 +1,6 @@
 let keyboard = new Keyboard();
 let timer;
-let delay = 600; // 500ms lange Berührung
+let delay = 600; 
 
 window.addEventListener('keydown', (e) => {
     switch (e.code) {
@@ -162,20 +162,18 @@ function addTouchListeners() {
     const arrowLeft = document.getElementById('arrowLeft');
     const arrowUp = document.getElementById('arrowUp');
     const throwBtn = document.getElementById('throwBtn');
-
-   
     arrowRight.addEventListener('touchstart', keydownRight);
     arrowRight.addEventListener('touchend', keyUpRight);
-    arrowRight.addEventListener('touchcancel', keyUpRight); // Add this line
+    arrowRight.addEventListener('touchcancel', keyUpRight); 
     arrowLeft.addEventListener('touchstart', keydownLeft);
     arrowLeft.addEventListener('touchend', keyUpLeft);
-    arrowLeft.addEventListener('touchcancel', keyUpLeft); // Add this line
+    arrowLeft.addEventListener('touchcancel', keyUpLeft); 
     arrowUp.addEventListener('touchstart', keydownSpace);
     arrowUp.addEventListener('touchend', keyUpSpace);
-    arrowUp.addEventListener('touchcancel', keyUpSpace); // Add this line
+    arrowUp.addEventListener('touchcancel', keyUpSpace); 
     throwBtn.addEventListener('touchstart', keydownD);
     throwBtn.addEventListener('touchend', keyUpD);
-    throwBtn.addEventListener('touchcancel', keyUpD); // Add this line
+    throwBtn.addEventListener('touchcancel', keyUpD); 
 }
 
 function preventContextMenu(event) {
@@ -184,7 +182,7 @@ function preventContextMenu(event) {
 
 document.querySelectorAll('.control_circle').forEach(element => {
     element.addEventListener('contextmenu', preventContextMenu);
-    element.addEventListener('touchstart', preventContextMenu); // Add this line
-    element.addEventListener('touchend', preventContextMenu);   // Add this line
-    element.addEventListener('touchcancel', preventContextMenu); // Add this line
+    element.addEventListener('touchstart', preventContextMenu); 
+    element.addEventListener('touchend', preventContextMenu);   
+    element.addEventListener('touchcancel', preventContextMenu); 
 });

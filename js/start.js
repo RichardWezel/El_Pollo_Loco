@@ -4,8 +4,6 @@ function init() {
     window.addEventListener('resize', configScreen());
 }
 
-
-
 function configScreen() {
     let navbar = document.getElementById('navbar');
     let gameCanvas = document.getElementById('gameCanvas');

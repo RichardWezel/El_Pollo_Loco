@@ -82,7 +82,6 @@ class World {
             this.flipImage(mo);
         }              
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -277,19 +276,28 @@ class World {
         if (this.energyEndboss > 91) {
             endboss.animationStatus = 'normal';
         } else if (this.energyEndboss > 60) {  
-            endboss.stopWalking();
-            endboss.animationStatus = 'alertness';
-            endboss.speed = 1
-            endboss.animationSpeed = 200;
-            endboss.walkAnimation();
+            this.statusAlertness();
         } else {  
-            endboss.stopWalking();
-            endboss.animationStatus = 'attack';
-            endboss.speed = 3
-            endboss.animationSpeed = 100;
-            endboss.walkAnimation();
+            this.statusAttack();
         }
-        
+    }
+
+    statusAlertness() {
+        let endboss = this.level.enemies[0];
+        endboss.stopWalking();
+        endboss.animationStatus = 'alertness';
+        endboss.speed = 1
+        endboss.animationSpeed = 200;
+        endboss.walkAnimation();
+    }
+
+    statusAttack() {
+        let endboss = this.level.enemies[0];
+        endboss.stopWalking();
+        endboss.animationStatus = 'attack';
+        endboss.speed = 3
+        endboss.animationSpeed = 100;
+        endboss.walkAnimation();
     }
 
     handleBottleHitEndboss(bottle, bottleIndex) {

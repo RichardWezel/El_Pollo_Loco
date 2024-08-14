@@ -82,11 +82,11 @@ button {
 }
 
 #canvas {
-    aspect-ratio: 3 / 2; /* Seitenverhältnis von 3:2, z.B. 720:480 */
+    aspect-ratio: 3 / 2; 
     width: 100%;
     height: auto;
     max-height: 100%;
-    background-color: #000; /* Optional: Hintergrundfarbe des Canvas */
+    background-color: #000; 
 }
 
 .endScreen {
@@ -106,8 +106,6 @@ button {
     height: 65px !important;
     font-size: 24px !important;
 }
-
-
 
 #gameOver {
     display: none;
