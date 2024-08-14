@@ -21,14 +21,12 @@ class World {
     energyEndboss = 100;
     startBottleAmound = 0;
 
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); 
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        // this.run();
         this.intervalCollCharacter();
         this.intervalCollBottle();
         this.checkUseOf_KeyD();
@@ -106,13 +104,6 @@ class World {
             this.backgroundmusic.play();
         });
     }
-
-    // run() {
-    //     setInterval(() => {
-    //         this.checkCollisionsofCharacter();
-    //         this.checkCollisionsOfBottles();
-    //     }, 150);
-    // }
 
     intervalCollCharacter() {
         setInterval(() => {
@@ -274,7 +265,6 @@ class World {
         this.energyEndboss -= 10;
         this.setAnimationStatus();
         this.statusbar_endboss.setPercentage(this.energyEndboss, 'decrease');
-        // console.log(`Endboss energy decreased to: ${this.energyEndboss}`);
         if (this.energyEndboss == 0) {
             this.level.enemies[0].endbossDies();
         }

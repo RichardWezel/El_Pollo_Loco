@@ -4,7 +4,7 @@ let world;
 let canvas;
 
 function startGame() {
-    document.getElementById('gameScreen').style.backgroundImage = 'none';
+    // document.getElementById('gameScreen').style.backgroundImage = 'none';
     // if (checkMobileDeviceSize() == true) {
     //     setControlBtns();
     //     document.getElementById('header').style.display = 'none';
@@ -15,6 +15,7 @@ function startGame() {
     removeStartBtns();
     setNavbar();
     addCanvasHTMLElement();
+    initlevel();
     initCanvas();
 }
 

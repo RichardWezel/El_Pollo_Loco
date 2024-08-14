@@ -2,7 +2,7 @@ class CollectableObjects_coin extends MovableObject {
     
     y = 350;
     factor = 0.2;
-    height = 400 * this.factor;
+    height = 600 * this.factor;
     width = this.height;
     BorderColor = 'yellow';
     offset = {

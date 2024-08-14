@@ -1,4 +1,6 @@
 let keyboard = new Keyboard();
+let timer;
+let delay = 600; // 500ms lange Berührung
 
 window.addEventListener('keydown', (e) => {
     switch (e.code) {
@@ -68,12 +70,17 @@ function keydownRight(event) {
     if (event) event.preventDefault();
     keyboard.RIGHT = true;
     markUsedControlBtn('arrowRight');
+    timer = setTimeout(function() {
+        // Verhindern der Standardaktion wie Kopieren
+        e.preventDefault();
+    }, delay);
 }
 
 function keyUpRight(event) {
     if (event) event.preventDefault();
     keyboard.RIGHT = false;
     demarcateUsedControlBtn('arrowRight');
+    clearTimeout(timer);
 }
 
 function keydownLeft(event) {

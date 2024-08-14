@@ -1,4 +1,7 @@
-const level1 = new Level(
+let level1; 
+
+function initlevel() {
+   level1 =  new Level(
     [
         new Endboss(),
         new Chicken(),
@@ -114,3 +117,6 @@ const level1 = new Level(
         new CollectableObjects_coin(2000 + 2000, 350),
     ]
 );
+}
+
+

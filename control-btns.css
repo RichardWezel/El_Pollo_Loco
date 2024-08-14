@@ -76,6 +76,8 @@
     bottom: 10px;
     right: 10px;
     cursor: pointer;
+    -webkit-user-select: none; /* Verhindert Textauswahl auf iOS */
+    user-select: none;
 }
 
 #arrowRight:hover {
@@ -91,6 +93,8 @@
     bottom: 10px;
     right: 70px;
     cursor: pointer;
+    -webkit-user-select: none; /* Verhindert Textauswahl auf iOS */
+    user-select: none;
 }
 
 #arrowLeft:hover {
@@ -106,6 +110,8 @@
     bottom: 10px;
     left: 10px;
     cursor: pointer;
+    -webkit-user-select: none; /* Verhindert Textauswahl auf iOS */
+    user-select: none;
 }
 
 #arrowUp:hover {
@@ -121,6 +127,8 @@
     bottom: 70px;
     left: 10px;
     cursor: pointer;
+    -webkit-user-select: none; /* Verhindert Textauswahl auf iOS */
+    user-select: none;
 }
 
 #throwBtn svg {
