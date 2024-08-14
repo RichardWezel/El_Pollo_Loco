@@ -107,7 +107,9 @@ class Endboss extends MovableObject {
         let check = setInterval(() => {
             if (this.contactCharacter == true) {
                 this.walkAnimation();
-                this.cocorido.play();
+                if(volumeStatus == true) {
+                    this.cocorido.play();
+                }
                 clearInterval(check); 
             }
          }, 50);
