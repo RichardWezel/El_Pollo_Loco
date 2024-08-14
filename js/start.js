@@ -65,27 +65,22 @@ function showInstruction() {
     renderStory();
 }
 
-    function setBackgroundInstructions() {
-        let gameScreen = document.getElementById('gameScreen');
-        gameScreen.style.backgroundImage = `url('images/background/air.png')`;
-    }
-
-    function renderStory() {
-        let gameScreen = document.getElementById('gameScreen');
-        gameScreen.innerHTML = storyHTML();
-    }
-
-    function renderInstructions() {
-        let gameScreen = document.getElementById('gameScreen');
-        gameScreen.innerHTML = explenationHTML();
-    }
-
-   
-
-    function hideIntroduction() {
-        let container = document.getElementById('InstructionsContainer');
-        container.style.display = 'none'
-    }
+function setBackgroundInstructions() {
+    let gameScreen = document.getElementById('gameScreen');
+    gameScreen.style.backgroundImage = `url('images/background/air.png')`;
+}
+function renderStory() {
+    let gameScreen = document.getElementById('gameScreen');
+    gameScreen.innerHTML = storyHTML();
+}
+function renderInstructions() {
+    let gameScreen = document.getElementById('gameScreen');
+    gameScreen.innerHTML = explenationHTML();
+}
+function hideIntroduction() {
+    let container = document.getElementById('InstructionsContainer');
+    container.style.display = 'none'
+}
 
 function showImpressum() {
     setBackgroundInstructions();
@@ -96,7 +91,6 @@ function renderInformations() {
     let gameScreen = document.getElementById('gameScreen');
         gameScreen.innerHTML = ImpressumHTML();
 }
-
 
 function renderDataSecurity() {
     let screenContainer = document.getElementById('gameScreen');

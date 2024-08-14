@@ -70,17 +70,17 @@ function keydownRight(event) {
     if (event) event.preventDefault();
     keyboard.RIGHT = true;
     markUsedControlBtn('arrowRight');
-    timer = setTimeout(function() {
-        // Verhindern der Standardaktion wie Kopieren
-        e.preventDefault();
-    }, delay);
+    // timer = setTimeout(function() {
+    //     // Verhindern der Standardaktion wie Kopieren
+    //     event.preventDefault();
+    // }, delay);
 }
 
 function keyUpRight(event) {
     if (event) event.preventDefault();
     keyboard.RIGHT = false;
     demarcateUsedControlBtn('arrowRight');
-    clearTimeout(timer);
+    // clearTimeout(timer);
 }
 
 function keydownLeft(event) {
