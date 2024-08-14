@@ -150,8 +150,6 @@ function explenationHTML() {
     `;
 }
 
-
-
 function ControlSymbolsHTML() {
     return `
         <div id="controlBtnSection">
@@ -175,7 +173,6 @@ function ControlSymbolsHTML() {
         </div>
     `;
 }
-
 
 function navbarHTML() {
     return `

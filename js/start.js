@@ -1,9 +1,24 @@
 function init() {
     initStartScreen();
     handleScreenOrientation();
-    window.addEventListener('resize', handleScreenOrientation);
-    if (checkMobileDeviceSize()) {
+    window.addEventListener('resize', configScreen());
+}
+
+
+
+function configScreen() {
+    let navbar = document.getElementById('navbar');
+    let gameCanvas = document.getElementById('gameCanvas');
+    if (checkDeviceMode() == 'mobile') {
+        if (gameCanvas) {
+            gameCanvas.classList.add('fullscreen');
+        }
         setMobileScreenCustomization();
+    } else if (checkDeviceMode() == 'desctop' && gameCanvas) {
+        if (gameCanvas) {
+            gameCanvas.classList.remove('fullscreen');
+        }
+        setDesctopScreenCustomization();
     }
 }
 
@@ -38,22 +53,30 @@ function checkPageOrientation() {
     }
 }
 
-function checkMobileDeviceSize() {
-    let viewportWidth = window.innerWidth;
-    let viewportHeight = window.innerHeight;
-    if (viewportWidth <= 720 || viewportHeight <= 640) {
-        return true;
-    } else {
-        return false;
+function checkDeviceMode() {
+    if (window.matchMedia('(pointer: fine)').matches) {
+        return 'desctop'
+    } else if(window.matchMedia('(pointer: coarse)').matches){
+        return 'mobile'
     }
 }
 
 function setMobileScreenCustomization() {
     let gameScreen = document.getElementById('gameScreen');
-        let header = document.getElementById('header');
+    let header = document.getElementById('header');
+    if (header) {
         header.style.display = 'none';
-        gameScreen.style.width = '100dvw';
-        gameScreen.style.height = '100dvh';
+    }
+    gameScreen.style.width = '100dvw';
+    gameScreen.style.height = '100dvh';
+}
+
+function setDesctopScreenCustomization() {
+    let gameScreen = document.getElementById('gameScreen');
+    let header = document.getElementById('header');
+    header.style.display = 'flex';
+    gameScreen.style.width = '720px';
+    gameScreen.style.height = '480px';
 }
 
 function reloadGame() {

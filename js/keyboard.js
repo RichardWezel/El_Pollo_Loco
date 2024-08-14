@@ -70,17 +70,12 @@ function keydownRight(event) {
     if (event) event.preventDefault();
     keyboard.RIGHT = true;
     markUsedControlBtn('arrowRight');
-    // timer = setTimeout(function() {
-    //     // Verhindern der Standardaktion wie Kopieren
-    //     event.preventDefault();
-    // }, delay);
 }
 
 function keyUpRight(event) {
     if (event) event.preventDefault();
     keyboard.RIGHT = false;
     demarcateUsedControlBtn('arrowRight');
-    // clearTimeout(timer);
 }
 
 function keydownLeft(event) {
@@ -181,7 +176,6 @@ function addTouchListeners() {
     throwBtn.addEventListener('touchstart', keydownD);
     throwBtn.addEventListener('touchend', keyUpD);
     throwBtn.addEventListener('touchcancel', keyUpD); // Add this line
-    
 }
 
 function preventContextMenu(event) {
