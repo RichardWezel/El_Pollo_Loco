@@ -77,7 +77,7 @@ class Endboss extends MovableObject {
         top: 100,
         right: 150,
         bottom: 150,
-        left: 70
+        left: 40
     }
     deadStatus = false;
     contactCharacter = false;

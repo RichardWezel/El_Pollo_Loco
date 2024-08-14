@@ -162,7 +162,7 @@ class Character extends MovableObject{
             if (this.x > 3870) {
                 this.world.level.enemies[0].contactCharacter = true;
             }
-        }, 40);
+        }, 100);
     }
 
         characterDies() {
