@@ -70,7 +70,6 @@ class MovableObject extends DrawableObject {
                 this.energyCharacter -= 3;
             }
             this.energyCharacter -= 3;
-            console.log('Energy of Pepe is ', this.energyCharacter, '%');
             this.lastHitCharacter = new Date().getTime();
             this.checkGameOver();
         }
@@ -79,7 +78,6 @@ class MovableObject extends DrawableObject {
     hitEndboss() {
         if(this.energyEndboss > 0) {
             this.lastHitEndboss = new Date().getTime();
-            console.log('Energy of Endboss is ', this.energyEndboss, '%')
         }
     }
 

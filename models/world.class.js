@@ -269,7 +269,6 @@ class World {
 
     reduceEndbossEnergy() {
         this.energyEndboss -= 10;
-        console.log('Energy of Endboss is: ', this.energyEndboss);
         this.setAnimationStatus();
         this.statusbar_endboss.setPercentage(this.energyEndboss, 'increase');
         if (this.energyEndboss == 0) {
