@@ -246,7 +246,9 @@ class Character extends MovableObject{
     }
 
     playSnoringSound() {
-        this.snoring_sound.play();
+        if(volumeStatus == true) {
+            this.snoring_sound.play();
+        }
         this.snoring_sound.addEventListener('ended', () => {
             this.snoring_sound.currentTime = 0;
             if(volumeStatus == true) {

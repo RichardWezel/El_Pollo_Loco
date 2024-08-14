@@ -31,7 +31,9 @@ class World {
         this.intervalCollBottle();
         this.checkUseOf_KeyD();
         this.backgroundmusic.load();
-        this.playBackgroundMusic();
+        if(volumeStatus == true) {
+            this.playBackgroundMusic();
+        }
         this.startBottleAmound = this.level.collectableObjects_bottles.length;
     }
     
@@ -96,11 +98,15 @@ class World {
     }
 
     playBackgroundMusic() {
-        this.backgroundmusic.play();
+        if(volumeStatus == true) {
+            this.backgroundmusic.play();
+        }
         this.backgroundmusic.volume = 0.2;
         this.backgroundmusic.addEventListener('ended', () => {
             this.backgroundmusic.currentTime = 0;
-            this.backgroundmusic.play();
+            if(volumeStatus == true) {
+                this.backgroundmusic.play();
+            }
         });
     }
 
@@ -302,7 +308,9 @@ class World {
 
     handleBottleHitEndboss(bottle, bottleIndex) {
         clearInterval(bottle.intervalRotation);
-        this.endbossHurtSound.play();
+        if(volumeStatus == true) {
+            this.endbossHurtSound.play();
+        }
         this.playSplashAnimation(bottle, bottleIndex)
         bottle.hasCollided = true;
     }
