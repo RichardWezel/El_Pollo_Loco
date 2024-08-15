@@ -24,6 +24,7 @@ class World {
     start = false;
     energyEndboss = 100;
     startBottleAmound = 0;
+    startCoinAmound = 0;
 
      /**
      * @param {HTMLCanvasElement} canvas - The canvas element where the game is rendered.
@@ -42,7 +43,13 @@ class World {
         if(volumeStatus == true) {
             this.playBackgroundMusic();
         }
+        this.setCollectableObjectAmounds()
+        
+    }
+
+    setCollectableObjectAmounds() {
         this.startBottleAmound = this.level.collectableObjects_bottles.length;
+        this.startCoinAmound = this.level.collectableObjects_coin.length;
     }
     
      /**

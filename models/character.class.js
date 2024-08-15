@@ -94,12 +94,24 @@ class Character extends MovableObject{
         this.animate();
     }
 
+    /**
+     * Initializes the character moves and animations.
+     * 
+     * Starts the Interval break the walksound, checks wheter ther is a key let character walk rigght, left or jump and let the view of camera follow.
+     * 
+     * Starts the Interval checks and starts several animation loops of the character.
+     * 
+     * Starts the character idle animation loop.
+     */
     animate() {
         this.runCharacterMoves();
         this.animateCharacterMoves();
         this.characterIdle();
     }
 
+    /**
+     * Starts an interval stops walking sound of character, checks wheter ther is a key for walking or jump press and let the camera follow.
+     */
     runCharacterMoves() {
         setInterval(() => {
             this.walking_sound.pause();
@@ -110,8 +122,15 @@ class Character extends MovableObject{
         }, 1000 / 60); 
     }
 
+    /**
+     * Checks if there is pressed the key fpr walking right and the characters position isn't higher than endboss one. 
+     * 
+     * In case of true let the character moving in the right direction, set the direction status to false and let play the walking sound. 
+     * 
+     * resets the idle timer to start sleeping of character after 14 seconds.
+     */
     checkPressArrowRight() {
-        if(this.world.keyboard.RIGHT && this.x < 5130 && this.x < this.world.level.enemies[0].x) {
+        if(this.world.keyboard.RIGHT && this.x < this.world.level.enemies[0].x) {
             this.moveRight();
             this.otherDirection = false;
             if(volumeStatus == true) {
@@ -121,6 +140,13 @@ class Character extends MovableObject{
         }
     }
 
+     /**
+     * Checks if there is pressed the key for walking left and the characters position isn't let than the beginning of canvas koordinates. 
+     * 
+     * In case of true let the character moving in the left direction, set the direction status to true and let play the walking sound. 
+     * 
+     * resets the idle timer to start sleeping of character after 14 seconds.
+     */
     checkPressArrowLeft(){
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
@@ -132,6 +158,11 @@ class Character extends MovableObject{
         }
     }
 
+    /**
+     * Checks if there is pressed the key for jump and if the character starts from teh ground position.
+     * 
+     * In case of true let jump the character, plays the jump sound and resets the idle timer to start sleeping of character after 14 seconds.
+     */
     checkPressSpace(){
         if(this.world.keyboard.SPACE && this.y == this.groundPos) {
             this.jump();
@@ -142,12 +173,29 @@ class Character extends MovableObject{
         }
     }
 
+    /**
+    * Adjusts the camera's horizontal position to follow the character.
+    *
+    * This method updates the camera's horizontal position based on the character's
+    * current x-coordinate. The camera follows the character by setting its x-position
+    * relative to the character's x-position, ensuring the character remains in view
+    * as they move. The camera's x-position is adjusted to keep the character 100 pixels
+    * from the left edge of the viewport.
+    *
+    * The camera's x-position is only updated if the character's x-coordinate is greater
+    * than 0.
+    */
     camera_x_follows() {
         if(this.x > 0){
             this.world.camera_x = -this.x + 100;
         }
     }
 
+    /**
+     * Starts the interval to check the konditions for several animation szenarios and let play those.
+     * 
+     * Starts the moving of the endboss if the character exceeds 3870 pixel of x position.
+     */
     animateCharacterMoves() {
         this.characterAnimationInterval = setInterval(() => {
             if (this.isDead()) {
@@ -165,6 +213,11 @@ class Character extends MovableObject{
         }, 100);
     }
 
+    /**
+     * Starts the functions of characters dying. 
+     * 
+     * Let playing the death animation of character, let the character jumping, set the end of characters falling under the screen ground, stops the backgroundmusic, plays the teath sound of character and resets other animations and sounds.
+     */
     characterDies() {
         this.playDeathAnimation(); 
         this.jump(); 
@@ -177,6 +230,9 @@ class Character extends MovableObject{
         this.resetSounds();
     }
 
+    /**
+     * Resets the intervals of several playing sounds.
+     */
     resetSounds() {
         this.world.backgroundmusic.pause();
         this.snoring_sound.pause();
@@ -185,6 +241,20 @@ class Character extends MovableObject{
         clearTimeout(this.sleepTimeout); 
     }
 
+    /**
+    * Plays the death animation for the character.
+    *
+    * This method iterates through an array of image paths representing the death
+    * animation frames. Each frame is displayed in sequence to create the appearance
+    * of a death animation. The animation is played at a regular interval, updating
+    * the character's image to the next frame until all frames have been shown.
+    *
+    * After the animation completes, the interval is cleared, and the `checkGameOver`
+    * method is called to handle any game-over logic.
+    *
+    * The death animation frames are defined in the `IMAGES_DEAD` array and are
+    * cached in `this.imageCache`.
+    */
     playDeathAnimation() {
         let deathIndex = 0; 
         let deathAnimationInterval = setInterval(() => {
@@ -198,6 +268,9 @@ class Character extends MovableObject{
         }, 100); 
     }
 
+    /**
+     * Checks whether there is the character y position out of the screen and starts the game over logic.
+     */
     checkGameOver() {
         this.GameOverInterval = setInterval(() => {
             if (this.y == 500) {
@@ -205,12 +278,19 @@ class Character extends MovableObject{
             }
         }, 100); 
     }
+
+    /**
+     * Set the Game over html elements and stops the interval of checking characters y position.
+     */
     initGameOver() {
         let gameOver = document.getElementById('gameOver');
         gameOver.style.display = 'flex';
         clearInterval(this.GameOverInterval);                
     }
 
+    /**
+     * Starts the animation of charcter hurt and play the hurt sound.
+     */
     characterHurtsHimself() {
         this.playAnimation(this.IMAGES_HURT);
         if (volumeStatus === true) {
@@ -218,6 +298,17 @@ class Character extends MovableObject{
         }
     }
     
+    /**
+    * Starts the idle animation for the character.
+    *
+    * This method initiates the idle state of the character by:
+    * 1. Starting a sleep timer using `startSleepTimer`.
+    * 2. Clearing any existing intervals associated with idle and sleep states.
+    * 3. Setting up a new interval to repeatedly play the idle animation frames.
+    *
+    * The idle animation frames are defined in the `IMAGES_IDLE` array and are
+    * played at a regular interval of 180 milliseconds.
+    */
     characterIdle() {
         this.startSleepTimer(); 
         clearInterval(this.idle);
@@ -227,6 +318,16 @@ class Character extends MovableObject{
         }, 180); 
     }
 
+    /**
+    * Starts a sleep timer for the character.
+    *
+    * This method sets up a timer that triggers the character to enter the sleep state
+    * after a specified duration. It initializes a timeout using `setTimeout` with the
+    * duration defined by `initialSleepTime`. When the timeout expires:
+    * 1. The `characterSleep` method is called to handle the sleep logic.
+    * 2. The previously set idle timeout is cleared using `clearTimeout` to stop any
+    * ongoing idle animations.
+    */
     startSleepTimer() {
         this.sleepTimeout = setTimeout(() => {
             this.characterSleep();
@@ -234,6 +335,9 @@ class Character extends MovableObject{
         }, this.initialSleepTime);
     }
 
+    /**
+    * Transitions the character into a sleep state.
+    */
     characterSleep() {
         if(volumeStatus == true) {
             this.playSnoringSound();
@@ -245,6 +349,9 @@ class Character extends MovableObject{
         }, 180); 
     }
 
+    /**
+    * Plays the snoring sound if the volume is enabled.
+    */
     playSnoringSound() {
         if(volumeStatus == true) {
             this.snoring_sound.play();
@@ -257,6 +364,9 @@ class Character extends MovableObject{
         });
     }
 
+    /**
+    * Resets the idle timer and transitions the character to an idle state.
+    */
     resetIdleTimer() {
         clearTimeout(this.sleepTimeout); 
         clearInterval(this.sleep); 
@@ -264,6 +374,9 @@ class Character extends MovableObject{
         this.snoring_sound.pause();
     }
 
+    /**
+    * Applies a bounce effect to the character by altering its vertical speed and position.
+    */
     bounce() {
         this.speedY = 20; 
         this.y = this.groundPos - 20; 

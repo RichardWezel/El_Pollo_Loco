@@ -1,20 +1,20 @@
 /**
- * Variable for current using language of the user in the game.
+ * Global variable to hold the current using language of the user in the game.
  */
 let language = "german";
 
 /**
- * Variable of the menu button status. False means onlx the menu button is to be seen without other the setting buttons. True means the setting buttons can be seen.
+ * Global variable to hold the menu button status. False means onlx the menu button is to be seen without other the setting buttons. True means the setting buttons can be seen.
  */
 let menuStatus = false;
 
 /**
- * Variable for setting the world object.
+ * Global variable to hold the World object.
  */
 let world;
 
 /**
- * Variable for setting the canvas html element. 
+ * Global variable to hold the canvas html element. 
  */
 let canvas;
 

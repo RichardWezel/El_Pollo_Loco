@@ -25,6 +25,9 @@ class CollectableObjects_coin extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the animation of coins.
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGE_COIN)  

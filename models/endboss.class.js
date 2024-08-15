@@ -103,6 +103,9 @@ class Endboss extends MovableObject {
         this.applyGravity();
     }
 
+    /**
+     * Starts the interval checking if the character is in the near of the endboss. If its true, lets the endboss walk.
+     */
     checkContactWithCharacter() {
         let check = setInterval(() => {
             if (this.contactCharacter == true) {
@@ -115,6 +118,13 @@ class Endboss extends MovableObject {
          }, 50);
     }
 
+    /**
+    * Starts the walking animation and movement of the object.
+    *
+    * This method sets up two intervals:
+    * - One for handling the movement of the object in the left direction.
+    * - Another for cycling through the walking, alertness, or attack animations based on the current animation status.
+    */
     walkAnimation() {
         this.walkInterval = setInterval(() => {
                 this.moveLeft();
@@ -131,11 +141,19 @@ class Endboss extends MovableObject {
         }, this.animationSpeed);
     }
 
+    /**
+     * Stops intervals of walking (stosp changing position and walk animation)
+     */
     stopWalking() {
         clearInterval(this.walkInterval); 
         clearInterval(this.walkAnimationInterval); 
     }
 
+    /**
+     * Starts the functions for the dying endbosss.
+     * 
+     * Let play the dath sound of endboss,  stop walking functions and animate the death of endboss.
+     */
     endbossDies() {
         this.cocorido.play();
         this.stopWalking();
@@ -144,6 +162,9 @@ class Endboss extends MovableObject {
         this.world.character.resetSounds();
     }
 
+    /**
+     * Animate the death of endboss.
+     */
     playDeathAnimationEndboss() {
         let deathIndex = 0; 
         this.deathAnimationInterval = setInterval(() => {
@@ -156,34 +177,54 @@ class Endboss extends MovableObject {
         }, 100); 
     }
 
+    /**
+     * After 100 ms stops the death animation and let the death endboss jump and fall under the gamescreen. After an time sets the win screen.
+     */
     endOfDeathAnimation() {
         setTimeout(() => {
             clearInterval(this.deathAnimationInterval); 
-            this.test();
+            this.timeoutToWin();
             this.jumpEndboss(); 
             this.fallBelowGround(); 
         }, 100);
     }
 
-    test() {
+    /**
+     * After 700 ms sets the win html and logics.
+     */
+    timeoutToWin() {
         setTimeout(() => {
             this.world.handleWin();
         }, 700);
     }
 
+    /**
+     * Let the endboss jump.
+     */
     jumpEndboss() {
         this.speedY = 20;
     }
 
+    /**
+     * Checks the endboss energy if ist 0.
+     * 
+     * @returns true, if the energy of endboss is 0.
+     */
     isDeadEndboss() {
         return this.world.energyEndboss == 0;
     }
 
+    /**
+     * Stops the walking animation and let playing hurt animation.
+     */
     endbossHurtsHimself() {
         this.stopWalking();
         this.playHurtAnimationEndboss(); 
     }
 
+    /**
+     * Starts the hurt animations of endboss.
+     */
     playHurtAnimationEndboss() {
         let hurtIndex = 0; 
         this.hurtAnimationInterval = setInterval(() => {

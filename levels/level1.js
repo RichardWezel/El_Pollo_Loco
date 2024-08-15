@@ -1,5 +1,21 @@
+/** 
+ * Global variable to hold the level configuration.
+ * @type {Level}
+ */
 let level1; 
 
+/**
+ * Initializes the level by creating a new `Level` instance with predefined enemies, clouds, background objects, collectable bottles, and coins.
+ * 
+ * The level includes:
+ * - Multiple `Chicken`, `Chick`, and one `Endboss` enemy.
+ * - Numerous `Cloud` objects for the background.
+ * - Several `BackgroundObject` instances for various layers of the background.
+ * - A collection of `CollectableObjects_bottle` for the player to collect.
+ * - A set of `CollectableObjects_coin` for the player to gather.
+ * 
+ * The positions of the background objects, bottles, and coins are hardcoded to create a structured level.
+ */
 function initlevel() {
    level1 =  new Level(
     [

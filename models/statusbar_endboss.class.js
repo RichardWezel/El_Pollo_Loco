@@ -17,6 +17,9 @@ class Statusbar_endboss extends Statusbar {
         this.loadImage(this.STATUS_IMAGES[0]);
     }
 
+    /**
+    * Updates the `x` position of the current object to match the `x` position of the first enemy in the level.
+    */
     updateX() {
         if (this.world && this.world.level && this.world.level.enemies[0]) {
             this.x = this.world.level.enemies[0].x;

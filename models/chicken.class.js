@@ -32,6 +32,9 @@ class Chicken extends MovableObject{
         this.animate();
     }
 
+    /**
+     * Start the intervals of walking left and the animation of chicken.
+     */
     animate() {
         this.walkingInterval = setInterval(() => {
             this.moveLeft();
@@ -41,6 +44,11 @@ class Chicken extends MovableObject{
         }, 200);
     }
 
+    /**
+     * Handle the chicken hit. 
+     * 
+     * Stops the Intervals of walking and animation, set the dead status to true and shows the chicken dead.
+     */
     hitChicken() {
         clearInterval(this.walkingInterval);
         clearInterval(this.animationInterval);

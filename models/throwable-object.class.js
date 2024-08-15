@@ -30,12 +30,18 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
+    /**
+     * Set the logic to let the object flying.
+     */
     throw() {
         this.speedY = 30; 
         this.applyGravity(); 
         this.bottleFly();
     }
 
+    /**
+     * Starts the fly interval for flying animations. If the object is above the ground, the bottle rotate, else it splashs.
+     */
     bottleFly() {
         this.intervalRotation = setInterval(() => {
             if (this.checkHitTheGround()) {
@@ -46,6 +52,9 @@ class ThrowableObject extends MovableObject {
         }, 50);
     }
 
+    /**
+     * Represents the logic of bottle rotation with upadate x position and playing animation loop.
+     */
     bottleRotation() {
         if (!this.checkHitTheGround()) {
             this.x += 20;
@@ -53,6 +62,9 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * Let play the animations loop, set the collition status og the object to true, plays the splashing sound.
+     */
     bottleSplash() {
         this.playAnimationSplash(this.IMAGES_SPLASH);
         this.hasCollided = true; 
@@ -62,6 +74,11 @@ class ThrowableObject extends MovableObject {
         }
     }
     
+    /**
+    * Checks if the object has hit the ground based on its current vertical position.
+    *
+    * @returns {boolean} `true` if the object's vertical position (`y`) is exactly 350, indicating it has hit the ground; `false` otherwise.
+    */
     checkHitTheGround() {
         if (this.y == 350) {
             return true
@@ -70,6 +87,11 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * Lets playing the animation of botlle splashing.
+     * 
+     * @param {path} images 
+     */
     playAnimationSplash(images) {
         let i = 100;
         i = this.currentImage % images.length; 
@@ -81,6 +103,9 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * Deletes the object from the world. 
+     */
     deleteObject(){
         world.throwableObject.splice(0,1);
         clearInterval(this.intervalRotation);
