@@ -1,4 +1,9 @@
-function renderStartBtns() {
+/**
+ * Returns the html elements of start buttons.
+ * 
+ * @returns {HTMLElement}
+ */
+function StartBtnsHTML() {
     return `
         <div id="btnContainer">
             <button class="btn" onclick="startGame()">Spiel start</button>
@@ -8,6 +13,11 @@ function renderStartBtns() {
     `
 }
 
+/**
+ * Returns the html element of canvas.
+ * 
+ * @returns {HTMLElement}
+ */
 function canvasHTML_Element() {
     return `
         <canvas id="gameCanvas" width='720' height='480'>
@@ -15,6 +25,11 @@ function canvasHTML_Element() {
     `
 }
 
+/**
+ * Returns the html elements of the game story.
+ * 
+ * @returns {HTMLElement}
+ */
 function storyHTML() {
     return `
         <div id="InstructionsContainer">
@@ -32,6 +47,11 @@ function storyHTML() {
     `;
 }
 
+/**
+ * Returns the html elements of game explenation.
+ * 
+ * @returns {HTMLElement}
+ */
 function explenationHTML() {
     return `
         <div id="InstructionsContainer">
@@ -150,6 +170,11 @@ function explenationHTML() {
     `;
 }
 
+/**
+ * Returns the html elements of controll elements.
+ * 
+ * @returns {HTMLElement}
+ */
 function ControlSymbolsHTML() {
     return `
         <div id="controlBtnSection">
@@ -174,6 +199,11 @@ function ControlSymbolsHTML() {
     `;
 }
 
+/**
+ * Returns the html elements of navigation bar.
+ * 
+ * @returns {HTMLElement}
+ */
 function navbarHTML() {
     return `
         <nav id="navbar">
@@ -206,6 +236,11 @@ function navbarHTML() {
     `;
 }
 
+/**
+ * Returns the html elements of the outcome screen game over.
+ * 
+ * @returns {HTMLElement}
+ */
 function gameOverHTML() {
     return `
         <div class="endScreen" id="gameOver">
@@ -215,6 +250,11 @@ function gameOverHTML() {
     `;
 }
 
+/**
+ * Returns the html elements of the outcome screen game win.
+ * 
+ * @returns {HTMLElement}
+ */
 function winHTML() {
      return `
         <div class="endScreen" id="gameWin">
@@ -224,6 +264,11 @@ function winHTML() {
     `;
 }
 
+/**
+ * Returns the html elements of game impressum.
+ * 
+ * @returns {HTMLElement}
+ */
 function ImpressumHTML() {
     return `
     <div id="ImpressumContainer">
@@ -257,6 +302,11 @@ function ImpressumHTML() {
 `;
 }
 
+/**
+ * Returns the html elements of game data security instructions.
+ * 
+ * @returns {HTMLElement}
+ */
 function DataSecurityHTML() {
     return `
     <div id="ImpressumContainer">
@@ -297,4 +347,28 @@ function DataSecurityHTML() {
         
     </div>
 `;
+}
+
+/**
+ * Returns the html elements of closing svg symbol of setting menu.
+ * 
+ * @returns {HTMLElement}
+ */
+function svgX() {
+    return `
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+        </svg>
+    `;
+}
+
+/**
+ * Returns the html elements of opening svg symbol of setting menu.
+ * 
+ * @returns {HTMLElement}
+ */
+function svgMenu() {
+    return `
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+        </svg>
+    `;
 }
