@@ -265,7 +265,7 @@ function gameOverHTML() {
     return `
         <div class="endScreen" id="gameOver">
             <img src="images/intro_outro_screens/game_over/game over.png" alt="">
-            <button class="endScreenBtn btn" onclick="reloadGame()">Noch einmal!</button>
+            <button class="endScreenBtn btn" onclick="restartGame()">Noch einmal!</button>
         <div>
     `;
 }
@@ -279,7 +279,7 @@ function winHTML() {
      return `
         <div class="endScreen" id="gameWin">
             <img class="gameWinImage" src="images/intro_outro_screens/win/won_2.png" alt="">
-            <button class="endScreenBtn btn" onclick="reloadGame()">Noch einmal!</button>
+            <button class="endScreenBtn btn" onclick="restartGame()">Noch einmal!</button>
         <div>
     `;
 }

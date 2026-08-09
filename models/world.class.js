@@ -199,15 +199,46 @@ class World {
      */
     playBackgroundMusic() {
         if(volumeStatus == true) {
-            this.backgroundmusic.play();
+            this.tryPlayBackgroundMusic();
         }
         this.backgroundmusic.volume = 0.2;
         this.backgroundmusic.addEventListener('ended', () => {
             this.backgroundmusic.currentTime = 0;
             if(volumeStatus == true) {
-                this.backgroundmusic.play();
+                this.tryPlayBackgroundMusic();
             }
         });
+    }
+
+    /**
+     * Attempt to play the background music, with a fallback for browsers that block it.
+     *
+     * Browsers refuse to autoplay audio with sound unless it's triggered by a direct user
+     * gesture (click/tap/keypress). That's normally fine here since play() is called from
+     * inside the "Start" button's click handler - but restartGame() ("Noch einmal!") jumps
+     * straight into a new game via a full page reload (see start.js), so this first play()
+     * call happens during page load, not inside a click handler, and gets silently
+     * rejected. If that happens, fall back to starting the music on the player's first
+     * touch/click/key press - which happens anyway within a second or two of the game
+     * starting, since that's how you control the character.
+     */
+    tryPlayBackgroundMusic() {
+        let playPromise = this.backgroundmusic.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                let resumeOnInteraction = () => {
+                    if (volumeStatus == true) {
+                        this.backgroundmusic.play();
+                    }
+                    document.removeEventListener('touchstart', resumeOnInteraction);
+                    document.removeEventListener('keydown', resumeOnInteraction);
+                    document.removeEventListener('mousedown', resumeOnInteraction);
+                };
+                document.addEventListener('touchstart', resumeOnInteraction, { once: true });
+                document.addEventListener('keydown', resumeOnInteraction, { once: true });
+                document.addEventListener('mousedown', resumeOnInteraction, { once: true });
+            });
+        }
     }
 
     /**

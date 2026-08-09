@@ -4,10 +4,19 @@
  * and adapts the layout to the current device dimensions.
  */
 function init() {
-    initStartScreen();
     handleScreenOrientation();
-    configScreen();
     window.addEventListener('resize', handleWindowResize);
+    // If restartGame() (the "Noch einmal!" button after game over/win) set this flag
+    // before reloading, jump straight into a fresh game instead of showing the start
+    // screen - see restartGame() below for why this goes through a real page reload
+    // rather than just tearing down and rebuilding the World in place.
+    if (sessionStorage.getItem('autoStartGame') === 'true') {
+        sessionStorage.removeItem('autoStartGame');
+        startGame();
+    } else {
+        initStartScreen();
+    }
+    configScreen();
 }
 
 /**
@@ -122,12 +131,30 @@ function setDesctopScreenCustomization() {
 }
 
 /**
- * Reload the current page. Used for actions that are meant to fully restart the game
- * (Home button, Taste H, "Noch einmal" after game over/win) - NOT for closing the
- * info/instructions overlay, which should resume the paused game instead (see
- * closeOverlay()).
+ * Reload the current page and return to the start screen. Used for the Home button and
+ * Taste H - NOT for closing the info/instructions overlay, which should resume the
+ * paused game instead (see closeOverlay()), and NOT for "Noch einmal" after game
+ * over/win, which should jump straight back into the game (see restartGame()).
  */
 function reloadGame() {
+    window.location.reload();
+}
+
+/**
+ * Reload the page and jump straight back into a fresh game, skipping the start screen -
+ * used by the "Noch einmal!" button after game over/win.
+ *
+ * This goes through a real page reload (rather than just tearing down the old World and
+ * building a new one in place) so every leftover timer/interval/sound from the previous
+ * game is guaranteed to be gone. A lot of classes here (Character, Endboss, ...) start
+ * their own setInterval/setTimeout for animations and don't all keep a handle that could
+ * be cleared from the outside - a full reload sidesteps having to track all of those
+ * down individually and avoids old, invisible game state quietly running on in the
+ * background. init() reads the `autoStartGame` flag set here to start the game
+ * immediately instead of showing the start screen.
+ */
+function restartGame() {
+    sessionStorage.setItem('autoStartGame', 'true');
     window.location.reload();
 }
 
