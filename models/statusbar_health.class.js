@@ -1,3 +1,7 @@
+/**
+ * Statusbar representing the player's health. It maps health percentages
+ * to the corresponding health bar images provided in `STATUS_IMAGES`.
+ */
 class Statusbar_health extends Statusbar {
     STATUS_IMAGES = [
         'images/statusbar_health/0.png',

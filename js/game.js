@@ -1,10 +1,12 @@
 /**
- * Global variable to hold the current using language of the user in the game.
+ * Current language used in the game (e.g. 'german', 'english').
  */
 let language = "german";
 
 /**
- * Global variable to hold the menu button status. False means onlx the menu button is to be seen without other the setting buttons. True means the setting buttons can be seen.
+ * Flag for the settings menu state.
+ * false: only the menu icon is visible
+ * true: settings buttons are visible
  */
 let menuStatus = false;
 
@@ -14,12 +16,12 @@ let menuStatus = false;
 let world;
 
 /**
- * Global variable to hold the canvas html element. 
+ * Reference to the game canvas HTML element.
  */
 let canvas;
 
 /**
- * Initializes the functions for running the game.
+ * Start the game: set up UI, initialize level and canvas, and configure layout.
  */
 function startGame() {
     setControlBtns();
@@ -33,7 +35,7 @@ function startGame() {
 }
 
 /**
- * Removes the buttons of start screen.
+ * Remove the start screen button container.
  */
 function removeStartBtns() {
     let btnContainer = document.getElementById('btnContainer');
@@ -43,7 +45,7 @@ function removeStartBtns() {
 }
 
 /**
- * Sets the controll buttons für mobile device using.
+ * Add on-screen control buttons for mobile devices and attach listeners.
  */
 function setControlBtns() {
     let gameScreen = document.getElementById('gameScreen');
@@ -52,7 +54,7 @@ function setControlBtns() {
 }
 
 /**
- * Sets the elements of the navigation buttons
+ * Append the navigation bar HTML to the game screen.
  */
 function setNavbar() {
     let gameScreen = document.getElementById('gameScreen');
@@ -60,7 +62,7 @@ function setNavbar() {
 }
 
 /**
- * Sets the outcome screens for win or loos.
+ * Append win and game-over screens to the DOM (hidden by default).
  */
 function setGameOutcome() {
     let gameScreen = document.getElementById('gameScreen');
@@ -69,7 +71,7 @@ function setGameOutcome() {
 }
 
 /**
- * Sets the button for activating the fullscreen mode.
+ * Add a fullscreen toggle button to the navbar on desktop devices.
  */
 function setFullscreenBtn() {
     if (checkDeviceMode() == 'desctop') {
@@ -78,7 +80,7 @@ function setFullscreenBtn() {
 }
 
 /**
- * Sets the canvs element.
+ * Insert the canvas element into the DOM and apply device-specific classes.
  */
 function addCanvasHTMLElement() {
     let gameScreen = document.getElementById('gameScreen');
@@ -92,7 +94,7 @@ function addCanvasHTMLElement() {
 }
 
 /**
- * Sets the world of canvas.
+ * Create the `World` instance using the game canvas and keyboard input.
  */
 function initCanvas() {
     canvas = document.getElementById('gameCanvas');
@@ -100,7 +102,7 @@ function initCanvas() {
 }
 
 /**
- * Sets the style for appearing win screen.
+ * Show the win screen.
  */
 function renderWin() { 
     let gameWin = document.getElementById('gameWin');
@@ -108,7 +110,7 @@ function renderWin() {
 }
 
 /**
- * Sets the style for appearing game over screen.
+ * Show the game over screen.
  */
 function renderGameOver() { 
     let gameOver = document.getElementById('gameOver');

@@ -1,3 +1,7 @@
+/**
+ * Statusbar for coin collection progress. Uses the base `Statusbar`
+ * logic and provides coin-specific images for each progress step.
+ */
 class Statusbar_coin extends Statusbar {
     STATUS_IMAGES = [
         'images/statusbar_coin/100.png',

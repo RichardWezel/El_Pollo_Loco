@@ -26,10 +26,12 @@ class World {
     startBottleAmound = 0;
     startCoinAmound = 0;
 
-     /**
-     * @param {HTMLCanvasElement} canvas - The canvas element where the game is rendered.
-     * @param {Object} keyboard - An instance of the keyboard class for detecting user input.
-     */
+    /**
+    * Create a new World instance and start rendering and collision checks.
+    *
+    * @param {HTMLCanvasElement} canvas - Canvas element for rendering.
+    * @param {Object} keyboard - Keyboard input handler instance.
+    */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); 
         this.canvas = canvas;
@@ -52,9 +54,9 @@ class World {
         this.startCoinAmound = this.level.collectableObjects_coin.length;
     }
     
-     /**
-     * Continuously redraws the game elements on the canvas.
-     * Uses requestAnimationFrame for smooth animation.
+    /**
+     * Main render loop: clear canvas, translate for camera, draw level,
+     * status bars and movable objects, then request next frame.
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -71,7 +73,7 @@ class World {
     }
 
     /**
-     * Draws the backgrounds and other static elements of the level.
+     * Draw level backgrounds, clouds and collectable objects.
      */
     drawLevelBachgrounds() {
         this.addObjectsToMap(this.level.backgroundObjects); 
@@ -81,7 +83,7 @@ class World {
     }
 
     /**
-     * Draws the status bars for health, bottle count, coin count, and endboss health.
+     * Render status bars (health, bottles, coins, endboss) in screen space.
      */
     drawStatusbars() {
         this.ctx.translate(-this.camera_x, 0); 
@@ -126,7 +128,7 @@ class World {
     }
 
      /**
-     * Links various objects in the world to this instance of the World class.
+     * Associate world reference with objects that need it (character, statusbars, enemies).
      */
     setWorld() {
         this.character.world = this;
@@ -137,7 +139,7 @@ class World {
     }
 
     /**
-     * Plays the background music in a loop.
+     * Play and loop background music (respecting the global `volumeStatus`).
      */
     playBackgroundMusic() {
         if(volumeStatus == true) {
@@ -153,7 +155,7 @@ class World {
     }
 
     /**
-     * Periodically checks for collisions between the character and other objects.
+     * Periodically check collisions involving the main character.
      */
     intervalCollCharacter() {
         setInterval(() => {
@@ -162,7 +164,7 @@ class World {
     }
 
     /**
-     * Periodically checks for collisions between bottles and other objects.
+     * Periodically check collisions for thrown bottles against enemies.
      */
     intervalCollBottle() {
         setInterval(() => {
@@ -210,7 +212,8 @@ class World {
     }
     
     /**
-     * Handles the logic when the character runs into an enemy.
+     * Handle collision when the character runs into an enemy: apply damage
+     * and update the health status bar.
      * @param {Object} enemy - The enemy object.
      */
     handleRunningIntoEnemy(enemy) {

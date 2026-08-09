@@ -1,3 +1,7 @@
+/**
+ * Collectable bottle object placed in the level for the player to pick up.
+ * Uses `MovableObject` for positioning but remains static until collected.
+ */
 class CollectableObjects_bottle extends MovableObject {
     
     y = 350;
@@ -12,6 +16,9 @@ class CollectableObjects_bottle extends MovableObject {
         left: 30
     }
 
+    /**
+     * @param {string} imagePath - Path to the bottle image used for this collectible
+     */
     constructor(imagePath) {
         super().loadImage(imagePath);
         this.x = 200 + Math.random() * 4000;

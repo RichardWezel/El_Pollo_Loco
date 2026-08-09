@@ -1,3 +1,7 @@
+/**
+ * ThrowableObject represents a bottle the player can throw.
+ * It handles flight, rotation, collision and splash animation.
+ */
 class ThrowableObject extends MovableObject {
     factor = 0.2;
     height = 400 * this.factor;
@@ -31,7 +35,7 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * Set the logic to let the object flying.
+     * Initiate throw behavior: set upward velocity, enable gravity and start flight.
      */
     throw() {
         this.speedY = 30; 
@@ -40,7 +44,7 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * Starts the fly interval for flying animations. If the object is above the ground, the bottle rotate, else it splashs.
+     * Start the flight loop: while airborne rotate the bottle, otherwise splash.
      */
     bottleFly() {
         this.intervalRotation = setInterval(() => {
@@ -53,7 +57,7 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * Represents the logic of bottle rotation with upadate x position and playing animation loop.
+     * Advance the bottle horizontally and play rotation animation while airborne.
      */
     bottleRotation() {
         if (!this.checkHitTheGround()) {
@@ -63,7 +67,7 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * Let play the animations loop, set the collition status og the object to true, plays the splashing sound.
+     * Play the splash animation, mark the bottle as collided and play splash sound.
      */
     bottleSplash() {
         this.playAnimationSplash(this.IMAGES_SPLASH);
@@ -75,26 +79,19 @@ class ThrowableObject extends MovableObject {
     }
     
     /**
-    * Checks if the object has hit the ground based on its current vertical position.
-    *
-    * @returns {boolean} `true` if the object's vertical position (`y`) is exactly 350, indicating it has hit the ground; `false` otherwise.
+    * Return true if the bottle has reached the ground level (y == 350).
+    * @returns {boolean}
     */
     checkHitTheGround() {
-        if (this.y == 350) {
-            return true
-        } else {
-            return false
-        }
+        return this.y == 350;
     }
 
     /**
-     * Lets playing the animation of botlle splashing.
-     * 
-     * @param {path} images 
+     * Advance the splash animation and remove the object when the cycle completes.
+     * @param {string[]} images - splash frame image paths
      */
     playAnimationSplash(images) {
-        let i = 100;
-        i = this.currentImage % images.length; 
+        let i = this.currentImage % images.length; 
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
@@ -104,7 +101,7 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * Deletes the object from the world. 
+     * Remove this bottle instance from the world's throwableObject array and stop its interval.
      */
     deleteObject(){
         world.throwableObject.splice(0,1);

@@ -1,14 +1,14 @@
 /**
- * Variable containing boolean values for sound playing status.
- ** true: sound play
- ** false: sound muted
+ * Boolean flag for sound playback status.
+ * true: sound enabled
+ * false: sound muted
  */
 let volumeStatus = true;
 
 /**
- * Marks the html element with the given id as used.
- * 
- * @param {string} controllBtnId - id of html element witch have to mark as used.
+ * Highlight the control button element with the given id to show it is active.
+ *
+ * @param {string} controllBtnId - id of the HTML element to mark as active.
  */
 function markUsedControlBtn(controllBtnId) {
     let element = document.getElementById(controllBtnId);
@@ -22,9 +22,9 @@ function markUsedControlBtn(controllBtnId) {
 }
 
 /**
- *Demarcate the html element with the given id.
- * 
- * @param {string} controllBtnId - id of html element witch have to demarcate.
+ * Remove the active highlight from the control button with the given id.
+ *
+ * @param {string} controllBtnId - id of the HTML element to unmark.
  */
 function demarcateUsedControlBtn(controllBtnId) {
     let element = document.getElementById(controllBtnId);
@@ -38,8 +38,7 @@ function demarcateUsedControlBtn(controllBtnId) {
 }
 
 /**
- * Changes the volume status in the opposite state.
- * Changes the state of variable volumeStatus and the image of speaker symbol.
+ * Toggle the global volume state and update the speaker icon.
  */
 function changeVolumeStatus() {
     volumeStatus = !volumeStatus;
@@ -47,7 +46,7 @@ function changeVolumeStatus() {
 }
 
 /**
- * Changes the image of speaker symbol.
+ * Update the speaker icon according to the current `volumeStatus`.
  */
 function changeImgVolume() {
     if (volumeStatus == true) {
@@ -58,7 +57,7 @@ function changeImgVolume() {
 }
 
 /**
- * Sets the speaker symbol to play.
+ * Show the speaker as unmuted and resume background sounds.
  */
 function volumeOn() {
     let volumeImg = document.getElementById('volumeBtn');
@@ -68,7 +67,7 @@ function volumeOn() {
 }
 
 /**
- * Sets the speaker symbol to mute.
+ * Show the speaker as muted and pause background sounds.
  */
 function volumeOff() {
     let volumeImg = document.getElementById('volumeBtn');
@@ -79,9 +78,7 @@ function volumeOff() {
 }
 
 /**
- * Requests fullscreen mode for the game screen element.
- * The function checks for browser compatibility and invokes the appropriate fullscreen request method.
- * It supports modern browsers as well as older versions of Firefox, Chrome, Safari, Opera, and Internet Explorer/Edge.
+ * Request fullscreen for the game screen element, with fallbacks for older browsers.
  */
 function fullscreen() {
     let gameScreen = document.getElementById('gameScreen');
@@ -101,9 +98,9 @@ function fullscreen() {
 }
 
 /**
- * Shows or hides the buttons of settings depending on the variable menuStatus.
- ** true: hide settings
- ** false: show settings
+ * Toggle the settings menu visibility based on the `menuStatus` flag.
+ * true: menu is open
+ * false: menu is closed
  */
 function clickSettings() {
     if (menuStatus == false) {
@@ -114,7 +111,7 @@ function clickSettings() {
 }
 
 /**
- * Shows the setting buttons
+ * Display the settings buttons and update the menu icon.
  */
 function showSettings() {
     let menuBtn = document.getElementById('menuBtn');
@@ -135,7 +132,7 @@ function showSettings() {
 }
 
 /**
- * Hides the setting buttons.
+ * Hide the settings buttons and restore the menu icon.
  */
 function hideSettings() {
     let menuBtn = document.getElementById('menuBtn');

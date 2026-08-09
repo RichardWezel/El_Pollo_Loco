@@ -1,3 +1,6 @@
+/**
+ * Small chick enemy. Similar to `Chicken`, but with different visuals and offsets.
+ */
 class Chick extends MovableObject{
    
     y = 360;
@@ -32,7 +35,7 @@ class Chick extends MovableObject{
     }
 
     /**
-     * Start the intervals of walking left and the animation of chicks.
+     * Start movement and animation loops for the chick.
      */
     animate() {
         this.walkingInterval = setInterval(() => {
@@ -44,9 +47,7 @@ class Chick extends MovableObject{
     }
 
     /**
-     * Handle the chick hit. 
-     * 
-     * Stops the Intervals of walking and animation, set the dead status to true and shows the chick dead.
+     * Handle when the chick is hit: stop movement/animation and show dead frame.
      */
     hitChick() {
         clearInterval(this.walkingInterval);

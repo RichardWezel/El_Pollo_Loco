@@ -1,3 +1,7 @@
+/**
+ * Visual cloud element used for background parallax. Moves slowly
+ * leftward to create depth in the scene.
+ */
 class Cloud extends MovableObject {
     y = 20;
     height = 250;

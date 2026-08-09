@@ -1,13 +1,12 @@
 /**
- * Variable containing the Keyboard object.
+ * Keyboard input state object.
  */
 let keyboard = new Keyboard();
 
 /**
- * Event listener for keydown events.
- * Handles various keyboard inputs and triggers corresponding functions or updates.
+ * Global keydown handler: routes pressed keys to the corresponding actions.
  *
- * @param {KeyboardEvent} e - The keyboard event triggered by pressing a key.
+ * @param {KeyboardEvent} e - Keyboard event for a pressed key.
  */
 window.addEventListener('keydown', (e) => {
     switch (e.code) {
@@ -42,10 +41,9 @@ window.addEventListener('keydown', (e) => {
 });
 
 /**
- * Event listener for keyup events.
- * Handles various keyboard inputs when keys are released and triggers corresponding functions or updates.
+ * Global keyup handler: clear input flags and trigger release actions.
  *
- * @param {KeyboardEvent} e - The keyboard event triggered by releasing a key.
+ * @param {KeyboardEvent} e - Keyboard event for a released key.
  */
 window.addEventListener('keyup', (e) => {
     switch (e.code) {
@@ -80,10 +78,10 @@ window.addEventListener('keyup', (e) => {
 });
 
 /**
- * Handles the 'keydown' event for the right arrow key.
- * Prevents the default behavior, sets the keyboard's RIGHT state to true, and marks the right arrow control button as used.
+ * Handle pressing the right arrow: prevent default, set `keyboard.RIGHT`, and
+ * highlight the on-screen control button.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by pressing the right arrow key.
+ * @param {KeyboardEvent} event - Keyboard event for the right arrow.
  */
 function keydownRight(event) {
     if (event) event.preventDefault();
@@ -92,10 +90,9 @@ function keydownRight(event) {
 }
 
 /**
- * Handles the 'keyup' event for the right arrow key.
- * Prevents the default behavior, sets the keyboard's RIGHT state to false, and demarcates the right arrow control button.
+ * Handle releasing the right arrow: clear `keyboard.RIGHT` and remove highlight.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by releasing the right arrow key.
+ * @param {KeyboardEvent} event - Keyboard event for the right arrow release.
  */
 function keyUpRight(event) {
     if (event) event.preventDefault();
@@ -104,10 +101,10 @@ function keyUpRight(event) {
 }
 
 /**
- * Handles the 'keydown' event for the left arrow key.
- * Prevents the default behavior, sets the keyboard's LEFT state to true, and marks the left arrow control button as used.
+ * Handle pressing the left arrow: prevent default, set `keyboard.LEFT`, and
+ * highlight the on-screen left button.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by pressing the left arrow key.
+ * @param {KeyboardEvent} event - Keyboard event for the left arrow.
  */
 function keydownLeft(event) {
     if (event) event.preventDefault();
@@ -116,10 +113,9 @@ function keydownLeft(event) {
 }
 
 /**
- * Handles the 'keyup' event for the left arrow key.
- * Prevents the default behavior, sets the keyboard's LEFT state to false, and demarcates the left arrow control button.
+ * Handle releasing the left arrow: clear `keyboard.LEFT` and remove highlight.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by releasing the left arrow key.
+ * @param {KeyboardEvent} event - Keyboard event for the left arrow release.
  */
 function keyUpLeft(event) {
     if (event) event.preventDefault();
@@ -128,10 +124,10 @@ function keyUpLeft(event) {
 }
 
 /**
- * Handles the 'keydown' event for the spacebar.
- * Prevents the default behavior, sets the keyboard's SPACE state to true, and marks the up arrow control button as used.
+ * Handle pressing the spacebar (jump): prevent default, set `keyboard.SPACE`,
+ * and highlight the up control button.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by pressing the spacebar.
+ * @param {KeyboardEvent} event - Keyboard event for the spacebar.
  */
 function keydownSpace(event) {
     if (event) event.preventDefault();
@@ -140,10 +136,9 @@ function keydownSpace(event) {
 }
 
 /**
- * Handles the 'keyup' event for the spacebar.
- * Prevents the default behavior, sets the keyboard's SPACE state to false, and demarcates the up arrow control button.
+ * Handle releasing the spacebar: clear `keyboard.SPACE` and remove highlight.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by releasing the spacebar.
+ * @param {KeyboardEvent} event - Keyboard event for the spacebar release.
  */
 function keyUpSpace(event) {
     if (event) event.preventDefault();
@@ -152,10 +147,10 @@ function keyUpSpace(event) {
 }
 
 /**
- * Handles the 'keydown' event for the 'M' key.
- * Prevents the default behavior, sets the keyboard's KeyM state to true, marks the volume control button as used, and changes the volume status.
+ * Handle pressing 'M' to toggle mute: prevent default, set `keyboard.KeyM`,
+ * highlight the volume button and toggle the volume state.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by pressing the 'M' key.
+ * @param {KeyboardEvent} event - Keyboard event for the 'M' key.
  */
 function keydownM(event) {
     if (event) event.preventDefault();
@@ -165,10 +160,9 @@ function keydownM(event) {
 }
 
 /**
- * Handles the 'keyup' event for the 'M' key.
- * Prevents the default behavior, sets the keyboard's KeyM state to false, and demarcates the volume control button.
+ * Handle releasing 'M': clear `keyboard.KeyM` and remove highlight from the volume button.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by releasing the 'M' key.
+ * @param {KeyboardEvent} event - Keyboard event for the 'M' key release.
  */
 function keyUpM(event) {
     if (event) event.preventDefault();
@@ -177,10 +171,10 @@ function keyUpM(event) {
 }
 
 /**
- * Handles the 'keydown' event for the 'F' key.
- * Prevents the default behavior on mobile devices, sets the keyboard's KeyF state to true, marks the fullscreen control button as used, and toggles fullscreen mode.
+ * Handle pressing 'F' to toggle fullscreen on mobile: set `keyboard.KeyF`,
+ * highlight the fullscreen button and request fullscreen mode.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by pressing the 'F' key.
+ * @param {KeyboardEvent} event - Keyboard event for the 'F' key.
  */
 function keydownF(event) {
     if (checkMobileDeviceSize()) {
@@ -192,10 +186,9 @@ function keydownF(event) {
 }
 
 /**
- * Handles the 'keyup' event for the 'F' key.
- * Prevents the default behavior on mobile devices, sets the keyboard's KeyF state to false, and demarcates the fullscreen control button.
+ * Handle releasing 'F' on mobile: clear `keyboard.KeyF` and remove fullscreen button highlight.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by releasing the 'F' key.
+ * @param {KeyboardEvent} event - Keyboard event for the 'F' key release.
  */
 function keyUpF(event) {
     if (checkMobileDeviceSize()) {
@@ -206,10 +199,9 @@ function keyUpF(event) {
 }
 
 /**
- * Handles the 'keydown' event for the 'D' key.
- * Prevents the default behavior, sets the keyboard's KeyD state to true, and marks the throw button control as used.
+ * Handle pressing 'D' to throw: set `keyboard.KeyD` and highlight the throw button.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by pressing the 'D' key.
+ * @param {KeyboardEvent} event - Keyboard event for the 'D' key.
  */
 function keydownD(event) {
     if (event) event.preventDefault();
@@ -218,10 +210,9 @@ function keydownD(event) {
 }
 
 /**
- * Handles the 'keyup' event for the 'D' key.
- * Prevents the default behavior, sets the keyboard's KeyD state to false, and demarcates the throw button control.
+ * Handle releasing 'D': clear `keyboard.KeyD` and remove highlight from the throw button.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by releasing the 'D' key.
+ * @param {KeyboardEvent} event - Keyboard event for the 'D' key release.
  */
 function keyUpD(event) {
     if (event) event.preventDefault();
@@ -230,10 +221,9 @@ function keyUpD(event) {
 }
 
 /**
- * Handles the 'keydown' event for the 'H' key.
- * Prevents the default behavior, sets the keyboard's KeyH state to true, and marks the home button control as used.
+ * Handle pressing 'H' (home): set `keyboard.KeyH` and highlight the home button.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by pressing the 'H' key.
+ * @param {KeyboardEvent} event - Keyboard event for the 'H' key.
  */
 function keydownH(event) {
     if (event) event.preventDefault();
@@ -242,10 +232,9 @@ function keydownH(event) {
 }
 
 /**
- * Handles the 'keyup' event for the 'H' key.
- * Prevents the default behavior, sets the keyboard's KeyH state to false, demarcates the home button control, and reloads the game.
+ * Handle releasing 'H': clear `keyboard.KeyH`, remove highlight and reload the game.
  *
- * @param {KeyboardEvent} event - The keyboard event triggered by releasing the 'H' key.
+ * @param {KeyboardEvent} event - Keyboard event for the 'H' key release.
  */
 function keyUpH(event) {
     if (event) event.preventDefault();
@@ -255,8 +244,7 @@ function keyUpH(event) {
 }
 
 /**
- * Adds touch event listeners to the control buttons.
- * Handles touchstart, touchend, and touchcancel events for right arrow, left arrow, up arrow, and throw button controls.
+ * Attach touch event listeners to on-screen control buttons (for mobile input).
  */
 function addTouchListeners() {
     const arrowRight = document.getElementById('arrowRight');
@@ -278,9 +266,9 @@ function addTouchListeners() {
 }
 
 /**
- * Prevents the default context menu from appearing on control buttons.
+ * Prevent the default context menu on control buttons (long-press/right-click).
  *
- * @param {Event} event - The event triggered by right-clicking or long-touching a control button.
+ * @param {Event} event - The triggered event.
  */
 function preventContextMenu(event) {
     event.preventDefault();

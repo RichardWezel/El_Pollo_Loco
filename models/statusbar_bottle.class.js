@@ -1,3 +1,8 @@
+/**
+ * Statusbar for displaying collected bottle progress.
+ * It reuses the generic `Statusbar` logic and provides the specific
+ * image set for bottle progress levels.
+ */
 class Statusbar_bottle extends Statusbar {
     STATUS_IMAGES = [
         'images/statusbar_bottle/100.png',

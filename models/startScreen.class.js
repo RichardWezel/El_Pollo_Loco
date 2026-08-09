@@ -1,3 +1,7 @@
+/**
+ * Start screen overlay used for the game's intro. Treated as a movable
+ * object so it can be drawn using the same rendering pipeline.
+ */
 class Start_screen extends MovableObject{
     x = 0;
     y = 0;

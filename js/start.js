@@ -1,7 +1,7 @@
 /**
- * Initializes onload of index.html the functions for set the start screen, 
- * asks the user to rotate the screen if necessary and adapts the dimensions 
- * of the program to those of the user device.
+ * Initialize the start screen on page load.
+ * Sets up the start UI, prompts for device rotation when needed,
+ * and adapts the layout to the current device dimensions.
  */
 function init() {
     initStartScreen();
@@ -10,7 +10,7 @@ function init() {
 }
 
 /**
- * Adapts the dimensions of the program to those of the user device.
+ * Adjust game layout and canvas size based on the detected device type.
  */
 function configScreen() {
     let gameCanvas = document.getElementById('gameCanvas');
@@ -28,7 +28,7 @@ function configScreen() {
 }
 
 /**
- * Initializes onload of index.html the start screen with buttons and backgroundimage.
+ * Populate the start screen UI and set the background image.
  */
 function initStartScreen() {
     let gameScreen = document.getElementById('gameScreen')
@@ -37,7 +37,7 @@ function initStartScreen() {
 }
 
 /**
- * Handels the logig for the please of screen rotation.
+ * Show or hide the "please rotate your device" prompt depending on orientation.
  */
 function handleScreenOrientation() {
     let pleaseRotateScreenImage = document.getElementById('pleaseRotateScreenImage');
@@ -49,9 +49,9 @@ function handleScreenOrientation() {
 }
 
 /**
- * Checks the page orientation and returns the current condition.
- * 
- * @returns {string} - "portrait" or "landscape"
+ * Return the current page orientation.
+ *
+ * @returns {string} 'portrait' or 'landscape'
  */
 function checkPageOrientation() {
     if (typeof window.orientation !== 'undefined') {
@@ -70,8 +70,8 @@ function checkPageOrientation() {
 }
 
 /**
- * Checks the mode of device (mobile or desctop) by using matchMedia pointer and returns the current condition.
- * 
+ * Detect device input type using matchMedia and return a device mode.
+ *
  * @returns {string} 'desctop' or 'mobile'
  */
 function checkDeviceMode() {
@@ -83,7 +83,8 @@ function checkDeviceMode() {
 }
 
 /**
- * Adapts the dimensions of the game screen to those of a mobile device. The entire screen is filled.
+ * Configure the layout for mobile devices: hide the header and make the
+ * game container fill the viewport.
  */
 function setMobileScreenCustomization() {
     let gameScreen = document.getElementById('gameScreen');
@@ -96,7 +97,8 @@ function setMobileScreenCustomization() {
 }
 
 /**
- * Adapts the dimensions of the game screen to those of a desctop device. 
+ * Configure the layout for desktop devices: show the header and set a fixed
+ * game container size.
  */
 function setDesctopScreenCustomization() {
     let gameScreen = document.getElementById('gameScreen');
@@ -107,14 +109,14 @@ function setDesctopScreenCustomization() {
 }
 
 /**
- * reload the webpage.
+ * Reload the current page.
  */
 function reloadGame() {
     window.location.reload();
 }
 
 /**
- * Fils the game screen with the game story.
+ * Show the game story screen.
  */
 function showInstruction() {
     setBackgroundInstructions();
@@ -122,7 +124,7 @@ function showInstruction() {
 }
 
 /**
- * Set the background style of game instructions.
+ * Apply the instruction screen background image.
  */
 function setBackgroundInstructions() {
     let gameScreen = document.getElementById('gameScreen');
@@ -130,7 +132,7 @@ function setBackgroundInstructions() {
 }
 
 /**
- * Set the content of game story.
+ * Render the game story content into the game screen.
  */
 function renderStory() {
     let gameScreen = document.getElementById('gameScreen');
@@ -138,7 +140,7 @@ function renderStory() {
 }
 
 /**
- * Sets the content of game instructions.
+ * Render the game instructions content into the game screen.
  */
 function renderInstructions() {
     let gameScreen = document.getElementById('gameScreen');
@@ -146,7 +148,7 @@ function renderInstructions() {
 }
 
 /**
- * Removes the elements of instruction.
+ * Hide the instructions container.
  */
 function hideIntroduction() {
     let container = document.getElementById('InstructionsContainer');
@@ -154,7 +156,7 @@ function hideIntroduction() {
 }
 
 /**
- * Sets the content of game informations like impressum and data security.
+ * Show the legal / information screen (impressum, data security).
  */
 function showImpressum() {
     setBackgroundInstructions();
@@ -162,7 +164,7 @@ function showImpressum() {
 }
 
 /**
- * Sets the content of game impressum.
+ * Render the impressum (legal information) into the game screen.
  */
 function renderInformations() {
     let gameScreen = document.getElementById('gameScreen');
@@ -170,7 +172,7 @@ function renderInformations() {
 }
 
 /**
- * Sets the content of game data security.
+ * Render the data security (privacy) content into the game screen.
  */
 function renderDataSecurity() {
     let screenContainer = document.getElementById('gameScreen');

@@ -1,3 +1,9 @@
+/**
+ * Generic status bar base class. Subclasses provide specific image
+ * sets and mapping logic (e.g., health, coins, bottles, endboss).
+ *
+ * The base class handles percentage-to-image selection and image caching.
+ */
 class Statusbar extends MovableObject {
     factor = 0.3;
     height = 158 * this.factor;

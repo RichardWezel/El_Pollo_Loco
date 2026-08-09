@@ -1,3 +1,8 @@
+/**
+ * MovableObject extends DrawableObject with physics and movement helpers.
+ * It provides gravity, basic left/right movement, jumping and collision
+ * detection utilities used by characters and enemies.
+ */
 class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
@@ -59,26 +64,24 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * If the function is using by an interval, lets the object moving forwarts to the right direction to a additional position change of speed variable value.
+     * Move the object to the right by its current speed.
      */
     moveRight() {
         this.x += this.speed;
     }
 
     /**
-     * If the function is using by an interval, lets the object moving backwarts to the left direction to a decreased position change of speed variable value.
+     * Move the object to the left by its current speed.
      */
     moveLeft() {
         this.x -= this.speed;
     }
 
-    /**
-    * Plays an animation by cycling through an array of image paths.
-    * 
-    * This method updates the current image being used for animation based on the provided array of image paths. It cycles through the images and updates the `img` property with the corresponding image from the cache.
-    * 
-    * @param {string[]} images - An array of image paths to be used for animation. Each path corresponds to an image that will be displayed in sequence.
-    */
+        /**
+        * Cycle through an array of image paths to advance the animation frame.
+        *
+        * @param {string[]} images - Array of image paths used for animation.
+        */
     playAnimation(images) {
             let i = this.currentImage % images.length; 
             let path = images[i];
@@ -123,17 +126,11 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-    * Handles the character being hit by an enemy and reduces the character's energy.
-    * 
-    * This method checks if the character has been recently hurt. If not, it reduces the character's 
-    * energy based on the type of enemy that hit the character. It also updates the last hit time and 
-    * checks if the game is over.
-    * 
-    * @param {Object} enemy - The enemy object that collided with the character. This can be an instance 
-    *                         of various enemy types, including `Endboss`.
-    * @param {number} enemy.energy - The current energy of the enemy.
-    * 
-    * @returns {void}
+    * Apply damage to this character when hit by an enemy.
+    * If the character is not currently in the hurt cooldown, reduce energy
+    * according to the enemy type, record the hit timestamp and check for game over.
+    *
+    * @param {Object} enemy - The enemy object that collided with the character.
     */
     hitCharacter(enemy) {
         if (!this.isHurtCharacter()) {

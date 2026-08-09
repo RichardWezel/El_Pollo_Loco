@@ -1,7 +1,7 @@
 /**
- * Returns the html elements of start buttons.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for the start screen buttons.
+ *
+ * @returns {string} HTML markup for the start buttons.
  */
 function StartBtnsHTML() {
     return `
@@ -14,9 +14,9 @@ function StartBtnsHTML() {
 }
 
 /**
- * Returns the html element of canvas.
- * 
- * @returns {HTMLElement}
+ * Return the HTML markup for the game canvas element.
+ *
+ * @returns {string} HTML markup for the canvas element.
  */
 function canvasHTML_Element() {
     return `
@@ -26,9 +26,9 @@ function canvasHTML_Element() {
 }
 
 /**
- * Returns the html elements of the game story.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for the game story screen (story content).
+ *
+ * @returns {string} HTML markup for the story screen.
  */
 function storyHTML() {
     return `
@@ -48,9 +48,9 @@ function storyHTML() {
 }
 
 /**
- * Returns the html elements of game explenation.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for the game instructions/explanation screen.
+ *
+ * @returns {string} HTML markup for the instructions.
  */
 function explenationHTML() {
     return `
@@ -171,9 +171,9 @@ function explenationHTML() {
 }
 
 /**
- * Returns the html elements of controll elements.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for on-screen control symbols (mobile controls).
+ *
+ * @returns {string} HTML markup for control buttons.
  */
 function ControlSymbolsHTML() {
     return `
@@ -200,9 +200,9 @@ function ControlSymbolsHTML() {
 }
 
 /**
- * Returns the html elements of navigation bar.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for the navigation bar.
+ *
+ * @returns {string} HTML markup for the navbar.
  */
 function navbarHTML() {
     return `
@@ -237,9 +237,9 @@ function navbarHTML() {
 }
 
 /**
- * Returns the html elements of the outcome screen game over.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for the game-over outcome screen.
+ *
+ * @returns {string} HTML markup for the game-over screen.
  */
 function gameOverHTML() {
     return `
@@ -251,9 +251,9 @@ function gameOverHTML() {
 }
 
 /**
- * Returns the html elements of the outcome screen game win.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for the win outcome screen.
+ *
+ * @returns {string} HTML markup for the win screen.
  */
 function winHTML() {
      return `
@@ -265,9 +265,9 @@ function winHTML() {
 }
 
 /**
- * Returns the html elements of game impressum.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for the impressum (legal notice) screen.
+ *
+ * @returns {string} HTML markup for the impressum.
  */
 function ImpressumHTML() {
     return `
@@ -303,9 +303,9 @@ function ImpressumHTML() {
 }
 
 /**
- * Returns the html elements of game data security instructions.
- * 
- * @returns {HTMLElement}
+ * Return the HTML for the data security / privacy information screen.
+ *
+ * @returns {string} HTML markup for the privacy information.
  */
 function DataSecurityHTML() {
     return `
@@ -350,9 +350,9 @@ function DataSecurityHTML() {
 }
 
 /**
- * Returns the html elements of closing svg symbol of setting menu.
- * 
- * @returns {HTMLElement}
+ * Return the SVG markup for the closing symbol used in the settings menu.
+ *
+ * @returns {string} SVG markup.
  */
 function svgX() {
     return `
@@ -362,9 +362,9 @@ function svgX() {
 }
 
 /**
- * Returns the html elements of opening svg symbol of setting menu.
- * 
- * @returns {HTMLElement}
+ * Return the SVG markup for the menu/open symbol used in the settings menu.
+ *
+ * @returns {string} SVG markup.
  */
 function svgMenu() {
     return `

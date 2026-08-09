@@ -1,3 +1,7 @@
+/**
+ * Endboss health/status bar. Tracks the primary enemy's position and
+ * displays its remaining energy using a dedicated image set.
+ */
 class Statusbar_endboss extends Statusbar {
     STATUS_IMAGES = [
         'images/statusbar_endboss/100.png',

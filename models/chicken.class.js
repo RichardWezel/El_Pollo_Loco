@@ -1,3 +1,6 @@
+/**
+ * Small chicken enemy. Walks left and provides a death frame when hit.
+ */
 class Chicken extends MovableObject{
    
     y = 340;
@@ -33,7 +36,7 @@ class Chicken extends MovableObject{
     }
 
     /**
-     * Start the intervals of walking left and the animation of chicken.
+     * Start movement and animation loops for the chicken.
      */
     animate() {
         this.walkingInterval = setInterval(() => {
@@ -45,9 +48,7 @@ class Chicken extends MovableObject{
     }
 
     /**
-     * Handle the chicken hit. 
-     * 
-     * Stops the Intervals of walking and animation, set the dead status to true and shows the chicken dead.
+     * Handle when the chicken is hit: stop movement/animation and show dead frame.
      */
     hitChicken() {
         clearInterval(this.walkingInterval);

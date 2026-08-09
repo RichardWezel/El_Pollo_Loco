@@ -1,3 +1,6 @@
+/**
+ * Collectable coin object that animates and can be collected by the player.
+ */
 class CollectableObjects_coin extends MovableObject {
     
     y = 350;
@@ -26,7 +29,7 @@ class CollectableObjects_coin extends MovableObject {
     }
 
     /**
-     * Starts the animation of coins.
+     * Start the coin animation loop (cycle through frames).
      */
     animate() {
         setInterval(() => {
