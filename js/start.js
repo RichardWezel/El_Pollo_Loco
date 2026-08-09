@@ -1,5 +1,7 @@
 /**
- * Initializes onload of index.html the functions for set the start screen, asks the user to rotate the screen if necessary and adapts the dimensions of the program to those of the user device.
+ * Initializes onload of index.html the functions for set the start screen, 
+ * asks the user to rotate the screen if necessary and adapts the dimensions 
+ * of the program to those of the user device.
  */
 function init() {
     initStartScreen();
