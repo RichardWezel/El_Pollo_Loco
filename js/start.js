@@ -61,14 +61,34 @@ function initStartScreen() {
 }
 
 /**
- * Show or hide the "please rotate your device" prompt depending on orientation.
+ * Tracks whether rotating to portrait was what paused a running game, so rotating back
+ * to landscape only resumes it automatically if nothing else paused it in the meantime
+ * (e.g. the player pressing "P" or opening Info while already in portrait) - mirrors
+ * overlayPausedGame's logic for the info/instructions overlay above.
+ */
+let rotationPausedGame = false;
+
+/**
+ * Show or hide the "please rotate your device" prompt depending on orientation, and
+ * pause/resume a running game along with it - while the phone is in portrait, the game
+ * is hidden behind the prompt, so it shouldn't keep running unseen.
  */
 function handleScreenOrientation() {
     let pleaseRotateScreenImage = document.getElementById('pleaseRotateScreenImage');
     if (checkPageOrientation() == 'portrait') {
-        pleaseRotateScreenImage.style.display = 'flex'
+        pleaseRotateScreenImage.style.display = 'flex';
+        if (isGameRunning() && !world.isPaused) {
+            world.togglePause();
+            syncPauseButtonIcon();
+            rotationPausedGame = true;
+        }
     } else {
-        pleaseRotateScreenImage.style.display = 'none'
+        pleaseRotateScreenImage.style.display = 'none';
+        if (rotationPausedGame && isGameRunning()) {
+            world.togglePause();
+            syncPauseButtonIcon();
+        }
+        rotationPausedGame = false;
     }
 }
 

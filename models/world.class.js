@@ -381,7 +381,7 @@ class World {
                 return;
             }
             let hasBottle = this.throwableObject.some(bottle => bottle instanceof ThrowableObject && !bottle.hasCollided);
-            if(this.keyboard.KeyD && this.character.collectedBottles > 1 && !hasBottle && this.character.otherDirection == false) {
+            if(this.keyboard.KeyD && this.character.collectedBottles > 0 && !hasBottle && this.character.otherDirection == false) {
                 this.characterThrowBottle();
             }
         }, 150);

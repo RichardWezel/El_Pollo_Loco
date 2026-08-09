@@ -64,7 +64,12 @@ button {
 }
 
 #pleaseRotateScreenImage {
-    z-index: 1000;
+    /* Must stay above absolutely everything - win/game-over screens (z-index 1001),
+       control buttons (9999) and the info/instructions overlays (10000) - since if the
+       phone is in portrait, nothing underneath should be visible or usable. It was
+       previously z-index 1000, which lost against .endScreen's 1001, so the "please
+       rotate" prompt ended up hidden behind the YOU WON / GAME OVER screen. */
+    z-index: 100000;
     display: flex;
     justify-content: center;
     align-items: center;
