@@ -69,6 +69,7 @@ class Character extends MovableObject{
     speed = 900;
     animationTimer = 0;
     hasDied = false;
+    isMoving = false;
     walking_sound = new Audio('audio/walk_sound.mp3');
     hurt_sound = new Audio('audio/hurt.mp3');
     jump_sound = new Audio('audio/jump_sound.mp3');
@@ -114,17 +115,18 @@ class Character extends MovableObject{
      */
     update(deltaTime) {
         super.update(deltaTime);
-        this.walking_sound.pause();
+        this.isMoving = false;
         this.checkPressArrowRight(deltaTime);
         this.checkPressArrowLeft(deltaTime);
         this.checkPressSpace();
         this.camera_x_follows();
         this.updateAnimationState(deltaTime);
+        this.updateWalkingSound();
     }
 
     /**
      * If the right key is pressed and the character is before the endboss,
-     * move right, set facing direction, play walk sound and reset idle timer.
+     * move right, set facing direction and reset idle timer.
      *
      * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
      */
@@ -132,16 +134,14 @@ class Character extends MovableObject{
         if(this.world.keyboard.RIGHT && this.x < this.world.level.enemies[0].x) {
             this.x += this.speed * deltaTime;
             this.otherDirection = false;
-            if(volumeStatus == true) {
-                this.walking_sound.play();
-            }
+            this.isMoving = true;
             this.resetIdleTimer();
         }
     }
 
     /**
     * If the left key is pressed and the character is within canvas bounds,
-    * move left, set facing direction and play walk sound; reset idle timer.
+    * move left, set facing direction and reset idle timer.
     *
     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
     */
@@ -149,10 +149,31 @@ class Character extends MovableObject{
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.x -= this.speed * deltaTime;
             this.otherDirection = true;
-            if(volumeStatus == true) {
+            this.isMoving = true;
+            this.resetIdleTimer();
+        }
+    }
+
+    /**
+     * Play or pause the walking sound based on whether the character actually moved this
+     * frame (set via `isMoving` in checkPressArrowRight/Left).
+     *
+     * Previously walking_sound.pause() ran unconditionally every frame and .play() ran
+     * again inside checkPressArrowRight/Left whenever a key was held - both firing every
+     * single frame while walking (up to 120+ times/second on high-refresh-rate phones,
+     * since update() now runs at display refresh rate instead of the old fixed 60Hz
+     * interval). Calling play()/pause() repeatedly on an already-playing/-paused Audio
+     * element is wasted work and can cause audio glitches or micro-stutters. Checking
+     * `.paused` first means the actual play()/pause() call now only happens once, right
+     * when movement starts or stops.
+     */
+    updateWalkingSound() {
+        if (this.isMoving && volumeStatus == true) {
+            if (this.walking_sound.paused) {
                 this.walking_sound.play();
             }
-            this.resetIdleTimer();
+        } else if (!this.walking_sound.paused) {
+            this.walking_sound.pause();
         }
     }
 

@@ -77,12 +77,12 @@ button {
     fill: white;
 }
 
-#canvas {
-    aspect-ratio: 3 / 2; 
+#gameCanvas {
+    aspect-ratio: 3 / 2;
     width: 100%;
     height: auto;
     max-height: 100%;
-    background-color: #000; 
+    background-color: #000;
 }
 
 .endScreen {
@@ -171,9 +171,14 @@ button {
 }
 
 canvas.fullscreen {
-    width: 100vdw !important;
+    width: 100dvw !important;
     height: 100dvh !important;
     max-height: none;
+    /* Keep the canvas's 3:2 content proportions intact instead of stretching it to
+       whatever aspect ratio the phone screen happens to have (was the cause of the
+       distorted/stretched look) - scale it to fit within the viewport box instead,
+       centered, with letterboxing if the screen ratio doesn't match. */
+    object-fit: contain;
 }
 
 @media (pointer: coarse) {
