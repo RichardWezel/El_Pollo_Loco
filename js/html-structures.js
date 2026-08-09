@@ -312,8 +312,7 @@ function ImpressumHTML() {
             </p>
             <p class="header_info"><strong>Kontakt:</strong></p>
             <p class="text_info">
-                Telefon: +49 (0) 176 831 405 47<br>
-                E-Mail: richard.wezel@posteo.de
+                E-Mail: kontakt@richard-wezel.de
             </p>
             <p class="header_info"><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong></p>
             <p class="text_info">
@@ -355,7 +354,11 @@ function DataSecurityHTML() {
             </p>
             <p class="header_info">Keine Verwendung von Cookies</p>
             <p class="text_info">
-                Unsere Website verwendet keine Cookies. Cookies sind kleine Textdateien, die auf Ihrem Endgerät gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Da wir keine Cookies verwenden, werden keine Informationen auf Ihrem Endgerät gespeichert oder ausgelesen.
+                Unsere Website verwendet keine Cookies. Cookies sind kleine Textdateien, die auf Ihrem Endgerät gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Da wir keine Cookies verwenden, werden keine Informationen auf Ihrem Endgerät durch Cookies gespeichert oder ausgelesen.
+            </p>
+            <p class="header_info">Lokaler Zwischenspeicher (Session Storage)</p>
+            <p class="text_info">
+                Das Spiel nutzt den sogenannten Session Storage Ihres Browsers, um zu erkennen, dass Sie über den "Noch einmal!"-Button direkt eine neue Runde starten möchten. Dabei werden keine personenbezogenen Daten gespeichert, keine Analyse Ihres Verhaltens durchgeführt und keine Informationen an uns oder Dritte übertragen. Der Eintrag wird automatisch gelöscht, sobald Sie den Browser-Tab schließen.
             </p>
             <p class="header_info">Kontakt</p>
             <p class="text_info">
