@@ -36,6 +36,19 @@
     fill: #FF9601 !important;
 }
 
+#pauseBtn {
+    display: flex;
+    cursor: pointer;
+}
+
+#pauseBtn:hover {
+    border-color: #FF9601;
+}
+
+#pauseBtn:hover svg{
+    fill: #FF9601;
+}
+
 #fullscreen {
     display: flex;
     cursor: pointer; 
@@ -104,7 +117,7 @@
         display: flex;
     }
 
-    #volumeBtn, #fullscreen, #home, #infoBtn, #helpBtn {
+    #volumeBtn, #pauseBtn, #fullscreen, #home, #infoBtn, #helpBtn {
         display: none;
     }
 
@@ -122,7 +135,7 @@
         display: flex;
     }
 
-    #volumeBtn, #fullscreen, #home, #infoBtn, #helpBtn {
+    #volumeBtn, #pauseBtn, #fullscreen, #home, #infoBtn, #helpBtn {
         display: none;
     }
 

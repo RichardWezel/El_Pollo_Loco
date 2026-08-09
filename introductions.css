@@ -3,6 +3,19 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
+    /* Overlay the running (paused) game or the start screen completely, instead of
+       relying on gameScreen.innerHTML having been replaced - see renderOverlay() in
+       start.js, which now appends this on top rather than swapping out the canvas. */
+    position: absolute;
+    inset: 0;
+    /* Higher than .control_element's z-index:9999 (navbar/control buttons), which stay
+       in the DOM underneath since the overlay is now appended instead of replacing them -
+       otherwise those buttons would still poke through and be clickable. */
+    z-index: 10000;
+    background-color: #fdf6ec;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding-top: 10px;
 }
 
 .headerInstructions {
@@ -100,6 +113,18 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
+    /* Same reasoning as #InstructionsContainer above: overlay fully instead of relying
+       on gameScreen having been replaced. */
+    position: absolute;
+    inset: 0;
+    /* Higher than .control_element's z-index:9999 (navbar/control buttons), which stay
+       in the DOM underneath since the overlay is now appended instead of replacing them -
+       otherwise those buttons would still poke through and be clickable. */
+    z-index: 10000;
+    background-color: #fdf6ec;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding-top: 10px;
 }
 
 .text_info {

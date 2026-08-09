@@ -86,6 +86,31 @@ function volumeOff() {
 }
 
 /**
+ * Toggle the game's pause state (if a game is running) and update the pause button's
+ * icon to match. Shared by the pause button's onclick and the "P" key handler
+ * (keydownP() in keyboard.js) so both stay in sync regardless of which one was used.
+ */
+function clickPauseBtn() {
+    if (typeof world === 'undefined' || !world) {
+        return;
+    }
+    world.togglePause();
+    syncPauseButtonIcon();
+}
+
+/**
+ * Update the pause button's icon (pause/play) to reflect the World's current
+ * `isPaused` state. Safe to call even if the button or the game doesn't exist yet.
+ */
+function syncPauseButtonIcon() {
+    let pauseBtn = document.getElementById('pauseBtn');
+    if (!pauseBtn || typeof world === 'undefined' || !world) {
+        return;
+    }
+    pauseBtn.innerHTML = world.isPaused ? svgPlay() : svgPause();
+}
+
+/**
  * Request fullscreen for the game screen element, with fallbacks for older browsers.
  */
 function fullscreen() {
@@ -124,6 +149,7 @@ function clickSettings() {
 function showSettings() {
     let menuBtn = document.getElementById('menuBtn');
     let volumeBtn = document.getElementById('volumeBtn');
+    let pauseBtn = document.getElementById('pauseBtn');
     let homeBtn = document.getElementById('home');
     let helpBtn = document.getElementById('helpBtn');
     let infoBtn = document.getElementById('infoBtn');
@@ -131,10 +157,15 @@ function showSettings() {
     menuStatus = true;
     menuBtn.innerHTML = svgX();
     volumeBtn.style.display = 'flex';
+    if (pauseBtn) {
+        pauseBtn.style.display = 'flex';
+    }
     homeBtn.style.display = 'flex';
     helpBtn.style.display = 'flex';
     infoBtn.style.display = 'flex';
-    if (checkMobileDeviceSize() == false && fullscreenBtn) {
+    // checkDeviceMode() returns 'desctop' or 'mobile' - the fullscreen button only makes
+    // sense on desktop (on mobile the canvas is already fullscreen automatically).
+    if (checkDeviceMode() == 'desctop' && fullscreenBtn) {
         fullscreenBtn.style.display = 'flex';
     }
 }
@@ -145,16 +176,20 @@ function showSettings() {
 function hideSettings() {
     let menuBtn = document.getElementById('menuBtn');
     let volumeBtn = document.getElementById('volumeBtn');
+    let pauseBtn = document.getElementById('pauseBtn');
     let homeBtn = document.getElementById('home');
     let helpBtn = document.getElementById('helpBtn');
     let infoBtn = document.getElementById('infoBtn');
     menuStatus = false;
     menuBtn.innerHTML = svgMenu();
     volumeBtn.style.display = 'none';
+    if (pauseBtn) {
+        pauseBtn.style.display = 'none';
+    }
     homeBtn.style.display = 'none';
     helpBtn.style.display = 'none';
     infoBtn.style.display = 'none';
-    if (checkMobileDeviceSize == false) {
+    if (checkDeviceMode() == 'desctop') {
         let fullscreenBtn = document.getElementById('fullscreen');
         fullscreenBtn.style.display = 'none';
     }

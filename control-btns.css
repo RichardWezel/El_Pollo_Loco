@@ -234,6 +234,20 @@
     cursor: pointer;
 }
 
+/* Used on screens that only have a forward arrow (.nextBtn_right, top-right) and no
+   back arrow - e.g. story/impressum. Keeps the close button on the opposite (left)
+   side instead of stacking on top of .nextBtn_right in the same corner. */
+.close_left {
+    position: absolute;
+    top: 33px;
+    left: 20px;
+    cursor: pointer;
+}
+
 .close:hover svg{
+    fill: #FF9601;
+}
+
+.close_left:hover svg{
     fill: #FF9601;
 }

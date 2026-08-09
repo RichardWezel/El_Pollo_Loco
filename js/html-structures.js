@@ -33,6 +33,10 @@ function canvasHTML_Element() {
 function storyHTML() {
     return `
         <div id="InstructionsContainer">
+            <button class="close_left" onclick="closeOverlay()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+            </button>
+
             <button class="nextBtn_right" onclick="renderInstructions()">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
                 </svg>
@@ -55,7 +59,7 @@ function storyHTML() {
 function explenationHTML() {
     return `
         <div id="InstructionsContainer">
-        <a class="close" onclick="reloadGame()">
+        <a class="close" onclick="closeOverlay()">
         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
             </svg>
         </a>
@@ -227,6 +231,10 @@ function navbarHTML() {
                 <svg xmlns="http://www.w3.org/2000/svg" height="44px" viewBox="0 -960 960 960" width="44px" fill="#000000"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
                 </svg>
             </button>
+            <button id="pauseBtn" class="control_circle_small control_element" onclick="clickPauseBtn()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M320-200h120v-560H320v560Zm200 0h120v-560H520v560Z"/>
+                </svg>
+            </button>
             <button id="volumeBtn" class="control_circle_small control_element" onmousedown="keydownM()" onmouseup="keyUpM()">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320ZM400-606l-86 86H200v80h114l86 86v-252ZM300-480Z"/>
                 </svg>
@@ -284,6 +292,10 @@ function winHTML() {
 function ImpressumHTML() {
     return `
     <div id="ImpressumContainer">
+        <button class="close_left" onclick="closeOverlay()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        </button>
+
         <button class="nextBtn_right" onclick="renderDataSecurity()">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
             </svg>
@@ -322,12 +334,12 @@ function ImpressumHTML() {
 function DataSecurityHTML() {
     return `
     <div id="ImpressumContainer">
-        <button class="close" onclick="reloadGame()">
+        <button class="close" onclick="closeOverlay()">
         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
             </svg>
         </button>
 
-        <button class="nextBtn_left" onclick="showImpressum()">
+        <button class="nextBtn_left" onclick="renderInformations()">
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
         </button>
        
@@ -381,6 +393,32 @@ function svgX() {
 function svgMenu() {
     return `
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+        </svg>
+    `;
+}
+
+/**
+ * Return the SVG markup for the pause symbol, shown on the pause button while the game
+ * is running (clicking it pauses).
+ *
+ * @returns {string} SVG markup.
+ */
+function svgPause() {
+    return `
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M320-200h120v-560H320v560Zm200 0h120v-560H520v560Z"/>
+        </svg>
+    `;
+}
+
+/**
+ * Return the SVG markup for the play symbol, shown on the pause button while the game
+ * is paused (clicking it resumes).
+ *
+ * @returns {string} SVG markup.
+ */
+function svgPlay() {
+    return `
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M320-200v-560l440 280-440 280Z"/>
         </svg>
     `;
 }

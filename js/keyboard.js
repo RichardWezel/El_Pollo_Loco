@@ -260,6 +260,9 @@ function keydownP(event) {
     keyboard.KeyP = true;
     if (world) {
         world.togglePause();
+        // Keep the pause button's icon (pause/play) in sync, since pause can be
+        // triggered either from that button or from this key.
+        syncPauseButtonIcon();
     }
 }
 
