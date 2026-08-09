@@ -7,7 +7,11 @@ class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5;
+    // Converted from the old tick-based value (2.5 per tick at 25 ticks/sec) to
+    // pixels/second^2, so the exact same jump height and duration are preserved:
+    // 2.5 / (1/25)^2 = 1562.5
+    acceleration = 1562.5;
+    gravityEnabled = false;
     BorderColor;
     energyCharacter = 100;
     lastHitCharacter = 0;
@@ -18,29 +22,63 @@ class MovableObject extends DrawableObject {
         bottom: 0,
         left: 0
     }
-    groundPos = 350; 
+    groundPos = 350;
 
     /**
-    * Applies gravity to an object, causing it to fall towards the ground.
-    * 
-    * This method uses `setInterval` to continuously decrease the object's vertical position (`y`) based on its current vertical speed (`speedY`) and the acceleration due to gravity. 
-    * 
-    * - If the object is above the ground or moving upwards (`speedY > 0`), its position (`y`) is updated.
-    * - If the object reaches the ground level (`groundPos`), it stops falling and its position is reset to the ground position.
-    * 
-    * The interval runs at 25 frames per second (FPS).
+    * Called every frame by the central render loop in World.draw(), right before the
+    * object is drawn.
+    *
+    * This base implementation intentionally does nothing. Subclasses (Character, Chicken,
+    * Chick, Endboss, Cloud, ThrowableObject) override it with their own movement and
+    * animation logic. That keeps each class swappable without this base class needing to
+    * know how a Chicken differs from an Endboss.
+    *
+    * @param {number} deltaTime - Time elapsed since the last frame, in seconds (e.g. 0.016
+    * at 60 FPS). Movement should always be multiplied by deltaTime so speed stays
+    * consistent regardless of the actual frame rate.
+    */
+    update(deltaTime) {
+        if (this.gravityEnabled) {
+            this.updateGravity(deltaTime);
+        }
+        // further overridden by subclasses, which should call super.update(deltaTime)
+        // first so gravity keeps working, then add their own movement/animation logic.
+    }
+
+    /**
+    * Enables gravity for this object. Instead of starting its own timer, this just flips
+    * a flag - the actual physics runs inside update(deltaTime), which is already called
+    * once per frame for every movable object by World.updateMovableObjects(). This way
+    * gravity stays perfectly in sync with the rest of the game instead of ticking on its
+    * own independent clock.
     */
     applyGravity() {
-        setInterval(() => {
-            if(this.isAboveGround() || this.speedY > 0) {
-            this.y -= this.speedY;
+        this.gravityEnabled = true;
+    }
+
+    /**
+    * Advances the falling/jumping physics for this object by one frame.
+    *
+    * - If the object is above the ground or still moving upwards (`speedY > 0`), its
+    *   vertical position (`y`) is updated based on the current speed.
+    * - If that puts it at or below the ground level (`groundPos`), it is snapped back to
+    *   the ground and stops falling further.
+    *
+    * Both `speedY` (pixels/second) and `acceleration` (pixels/second^2) are expressed as
+    * continuous rates and multiplied by `deltaTime`, so the same physics feel is produced
+    * regardless of the actual frame rate.
+    *
+    * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
+    */
+    updateGravity(deltaTime) {
+        if (this.isAboveGround() || this.speedY > 0) {
+            this.y -= this.speedY * deltaTime;
             if (this.y < this.groundPos) {
-                this.speedY -= this.acceleration;
+                this.speedY -= this.acceleration * deltaTime;
             } else {
                 this.y = this.groundPos;
             }
         }
-        }, 1000 / 25);
     }
 
     /**
@@ -91,11 +129,14 @@ class MovableObject extends DrawableObject {
 
     /**
     * Initiates a jump by setting the vertical speed.
-    * 
+    *
     * This method sets the `speedY` property to a positive value, causing the object to move upwards, simulating a jump. The gravity will later reduce this speed, bringing the object back down.
+    *
+    * Value converted from the old tick-based 30 (pixels/tick at 25 ticks/sec) to
+    * pixels/second: 30 * 25 = 750.
     */
     jump() {
-        this.speedY = 30;
+        this.speedY = 750;
     }
 
     /**
@@ -139,7 +180,6 @@ class MovableObject extends DrawableObject {
             } else {
                 this.energyCharacter -= 3;
             }
-            this.energyCharacter -= 3;
             this.lastHitCharacter = new Date().getTime();
             this.checkGameOver();
         }

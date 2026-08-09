@@ -25,6 +25,7 @@ class World {
     energyEndboss = 100;
     startBottleAmound = 0;
     startCoinAmound = 0;
+    lastFrameTime = null;
 
     /**
     * Create a new World instance and start rendering and collision checks.
@@ -33,10 +34,14 @@ class World {
     * @param {Object} keyboard - Keyboard input handler instance.
     */
     constructor(canvas, keyboard) {
-        this.ctx = canvas.getContext('2d'); 
+        this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.draw();
+        // setWorld() (and everything else below) must run before draw(), because draw()
+        // now synchronously calls update(deltaTime) on the character, which needs
+        // this.character.world to already be set (checkPressArrowRight/Left read
+        // this.world.keyboard). draw() itself schedules all further frames via
+        // requestAnimationFrame, so it belongs last.
         this.setWorld();
         this.intervalCollCharacter();
         this.intervalCollBottle();
@@ -46,7 +51,7 @@ class World {
             this.playBackgroundMusic();
         }
         this.setCollectableObjectAmounds()
-        
+        this.draw();
     }
 
     setCollectableObjectAmounds() {
@@ -55,21 +60,63 @@ class World {
     }
     
     /**
-     * Main render loop: clear canvas, translate for camera, draw level,
-     * status bars and movable objects, then request next frame.
+     * Main render loop: computes deltaTime, updates the position of all movable objects,
+     * then draws the level, status bars and movable objects, and finally requests the
+     * next frame.
+     *
+     * @param {number} [timestamp] - Timestamp passed in by requestAnimationFrame (ms since
+     * page load). Not yet available on the very first call from the constructor, hence the
+     * fallback in calcDeltaTime().
      */
-    draw() {
+    draw(timestamp) {
+        let deltaTime = this.calcDeltaTime(timestamp);
+        this.updateMovableObjects(deltaTime);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0); 
+        this.ctx.translate(this.camera_x, 0);
         this.drawLevelBachgrounds();
         this.drawStatusbars();
         this.drawMovableObjects();
         this.statusbar_endboss.updateX();
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
-        requestAnimationFrame(function() {
-            self.draw();
+        requestAnimationFrame(function(ts) {
+            self.draw(ts);
         });
+    }
+
+    /**
+     * Computes the time elapsed since the last frame, in seconds.
+     *
+     * Prefers the timestamp supplied by requestAnimationFrame (precise and in sync with
+     * rendering). Falls back to performance.now() on the very first call, since draw() is
+     * invoked synchronously from the constructor without a timestamp yet.
+     *
+     * @param {number} [timestamp] - Timestamp from requestAnimationFrame.
+     * @returns {number} Time elapsed since the last frame, in seconds.
+     */
+    calcDeltaTime(timestamp) {
+        if (!timestamp) {
+            timestamp = performance.now();
+        }
+        if (this.lastFrameTime === null) {
+            this.lastFrameTime = timestamp;
+        }
+        let deltaTime = (timestamp - this.lastFrameTime) / 1000;
+        this.lastFrameTime = timestamp;
+        return deltaTime;
+    }
+
+    /**
+     * Calls update(deltaTime) on all movable objects in the world: the character, all
+     * enemies, clouds and thrown bottles. Runs once per frame, before drawing.
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
+     */
+    updateMovableObjects(deltaTime) {
+        this.character.update(deltaTime);
+        this.level.enemies.forEach(enemy => enemy.update(deltaTime));
+        this.level.clouds.forEach(cloud => cloud.update(deltaTime));
+        this.throwableObject.forEach(bottle => bottle.update(deltaTime));
     }
 
     /**
@@ -417,24 +464,30 @@ class World {
 
     /**
      * Initializes the functions and sets the values ​​for the animation mode "alertness".
+     *
+     * endboss.speed converted from the old tick-based 1 (at 20 ticks/sec) to
+     * pixels/second: 1 * 20 = 20.
      */
     statusAlertness() {
         let endboss = this.level.enemies[0];
         endboss.stopWalking();
         endboss.animationStatus = 'alertness';
-        endboss.speed = 1
+        endboss.speed = 20
         endboss.animationSpeed = 200;
         endboss.walkAnimation();
     }
 
     /**
      * Initializes the functions and sets the values ​​for the animation mode "attack".
+     *
+     * endboss.speed converted from the old tick-based 3 (at 20 ticks/sec) to
+     * pixels/second: 3 * 20 = 60.
      */
     statusAttack() {
         let endboss = this.level.enemies[0];
         endboss.stopWalking();
         endboss.animationStatus = 'attack';
-        endboss.speed = 3
+        endboss.speed = 60
         endboss.animationSpeed = 100;
         endboss.walkAnimation();
     }
@@ -446,7 +499,7 @@ class World {
      * @param {number} bottleIndex - The index of the bottle in the throwableObject array.
      */
     handleBottleHitEndboss(bottle, bottleIndex) {
-        clearInterval(bottle.intervalRotation);
+        bottle.stopFlight();
         if(volumeStatus == true) {
             this.endbossHurtSound.play();
         }

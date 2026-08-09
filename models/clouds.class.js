@@ -6,21 +6,24 @@ class Cloud extends MovableObject {
     y = 20;
     height = 250;
     width = 500;
-    speed = 0.2;
+    // Converted from the old tick-based range (60 ticks/sec) to pixels/second:
+    // 0.2 * 60 = 12, 0.4 * 60 = 24
+    speed = 12;
 
     constructor() {
         super().loadImage('images/background/4_clouds/1.png');
         this.x = Math.random() * 6000;
-        this.speed = 0.2 + Math.random() * 0.4;
-        this.animateClouds();
+        this.speed = 12 + Math.random() * 24;
     }
 
     /**
-     * Starts the moving animation of clouds.
+     * Called every frame by World.updateMovableObjects(). Moves the cloud left to create
+     * a slow parallax background effect.
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
      */
-    animateClouds() {
-        setInterval(() => {
-            this.moveLeft() 
-        }, 1000 / 60); 
+    update(deltaTime) {
+        super.update(deltaTime);
+        this.x -= this.speed * deltaTime;
     }
 }

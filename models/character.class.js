@@ -64,7 +64,11 @@ class Character extends MovableObject{
         'images/pepe/long_idle_animation_img/I-20.png'
     ];
     world;
-    speed = 15;
+    // Converted from the old tick-based value (15 per tick at 60 ticks/sec) to
+    // pixels/second, so the exact same walking speed is preserved: 15 * 60 = 900
+    speed = 900;
+    animationTimer = 0;
+    hasDied = false;
     walking_sound = new Audio('audio/walk_sound.mp3');
     hurt_sound = new Audio('audio/hurt.mp3');
     jump_sound = new Audio('audio/jump_sound.mp3');
@@ -95,59 +99,57 @@ class Character extends MovableObject{
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SLEEP);
         this.applyGravity();
-        this.animate();
-    }
-
-    /**
-     * Initialize character behaviour: movement loops, animation loops and idle handling.
-     */
-    animate() {
-        this.runCharacterMoves();
-        this.animateCharacterMoves();
         this.characterIdle();
     }
 
     /**
-     * Main input loop (runs every frame): pause walk sound, check input keys
-     * for movement/jump and update the camera follow position.
+     * Called every frame by World.updateMovableObjects(). Calls super.update() first so
+     * gravity (handled by MovableObject) keeps working, then handles input-driven
+     * movement, the camera follow position and the sprite-animation state machine.
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
      */
-    runCharacterMoves() {
-        setInterval(() => {
-            this.walking_sound.pause();
-            this.checkPressArrowRight();
-            this.checkPressArrowLeft();
-            this.checkPressSpace();
-            this.camera_x_follows();
-        }, 1000 / 60); 
+    update(deltaTime) {
+        super.update(deltaTime);
+        this.walking_sound.pause();
+        this.checkPressArrowRight(deltaTime);
+        this.checkPressArrowLeft(deltaTime);
+        this.checkPressSpace();
+        this.camera_x_follows();
+        this.updateAnimationState(deltaTime);
     }
 
     /**
      * If the right key is pressed and the character is before the endboss,
      * move right, set facing direction, play walk sound and reset idle timer.
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
      */
-    checkPressArrowRight() {
+    checkPressArrowRight(deltaTime) {
         if(this.world.keyboard.RIGHT && this.x < this.world.level.enemies[0].x) {
-            this.moveRight();
+            this.x += this.speed * deltaTime;
             this.otherDirection = false;
             if(volumeStatus == true) {
                 this.walking_sound.play();
             }
-            this.resetIdleTimer(); 
+            this.resetIdleTimer();
         }
     }
 
     /**
     * If the left key is pressed and the character is within canvas bounds,
     * move left, set facing direction and play walk sound; reset idle timer.
+    *
+    * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
     */
-    checkPressArrowLeft(){
+    checkPressArrowLeft(deltaTime){
         if (this.world.keyboard.LEFT && this.x > 0) {
-            this.moveLeft();
+            this.x -= this.speed * deltaTime;
             this.otherDirection = true;
             if(volumeStatus == true) {
                 this.walking_sound.play();
             }
-            this.resetIdleTimer(); 
+            this.resetIdleTimer();
         }
     }
 
@@ -175,39 +177,55 @@ class Character extends MovableObject{
     }
 
     /**
-     * Start an animation loop that updates the character's visual state
-     * (dead, hurt, jumping, walking) and triggers endboss contact when far enough.
+     * Advance the character's sprite-animation state (dead, hurt, jumping, walking) and
+     * trigger endboss contact once far enough right.
+     *
+     * update(deltaTime) runs every single frame, but this state machine should only step
+     * roughly every 100ms like the old setInterval did - otherwise the animation would
+     * flicker through frames way too fast on high-refresh-rate screens. `animationTimer`
+     * accumulates deltaTime and only lets the code below run once enough time has passed.
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
      */
-    animateCharacterMoves() {
-        this.characterAnimationInterval = setInterval(() => {
-            if (this.isDead()) {
+    updateAnimationState(deltaTime) {
+        this.animationTimer += deltaTime;
+        if (this.animationTimer < 0.1) {
+            return;
+        }
+        this.animationTimer = 0;
+        if (this.isDead()) {
+            if (!this.hasDied) {
+                this.hasDied = true;
                 this.characterDies();
-            } else if (this.isHurtCharacter()) {
-                this.characterHurtsHimself()
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING);
-            } 
-            if (this.x > 3870) {
-                this.world.level.enemies[0].contactCharacter = true;
             }
-        }, 100);
+        } else if (this.isHurtCharacter()) {
+            this.characterHurtsHimself()
+        } else if (this.isAboveGround()) {
+            this.playAnimation(this.IMAGES_JUMPING);
+        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playAnimation(this.IMAGES_WALKING);
+        }
+        if (this.x > 3870) {
+            this.world.level.enemies[0].contactCharacter = true;
+        }
     }
 
     /**
      * Handle character death: play death animation and sound, make the
      * character fall off-screen, stop background music and clear animation timers.
+     *
+     * Only ever called once per game, guarded by the `hasDied` flag in
+     * updateAnimationState() - unlike the old setInterval-based version, update(deltaTime)
+     * keeps running every frame, so without that guard this would fire repeatedly.
      */
     characterDies() {
-        this.playDeathAnimation(); 
-        this.jump(); 
-        this.fallBelowGround(); 
+        this.playDeathAnimation();
+        this.jump();
+        this.fallBelowGround();
         world.backgroundmusic.pause();
         if (volumeStatus === true) {
             this.death_sound.play();
         }
-        clearInterval(this.characterAnimationInterval); 
         this.resetSounds();
     }
 
@@ -332,9 +350,12 @@ class Character extends MovableObject{
 
     /**
     * Apply a small bounce upwards, used for knockback or stomp effects.
+    *
+    * speedY converted from the old tick-based 20 to pixels/second: 20 * 25 = 500.
+    * The 20px y-offset is a static pixel value, unrelated to the speed unit change.
     */
     bounce() {
-        this.speedY = 20; 
-        this.y = this.groundPos - 20; 
+        this.speedY = 500;
+        this.y = this.groundPos - 20;
     }
 } 

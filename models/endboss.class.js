@@ -73,8 +73,9 @@ class Endboss extends MovableObject {
         'images/endboss/attack/endboss_attack_7.png',
         'images/endboss/attack/endboss_attack_8.png'
     ];
-    speed = 0.15;
-    walkingspeed = 50;
+    // Converted from the old tick-based value (0.15 per tick at 20 ticks/sec, since the
+    // old walkingspeed interval fired every 50ms) to pixels/second: 0.15 * 20 = 3
+    speed = 3;
     animationSpeed = 400;
     BorderColor = 'yellow';
     offset = {
@@ -85,16 +86,17 @@ class Endboss extends MovableObject {
     }
     deadStatus = false;
     contactCharacter = false;
+    hasStartedWalking = false;
+    isWalking = false;
+    animationTimer = 0;
     animationStatus = 'normal';
-    walkInterval;
-    walkAnimationInterval;
     hurtStatus = false;
     world;
     deathAnimationInterval;
     hurtAnimationInterval;
     cocorido = new Audio('audio/cocorico.mp3');
-    
-    
+
+
     constructor() {
         super().loadImage(this.IMAGES_ALERTNESS[0]);
         this.loadImages(this.IMAGES_ALERTNESS);
@@ -103,53 +105,76 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.x = 4500;
-        this.checkContactWithCharacter();
         this.applyGravity();
     }
 
     /**
-     * Periodically check if the character has approached the endboss and
-     * start the endboss walk/animation when contact is enabled.
+     * Called every frame by World.updateMovableObjects(). Applies gravity, then - once
+     * the character has come close enough (contactCharacter, set from
+     * Character.updateAnimationState()) - starts walking on first contact (playing the
+     * cocorico sound once) and keeps moving/animating every frame while isWalking is true.
+     * isWalking is temporarily set to false by stopWalking() during the hurt/death
+     * animations, which pauses movement without losing the contactCharacter/
+     * hasStartedWalking state.
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
      */
-    checkContactWithCharacter() {
-        let check = setInterval(() => {
-            if (this.contactCharacter == true) {
-                this.walkAnimation();
-                if(volumeStatus == true) {
-                    this.cocorido.play();
-                }
-                clearInterval(check); 
+    update(deltaTime) {
+        super.update(deltaTime);
+        if (!this.contactCharacter) {
+            return;
+        }
+        if (!this.hasStartedWalking) {
+            this.hasStartedWalking = true;
+            if (volumeStatus == true) {
+                this.cocorido.play();
             }
-         }, 50);
+            this.walkAnimation();
+        }
+        if (!this.isWalking) {
+            return;
+        }
+        this.x -= this.speed * deltaTime;
+        this.updateWalkAnimation(deltaTime);
     }
 
     /**
-    * Start movement and animation loops for the endboss.
-    * One interval handles movement; the other cycles through animation frames
-    * depending on the current `animationStatus`.
-    */
+     * Advances the endboss's current animation (walking/alertness/attack, depending on
+     * `animationStatus`) roughly every `animationSpeed` milliseconds, throttled via an
+     * accumulator so it stays independent of the actual frame rate. `animationSpeed`
+     * itself changes depending on the endboss's state (see World.statusAlertness() /
+     * World.statusAttack()).
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
+     */
+    updateWalkAnimation(deltaTime) {
+        this.animationTimer += deltaTime;
+        if (this.animationTimer < this.animationSpeed / 1000) {
+            return;
+        }
+        this.animationTimer = 0;
+        if (this.animationStatus == 'normal') {
+            this.playAnimation(this.IMAGES_WALKING);
+        } else if (this.animationStatus == 'alertness') {
+            this.playAnimation(this.IMAGES_ALERTNESS);
+        } else {
+            this.playAnimation(this.IMAGES_ATTACK);
+        }
+    }
+
+    /**
+     * Resume walking: movement and state-based animation run every frame from
+     * update(deltaTime) for as long as isWalking stays true.
+     */
     walkAnimation() {
-        this.walkInterval = setInterval(() => {
-                this.moveLeft();
-         }, this.walkingspeed);
-        this.walkAnimationInterval = setInterval(() => {
-            if (this.animationStatus == 'normal') {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else if (this.animationStatus == 'alertness') {
-                this.playAnimation(this.IMAGES_ALERTNESS);
-            } else {
-                this.playAnimation(this.IMAGES_ATTACK);
-            }
-               
-        }, this.animationSpeed);
+        this.isWalking = true;
     }
 
     /**
-     * Stop movement and walk-animation intervals.
+     * Pause movement and walk-animation (e.g. while the hurt or death animation plays).
      */
     stopWalking() {
-        clearInterval(this.walkInterval); 
-        clearInterval(this.walkAnimationInterval); 
+        this.isWalking = false;
     }
 
     /**
@@ -202,9 +227,11 @@ class Endboss extends MovableObject {
 
     /**
      * Let the endboss jump.
+     *
+     * speedY converted from the old tick-based 20 to pixels/second: 20 * 25 = 500.
      */
     jumpEndboss() {
-        this.speedY = 20;
+        this.speedY = 500;
     }
 
     /**

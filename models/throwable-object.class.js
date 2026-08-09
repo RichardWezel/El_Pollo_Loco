@@ -21,10 +21,11 @@ class ThrowableObject extends MovableObject {
         'images/bottle/splash/5_bottle_splash.png',
         'images/bottle/splash/6_bottle_splash.png'
     ];
-    intervalRotation;
+    flightStopped = false;
+    flightTimer = 0;
     splash_sound = new Audio('audio/bottle_break.mp3');
     hasCollided = false;
-   
+
     constructor(x, y) {
         super().loadImage('images/bottle/solo/salsa_bottle_standing.png');
         this.loadImages(this.IMAGES_ROTATION);
@@ -35,25 +36,52 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * Initiate throw behavior: set upward velocity, enable gravity and start flight.
+     * Initiate throw behavior: set upward velocity and enable gravity.
+     *
+     * speedY converted from the old tick-based 30 to pixels/second: 30 * 25 = 750.
      */
     throw() {
-        this.speedY = 30; 
-        this.applyGravity(); 
-        this.bottleFly();
+        this.speedY = 750;
+        this.applyGravity();
     }
 
     /**
-     * Start the flight loop: while airborne rotate the bottle, otherwise splash.
+     * Called every frame by World.updateMovableObjects(). Applies gravity first (via the
+     * parent class) - this keeps running even after the flight loop below has stopped,
+     * matching the original behavior where only the rotation interval was cleared on an
+     * Endboss hit, not gravity. The flight loop itself (ground-check, rotation or splash)
+     * is throttled to roughly every 50ms via `flightTimer`, matching the old interval
+     * timing, and stops entirely once `stopFlight()` has been called (Endboss hit).
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
      */
-    bottleFly() {
-        this.intervalRotation = setInterval(() => {
-            if (this.checkHitTheGround()) {
-                this.bottleSplash();
-            } else {
-                this.bottleRotation();
-            }
-        }, 50);
+    update(deltaTime) {
+        super.update(deltaTime);
+        if (this.flightStopped) {
+            return;
+        }
+        this.flightTimer += deltaTime;
+        if (this.flightTimer < 0.05) {
+            return;
+        }
+        this.flightTimer = 0;
+        if (this.checkHitTheGround()) {
+            this.bottleSplash();
+        } else {
+            this.bottleRotation();
+        }
+    }
+
+    /**
+     * Freeze the bottle completely: stop the flight loop (ground-check/rotation/repeated
+     * splash-advance) AND gravity. Used when the bottle hits the Endboss, whose own splash
+     * animation (World.playSplashAnimation) then takes over updating the sprite directly -
+     * this keeps the splash image fixed at the point of impact instead of continuing to
+     * fall/drift downward while the splash frames play.
+     */
+    stopFlight() {
+        this.flightStopped = true;
+        this.gravityEnabled = false;
     }
 
     /**
@@ -101,10 +129,11 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * Remove this bottle instance from the world's throwableObject array and stop its interval.
+     * Remove this bottle instance from the world's throwableObject array. Once removed,
+     * World.updateMovableObjects() simply no longer calls update() on it, so movement and
+     * gravity stop automatically - no interval to clear anymore.
      */
     deleteObject(){
         world.throwableObject.splice(0,1);
-        clearInterval(this.intervalRotation);
     }
 }

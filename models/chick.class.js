@@ -14,7 +14,9 @@ class Chick extends MovableObject{
     IMAGE_DEAD = [
         'images/chick/dead.png'
     ];
-    speed = 2;
+    // Converted from the old tick-based range (60 ticks/sec) to pixels/second:
+    // 0.25 * 60 = 15, 0.5 * 60 = 30
+    speed = 120;
     BorderColor = 'blue';
     offset = {
         top: 0,
@@ -22,36 +24,52 @@ class Chick extends MovableObject{
         bottom: 0,
         left: 10
     }
-    walkingInterval;
-    animationInterval;
+    animationTimer = 0;
     deadStatus = false;
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.x = 600 + Math.random() * 5000;
-        this.speed = 0.25 + Math.random() * 0.5;
-        this.animate();
+        this.speed = 15 + Math.random() * 30;
     }
 
     /**
-     * Start movement and animation loops for the chick.
+     * Called every frame by World.updateMovableObjects(). Moves the chick left and
+     * advances its walking animation, unless it has already been defeated.
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
      */
-    animate() {
-        this.walkingInterval = setInterval(() => {
-            this.moveLeft();
-         }, 1000 / 60);
-        this.animationInterval = setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
-        }, 200);
+    update(deltaTime) {
+        super.update(deltaTime);
+        if (this.deadStatus) {
+            return;
+        }
+        this.x -= this.speed * deltaTime;
+        this.updateWalkingAnimation(deltaTime);
     }
 
     /**
-     * Handle when the chick is hit: stop movement/animation and show dead frame.
+     * Advances the walking animation roughly every 200ms, throttled via an accumulator so
+     * it stays independent of the actual frame rate (same pattern as
+     * Character.updateAnimationState()).
+     *
+     * @param {number} deltaTime - Time elapsed since the last frame, in seconds.
+     */
+    updateWalkingAnimation(deltaTime) {
+        this.animationTimer += deltaTime;
+        if (this.animationTimer < 0.2) {
+            return;
+        }
+        this.animationTimer = 0;
+        this.playAnimation(this.IMAGES_WALKING);
+    }
+
+    /**
+     * Handle when the chick is hit: set deadStatus (checked in update(), stops movement
+     * and animation from there on) and show the dead frame.
      */
     hitChick() {
-        clearInterval(this.walkingInterval);
-        clearInterval(this.animationInterval);
         this.deadStatus = true;
         this.loadImage(this.IMAGE_DEAD);
     }
