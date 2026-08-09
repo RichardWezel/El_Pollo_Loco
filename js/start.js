@@ -6,7 +6,22 @@
 function init() {
     initStartScreen();
     handleScreenOrientation();
-    window.addEventListener('resize', configScreen());
+    configScreen();
+    window.addEventListener('resize', handleWindowResize);
+}
+
+/**
+ * Re-check orientation (show/hide the rotate prompt) and re-adjust the layout whenever
+ * the window is resized - which is also what fires when a mobile device is rotated.
+ *
+ * Note: this used to be `window.addEventListener('resize', configScreen())` - the
+ * trailing `()` called configScreen() immediately instead of passing it as a callback,
+ * so resize/rotation was never actually handled after the initial page load, and
+ * handleScreenOrientation() was never wired to any event at all.
+ */
+function handleWindowResize() {
+    handleScreenOrientation();
+    configScreen();
 }
 
 /**
@@ -51,21 +66,19 @@ function handleScreenOrientation() {
 /**
  * Return the current page orientation.
  *
+ * Uses matchMedia's "orientation" feature (the same mechanism CSS
+ * `@media (orientation: portrait)` relies on) instead of the deprecated
+ * `window.orientation` / `screen.availWidth`/`availHeight`, which behave
+ * unreliably (undefined, frozen, or not updated on rotation) on several
+ * modern mobile browsers.
+ *
  * @returns {string} 'portrait' or 'landscape'
  */
 function checkPageOrientation() {
-    if (typeof window.orientation !== 'undefined') {
-        if (window.orientation === 0 || window.orientation === 180) {
-            return 'portrait';
-        } else {
-            return 'landscape';
-        }
+    if (window.matchMedia('(orientation: portrait)').matches) {
+        return 'portrait';
     } else {
-        if (screen.availHeight > screen.availWidth) {
-            return 'portrait';
-        } else {
-            return 'landscape';
-        }
+        return 'landscape';
     }
 }
 
