@@ -37,6 +37,9 @@ window.addEventListener('keydown', (e) => {
         case 'KeyH':
             keydownH(e);
             break;
+        case 'KeyP':
+            keydownP(e);
+            break;
     }
 });
 
@@ -73,6 +76,9 @@ window.addEventListener('keyup', (e) => {
             break;
         case 'KeyH':
             keyUpH(e);
+            break;
+        case 'KeyP':
+            keyUpP(e);
             break;
     }
 });
@@ -241,6 +247,30 @@ function keyUpH(event) {
     keyboard.KeyH = false;
     demarcateUsedControlBtn('home');
     reloadGame();
+}
+
+/**
+ * Handle pressing 'P' to toggle pause mode.
+ *
+ * @param {KeyboardEvent} event - Keyboard event for the 'P' key.
+ */
+function keydownP(event) {
+    if (event && event.repeat) return;
+    if (event) event.preventDefault();
+    keyboard.KeyP = true;
+    if (world) {
+        world.togglePause();
+    }
+}
+
+/**
+ * Handle releasing 'P': clear the key state.
+ *
+ * @param {KeyboardEvent} event - Keyboard event for the 'P' key release.
+ */
+function keyUpP(event) {
+    if (event) event.preventDefault();
+    keyboard.KeyP = false;
 }
 
 /**

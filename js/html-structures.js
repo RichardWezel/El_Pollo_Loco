@@ -144,6 +144,18 @@ function explenationHTML() {
 
                 <div class="row">
                     <div class="controlSymbol column_1">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-200v-560h80v560h-80Zm320 0v-560h80v560h-80Z"/></svg>
+                    </div>
+                    <div class="column_2">
+                        Spiel pausieren / fortsetzen
+                    </div>
+                    <div class="column_3">
+                        Taste P
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="controlSymbol column_1">
                         <svg id="fullscreen_symbol" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/></svg>
                     </div>
                     <div class="column_2">

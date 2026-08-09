@@ -26,6 +26,11 @@ class World {
     startBottleAmound = 0;
     startCoinAmound = 0;
     lastFrameTime = null;
+    isPaused = false;
+    collisionCharacterInterval = null;
+    collisionBottleInterval = null;
+    throwCheckInterval = null;
+    animationFrameId = null;
 
     /**
     * Create a new World instance and start rendering and collision checks.
@@ -69,6 +74,10 @@ class World {
      * fallback in calcDeltaTime().
      */
     draw(timestamp) {
+        if (this.isPaused) {
+            this.lastFrameTime = null;
+            return;
+        }
         let deltaTime = this.calcDeltaTime(timestamp);
         this.updateMovableObjects(deltaTime);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -79,7 +88,7 @@ class World {
         this.statusbar_endboss.updateX();
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
-        requestAnimationFrame(function(ts) {
+        this.animationFrameId = requestAnimationFrame(function(ts) {
             self.draw(ts);
         });
     }
@@ -205,8 +214,10 @@ class World {
      * Periodically check collisions involving the main character.
      */
     intervalCollCharacter() {
-        setInterval(() => {
-            this.checkCollisionsofCharacter();  
+        this.collisionCharacterInterval = setInterval(() => {
+            if (!this.isPaused) {
+                this.checkCollisionsofCharacter();
+            }
         }, 50);
     }
 
@@ -214,8 +225,10 @@ class World {
      * Periodically check collisions for thrown bottles against enemies.
      */
     intervalCollBottle() {
-        setInterval(() => {
-            this.checkCollisionsOfBottles();
+        this.collisionBottleInterval = setInterval(() => {
+            if (!this.isPaused) {
+                this.checkCollisionsOfBottles();
+            }
         }, 20);
     }
 
@@ -332,7 +345,10 @@ class World {
      * Checks if the "D" key is pressed to throw a bottle.
      */
     checkUseOf_KeyD() {
-        setInterval(() => {
+        this.throwCheckInterval = setInterval(() => {
+            if (this.isPaused) {
+                return;
+            }
             let hasBottle = this.throwableObject.some(bottle => bottle instanceof ThrowableObject && !bottle.hasCollided);
             if(this.keyboard.KeyD && this.character.collectedBottles > 1 && !hasBottle && this.character.otherDirection == false) {
                 this.characterThrowBottle();
@@ -541,6 +557,63 @@ class World {
         clearTimeout(this.sleepTimeout); 
     }
 
+    /**
+     * Toggle the pause state of the game.
+     */
+    togglePause() {
+        this.isPaused = !this.isPaused;
+        if (this.isPaused) {
+            this.pauseGame();
+        } else {
+            this.resumeGame();
+        }
+    }
+
+    /**
+     * Pause the game loop and active world timers.
+     */
+    pauseGame() {
+        this.lastFrameTime = null;
+        if (this.collisionCharacterInterval) {
+            clearInterval(this.collisionCharacterInterval);
+        }
+        if (this.collisionBottleInterval) {
+            clearInterval(this.collisionBottleInterval);
+        }
+        if (this.throwCheckInterval) {
+            clearInterval(this.throwCheckInterval);
+        }
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+        }
+        this.backgroundmusic.pause();
+        this.character.pauseAnimationTimers();
+        this.character.walking_sound.pause();
+        this.character.hurt_sound.pause();
+        this.character.jump_sound.pause();
+        this.character.death_sound.pause();
+        this.character.snoring_sound.pause();
+        this.throwableObject.forEach((bottle) => {
+            if (bottle && bottle.splash_sound) {
+                bottle.splash_sound.pause();
+                bottle.splash_sound.currentTime = 0;
+            }
+        });
+    }
+
+    /**
+     * Resume the game loop and restart world timers.
+     */
+    resumeGame() {
+        this.intervalCollCharacter();
+        this.intervalCollBottle();
+        this.checkUseOf_KeyD();
+        this.character.resumeAnimationTimers();
+        if (volumeStatus == true) {
+            this.playBackgroundMusic();
+        }
+        this.draw();
+    }
 
     /**
      * Removes the enemy from enemies array.

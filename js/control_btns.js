@@ -75,6 +75,14 @@ function volumeOff() {
     </svg>`;
     world.backgroundmusic.pause();
     world.character.snoring_sound.pause();
+    if (world.throwableObject) {
+        world.throwableObject.forEach((bottle) => {
+            if (bottle && bottle.splash_sound) {
+                bottle.splash_sound.pause();
+                bottle.splash_sound.currentTime = 0;
+            }
+        });
+    }
 }
 
 /**

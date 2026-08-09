@@ -181,7 +181,9 @@ class Endboss extends MovableObject {
      * Trigger endboss death sequence: play sound, stop movement and run death animation.
      */
     endbossDies() {
-        this.cocorido.play();
+        if(volumeStatus == true) {
+                this.cocorido.play();
+        }
         this.stopWalking();
         this.playDeathAnimationEndboss(); 
         world.backgroundmusic.pause();

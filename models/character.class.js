@@ -89,6 +89,9 @@ class Character extends MovableObject{
     idle;
     sleep;
     GameOverInterval;
+    sleepTimerRemaining = null;
+    sleepTimerStartedAt = null;
+    animationState = 'idle';
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -290,7 +293,8 @@ class Character extends MovableObject{
     * Enter idle state and start the idle animation loop.
     */
     characterIdle() {
-        this.startSleepTimer(); 
+        this.animationState = 'idle';
+        this.startSleepTimer(this.sleepTimerRemaining);
         clearInterval(this.idle);
         clearInterval(this.sleep);
         this.idle = setInterval(() => {
@@ -302,17 +306,24 @@ class Character extends MovableObject{
     * Start a timeout which will transition the character to the sleep state
     * after `initialSleepTime` milliseconds.
     */
-    startSleepTimer() {
+    startSleepTimer(delay = null) {
+        if (this.sleepTimeout) {
+            clearTimeout(this.sleepTimeout);
+        }
+        const timerDelay = delay ?? this.sleepTimerRemaining ?? this.initialSleepTime;
+        this.sleepTimerRemaining = null;
+        this.sleepTimerStartedAt = Date.now();
         this.sleepTimeout = setTimeout(() => {
             this.characterSleep();
             clearTimeout(this.idle);
-        }, this.initialSleepTime);
+        }, Math.max(timerDelay, 0));
     }
 
     /**
     * Enter the sleep animation state and optionally play snoring sound.
     */
     characterSleep() {
+        this.animationState = 'sleep';
         if(volumeStatus == true) {
             this.playSnoringSound();
         } 
@@ -344,8 +355,40 @@ class Character extends MovableObject{
     resetIdleTimer() {
         clearTimeout(this.sleepTimeout); 
         clearInterval(this.sleep); 
+        this.sleepTimerRemaining = null;
         this.characterIdle(); 
         this.snoring_sound.pause();
+    }
+
+    /**
+     * Pause the character's idle/sleep timers so they do not continue while the game is paused.
+     */
+    pauseAnimationTimers() {
+        if (this.sleepTimeout) {
+            clearTimeout(this.sleepTimeout);
+            if (this.sleepTimerStartedAt !== null) {
+                const elapsed = Date.now() - this.sleepTimerStartedAt;
+                this.sleepTimerRemaining = Math.max(this.initialSleepTime - elapsed, 0);
+                this.sleepTimerStartedAt = null;
+            }
+        }
+        clearInterval(this.idle);
+        clearInterval(this.sleep);
+    }
+
+    /**
+     * Resume the character's idle/sleep timers after the game is unpaused.
+     */
+    resumeAnimationTimers() {
+        if (this.animationState === 'sleep') {
+            this.characterSleep();
+        } else {
+            if (this.sleepTimerRemaining === 0) {
+                this.characterSleep();
+            } else {
+                this.characterIdle();
+            }
+        }
     }
 
     /**

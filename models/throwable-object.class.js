@@ -99,10 +99,14 @@ class ThrowableObject extends MovableObject {
      */
     bottleSplash() {
         this.playAnimationSplash(this.IMAGES_SPLASH);
-        this.hasCollided = true; 
-        this.splash_sound.playbackRate = 3;
-        if (volumeStatus == false) {
+        this.hasCollided = true;
+        if (volumeStatus == true) {
+            this.splash_sound.currentTime = 0;
+            this.splash_sound.playbackRate = 3;
             this.splash_sound.play();
+        } else {
+            this.splash_sound.pause();
+            this.splash_sound.currentTime = 0;
         }
     }
     
