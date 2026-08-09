@@ -85,6 +85,13 @@ function setFullscreenBtn() {
 function addCanvasHTMLElement() {
     let gameScreen = document.getElementById('gameScreen');
     gameScreen.innerHTML += canvasHTML_Element();
+    // Once the actual game starts, swap the start-screen backdrop image for solid black.
+    // On mobile, the canvas is now sized to preserve its 3:2 ratio (see canvas.fullscreen
+    // in style.css) instead of stretching to fill the screen, which can leave letterbox
+    // gaps beside/above the game - those gaps show gameScreen's own background, so this
+    // keeps them a clean black instead of the leftover start-screen image peeking through.
+    gameScreen.style.backgroundImage = 'none';
+    gameScreen.style.backgroundColor = 'black';
     let canvas = document.getElementById('gameCanvas');
     if (checkDeviceMode() == 'mobile') {
         canvas.classList.add('fullscreen');

@@ -170,26 +170,41 @@ button {
     z-index: 1000; 
 }
 
+/* Shared "game stage" box for mobile: fit within the viewport while keeping the game's
+   fixed 3:2 ratio (720x480) intact - min(100dvw, 100dvh*1.5) picks whichever dimension
+   is the limiting one, exactly like object-fit: contain would, but as an actual box size
+   instead of just how the content is drawn. canvas.fullscreen and #controlBtnSection use
+   the *identical* formula so their boxes always end up the same size, in the same place -
+   which means the touch controls stay aligned with the visible game content instead of
+   ending up in the letterboxed black bars (where their black icons/borders were
+   effectively invisible against the black background). */
 canvas.fullscreen {
-    width: 100dvw !important;
-    height: 100dvh !important;
+    width: min(100dvw, 100dvh * 1.5) !important;
+    height: min(100dvh, 100dvw / 1.5) !important;
     max-height: none;
-    /* Keep the canvas's 3:2 content proportions intact instead of stretching it to
-       whatever aspect ratio the phone screen happens to have (was the cause of the
-       distorted/stretched look) - scale it to fit within the viewport box instead,
-       centered, with letterboxing if the screen ratio doesn't match. */
-    object-fit: contain;
+    inset: 0;
+    margin: auto;
 }
 
 @media (pointer: coarse) {
-    
+
     #controlBtnSection {
         display: flex;
         position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0px;
-        left: 0;
+        width: min(100dvw, 100dvh * 1.5);
+        height: min(100dvh, 100dvw / 1.5);
+        inset: 0;
+        margin: auto;
+    }
+
+    /* Same "game stage" box as canvas.fullscreen/#controlBtnSection above, so the navbar
+       (menu button etc.) lines up with the visible game content instead of the full
+       screen - otherwise it ends up in the letterboxed area outside the canvas. */
+    #navbar {
+        width: min(100dvw, 100dvh * 1.5);
+        height: min(100dvh, 100dvw / 1.5);
+        inset: 0;
+        margin: auto;
     }
 
     #fullscreen {
