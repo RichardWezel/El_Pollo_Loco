@@ -1,10 +1,14 @@
 EL_POLLO_LOCO
 =================
 
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+
 Kurze Beschreibung
 ------------------
 
-EL_POLLO_LOCO ist ein kleines Browser-Game (HTML/CSS/JS), in dem ein Spieler einen Charakter steuert, sammelt und Hindernissen ausweicht. Das Projekt enthält alle Assets (Bilder, Audio, Schriftarten) und die Spiel-Logik in Vanilla JavaScript.
+EL_POLLO_LOCO ist ein kleines Browser-Game (HTML/CSS/JS), in dem ein Spieler einen Charakter steuert, sammelt und Hindernissen ausweicht. Das Projekt enthält alle Assets (Bilder, Audio, Schriftarten) und die Spiel-Logik in Vanilla JavaScript (objektorientiert, ES6-Klassen, ohne Frameworks oder Build-Tools). Optimiert für den Browser auf Smartphones, spielbar aber auch am Desktop.
 
 Schnellstart
 -----------
@@ -41,9 +45,19 @@ Projektstruktur (Kurzüberblick)
 Steuerung
 ---------
 
-- Pfeiltasten / WASD: Bewegung
+**Desktop (Tastatur):**
+
+- Pfeiltasten links/rechts: Bewegung
 - Leertaste: Springen
-- Interaktions-Buttons: auf Touch/Onscreen-Buttons in der UI (bei Mobilgeräten)
+- D: Flasche werfen
+- M: Ton stumm schalten / aktivieren
+- P: Pause
+- H: Zurück zum Start-Bildschirm
+
+**Mobile (Touch):**
+
+- Onscreen-Buttons für Bewegung, Springen und Werfen
+- Menü oben rechts für Pause, Ton und weitere Optionen
 
 Entwicklung
 -----------
@@ -54,8 +68,9 @@ Entwicklung
 Assets & Lizenz
 ---------------
 
-- Schriftarten liegen in `fonts/` mit zugehöriger OFL-Datei (`OFL.txt`).
-- Überprüfe `images/` und `audio/` auf Lizenzhinweise, bevor du Assets weiterverwendest.
+- Schriftarten liegen in `fonts/` mit zugehöriger OFL-Datei (`OFL.txt`) – SIL Open Font License.
+- Für Bilder und Audio sind in diesem Repo keine allgemeinen Lizenzangaben zugeordnet. Vor einer Weiterverwendung außerhalb dieses Projekts sollte die Herkunft der einzelnen Assets geprüft werden.
+- Für den Quellcode des Spiels ist aktuell keine explizite Lizenz vergeben.
 
 Contributing
 ------------
@@ -66,27 +81,19 @@ Contributing
 Kontakt / Autor
 ----------------
 
-Dieses Projekt wurde lokal entwickelt. Bei Fragen oder Wünschen zu Features gerne melden.
-# El_Pollo_Loco
+Richard Wezel – kontakt@richard-wezel.de
 
 Screenshots
 -----------
 
 Startbildschirm:
 
-![Startscreen](images/intro_outro_screens/start/startscreen_1.png)
+![Startscreen](https://raw.githubusercontent.com/RichardWezel/El_Pollo_Loco/main/images/intro_outro_screens/start/startscreen_1.png)
 
 Beispiel-Gameplay-Hintergrund:
 
-![Gameplay Hintergrund](images/desert_background.jpg)
+![Gameplay Hintergrund](https://raw.githubusercontent.com/RichardWezel/El_Pollo_Loco/main/images/desert_background.jpg)
 
 Gewonnen-Bildschirm:
 
-![Win Screen](images/intro_outro_screens/win/win_1.png)
-
-Lizenz-Hinweis (kurz)
----------------------
-
-- Die Schriftarten im Ordner `fonts/` enthalten eine `OFL.txt` — das ist die SIL Open Font License (OFL) für die Schriftdateien.
-- Für Bilder und Audio sind in diesem Repo keine allgemeinen Lizenzangaben zugeordnet; ich kann die Lizenz einzelner Assets nicht automatisch prüfen. Wenn du die Assets weitergeben oder veröffentlichen möchtest, solltest du deren Herkunft und Lizenz prüfen oder nur eigene/selbst erstellte Assets verwenden.
-- Für den Quellcode des Spiels kann ich optional eine Licence-Datei hinzufügen (z. B. `MIT`). Soll ich das tun?
+![Win Screen](https://raw.githubusercontent.com/RichardWezel/El_Pollo_Loco/main/images/intro_outro_screens/win/win_1.png)
