@@ -264,7 +264,7 @@ function navbarHTML() {
 function gameOverHTML() {
     return `
         <div class="endScreen" id="gameOver">
-            <img src="images/intro_outro_screens/game_over/game over.png" alt="">
+            <img src="images/intro_outro_screens/game_over/game_over.png" alt="">
             <button class="endScreenBtn btn" onclick="restartGame()">Noch einmal!</button>
         <div>
     `;

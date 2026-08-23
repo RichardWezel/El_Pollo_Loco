@@ -73,7 +73,7 @@ class Character extends MovableObject{
     walking_sound = new Audio('audio/walk_sound.mp3');
     hurt_sound = new Audio('audio/hurt.mp3');
     jump_sound = new Audio('audio/jump_sound.mp3');
-    death_sound = new Audio('audio/death _scream.mp3');
+    death_sound = new Audio('audio/death_scream.mp3');
     snoring_sound = new Audio('audio/snoring.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
