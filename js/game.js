@@ -124,6 +124,7 @@ function initCanvas() {
 function renderWin() { 
     let gameWin = document.getElementById('gameWin');
     gameWin.style.display = 'block';
+    hideControlBtns();
 }
 
 /**
@@ -132,4 +133,18 @@ function renderWin() {
 function renderGameOver() { 
     let gameOver = document.getElementById('gameOver');
     gameOver.style.display = 'block';
+    hideControlBtns();
+}
+
+/**
+ * Hide the on-screen touch controls (arrows, jump, throw) once the game is over. They
+ * have no use on the win/game-over screen and - with their z-index of 9999 - would
+ * otherwise sit on top of the "Noch einmal!" sign (.endScreen: 1001) on phones. The
+ * navbar keeps its z-index on purpose so the menu/home buttons stay reachable.
+ */
+function hideControlBtns() {
+    let controlBtnSection = document.getElementById('controlBtnSection');
+    if (controlBtnSection) {
+        controlBtnSection.style.display = 'none';
+    }
 }

@@ -299,6 +299,7 @@ class Character extends MovableObject{
     initGameOver() {
         let gameOver = document.getElementById('gameOver');
         gameOver.style.display = 'flex';
+        hideControlBtns();
         clearInterval(this.GameOverInterval);                
     }
 
