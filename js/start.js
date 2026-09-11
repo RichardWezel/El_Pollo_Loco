@@ -81,6 +81,16 @@ function configScreen() {
 function initStartScreen() {
     let gameScreen = document.getElementById('gameScreen')
     gameScreen.innerHTML = StartBtnsHTML();
+    setBackgroundStartScreen();
+}
+
+/**
+ * Apply the start screen background image. Also used by closeOverlay() to bring the
+ * image back after the story/instructions/impressum overlay swapped it for the plain
+ * sky (see setBackgroundInstructions()).
+ */
+function setBackgroundStartScreen() {
+    let gameScreen = document.getElementById('gameScreen');
     gameScreen.style.backgroundImage = "url('images/intro_outro_screens/start/startscreen_1.png')";
 }
 
@@ -310,6 +320,11 @@ function closeOverlay() {
         world.togglePause();
     }
     overlayPausedGame = false;
+    // Opened from the start screen: the overlay replaced the start image with the plain
+    // sky (setBackgroundInstructions()), so put the start image back.
+    if (!isGameRunning()) {
+        setBackgroundStartScreen();
+    }
 }
 
 /**

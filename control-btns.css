@@ -84,38 +84,6 @@
     z-index: 9999; 
 }
 
-.nextBtn_right {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-}
-
-.nextBtn_right svg{
-    width: 60px;
-    height: 60px;
-}
-
-.nextBtn_right:hover svg{
-    fill: #FF9601;
-}
-
-.nextBtn_left {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    cursor: pointer;
-}
-
-.nextBtn_left svg{
-    width: 60px;
-    height: 60px;
-}
-
-.nextBtn_left:hover svg{
-    fill: #FF9601;
-}
-
 #arrowRight {
     position: absolute;
     bottom: 10px;
@@ -220,6 +188,19 @@
         height: 100%;
     }
 
+/* Touch devices: give the wooden signs some air between each other. The signs no longer
+   have a fixed width, so the container's own margins are what would otherwise squeeze
+   them together - use a fixed gap and let the row center itself instead. */
+@media (pointer: coarse) {
+    #btnContainer {
+        width: auto;
+        justify-content: center;
+        gap: 28px;
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+}
+
 @media(max-width: 600px) {
     #btnContainer {
         margin-left: 60px;
@@ -237,6 +218,14 @@
     #btnContainer {
         margin-left: 40px;
         margin-right: 40px;
+    }
+
+    @media (pointer: coarse) {
+        #btnContainer {
+            gap: 20px;
+            margin-left: 12px;
+            margin-right: 12px;
+        }
     }
 
     .btn {
@@ -263,6 +252,15 @@
         margin-top: 8px;
     }
 
+    @media (pointer: coarse) {
+        #btnContainer {
+            gap: 14px;
+            width: auto;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+    }
+
     .btn {
         font-size: 15px;
         padding: 4px 16px;
@@ -281,29 +279,4 @@
     #btnContainer {
         margin-top: 10px;
     }
-}
-
-.close{
-    position: absolute;
-    top: 33px;
-    right: 20px;
-    cursor: pointer;
-}
-
-/* Used on screens that only have a forward arrow (.nextBtn_right, top-right) and no
-   back arrow - e.g. story/impressum. Keeps the close button on the opposite (left)
-   side instead of stacking on top of .nextBtn_right in the same corner. */
-.close_left {
-    position: absolute;
-    top: 33px;
-    left: 20px;
-    cursor: pointer;
-}
-
-.close:hover svg{
-    fill: #FF9601;
-}
-
-.close_left:hover svg{
-    fill: #FF9601;
 }
