@@ -22,8 +22,12 @@ let canvas;
 
 /**
  * Start the game: set up UI, initialize level and canvas, and configure layout.
+ *
+ * @param {boolean} [showTutorial=true] - Whether to show the interactive in-game tutorial
+ * (see js/tutorial.js). It's shown when starting from the start screen, but skipped for
+ * "Noch einmal!" restarts (see init() in start.js), since the player has already played.
  */
-function startGame() {
+function startGame(showTutorial = true) {
     setControlBtns();
     removeStartBtns();
     setNavbar();
@@ -32,6 +36,9 @@ function startGame() {
     initlevel();
     initCanvas();
     configScreen();
+    if (showTutorial) {
+        startTutorial();
+    }
 }
 
 /**

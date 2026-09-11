@@ -1,0 +1,265 @@
+/* In-game tutorial (see js/tutorial.js).
+   The layer covers the game stage and lets everything through (pointer-events: none),
+   only the small "Überspringen" button is clickable. z-index sits above the canvas
+   (canvas.fullscreen: 1000) and the win/game-over screens (1001) but below the control
+   buttons/navbar (9999) and the info overlays (10000), so touch controls stay usable
+   and opening the instructions still covers the tutorial. */
+#tutorialLayer {
+    position: absolute;
+    inset: 0;
+    z-index: 5000;
+    pointer-events: none;
+}
+
+/* Placed in the "quiet" band of the 720x480 stage: below the coin rows (y ~50-220) and
+   above the chickens' heads (y ~340+), and shifted right of Pepe, who always stands at
+   x ~100-220 (camera follows him) - so neither approaching enemies nor the player's own
+   character are hidden behind the box. */
+#tutorialBox {
+    position: absolute;
+    top: 40%;
+    left: 57%;
+    transform: translateX(-50%);
+    max-width: 56%;
+    min-width: 260px;
+    box-sizing: border-box;
+    padding: 10px 16px 8px 16px;
+    border: 3px solid #FF9601;
+    border-radius: 16px;
+    background: rgba(20, 12, 4, 0.82);
+    color: #fdf6ec;
+    font-family: 'boogaloo-regular';
+    font-size: clamp(13px, 2.2vw, 18px);
+    line-height: 1.25;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    animation: tutorial-slide-in 0.4s ease-out;
+    transition: opacity 0.6s ease;
+}
+
+/* Green border while the "✓ Super!" confirmation is shown. */
+#tutorialBox.tutorial-done {
+    border-color: #6fcf5a;
+}
+
+/* Fade-out of the final "you're ready" step. */
+#tutorialBox.tutorial-fade {
+    opacity: 0;
+}
+
+@keyframes tutorial-slide-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 16px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.tutorial-skip {
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    pointer-events: auto;
+    cursor: pointer;
+    font-family: 'boogaloo-regular';
+    font-size: 0.7em;
+    color: #c9b89a;
+    padding: 2px 4px;
+    z-index: 1;
+}
+
+.tutorial-skip:hover {
+    color: #FF9601;
+}
+
+.tutorial-title {
+    font-size: 0.8em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FF9601;
+    margin-bottom: 2px;
+}
+
+.tutorial-main {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.tutorial-task {
+    font-size: 1.15em;
+    color: rgb(250, 222, 75);
+}
+
+.tutorial-hint {
+    font-size: 0.8em;
+    color: #e6dccb;
+    margin-top: 2px;
+}
+
+/* Keyboard key cap (desktop). */
+.tutorial-key {
+    flex-shrink: 0;
+    min-width: 2.2em;
+    height: 2.2em;
+    padding: 0 0.4em;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+    color: #1a1208;
+    background: linear-gradient(#fffdf7, #d8d0c0);
+    border: 2px solid #8a7d66;
+    border-bottom-width: 5px;
+    border-radius: 7px;
+    animation: tutorial-key-press 1.4s ease-in-out infinite;
+}
+
+.tutorial-key-wide {
+    font-size: 0.85em;
+    min-width: 5.5em;
+}
+
+@keyframes tutorial-key-press {
+    0%, 100% {
+        transform: translateY(0);
+        border-bottom-width: 5px;
+    }
+    50% {
+        transform: translateY(2px);
+        border-bottom-width: 3px;
+    }
+}
+
+/* Copy of the on-screen control button (touch devices). */
+.tutorial-icon {
+    flex-shrink: 0;
+    width: 2.4em;
+    height: 2.4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #FF9601;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.tutorial-icon svg {
+    width: 80%;
+    height: 80%;
+    fill: #FF9601;
+}
+
+.tutorial-icon-throw svg {
+    width: 60%;
+    height: 60%;
+    rotate: 65deg;
+}
+
+.tutorial-img {
+    flex-shrink: 0;
+    height: 3em;
+    width: auto;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6));
+}
+
+.tutorial-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.tutorial-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.tutorial-dot.active {
+    background: #FF9601;
+}
+
+.tutorial-dot.done {
+    background: #6fcf5a;
+}
+
+.tutorial-confirm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.3em;
+    color: #6fcf5a;
+    padding: 6px 0;
+    animation: tutorial-pop 0.35s ease-out;
+}
+
+.tutorial-confirm svg {
+    fill: #6fcf5a;
+    width: 1.4em;
+    height: 1.4em;
+}
+
+@keyframes tutorial-pop {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Pulsing ring around the real on-screen control button the current step asks for.
+   Uses box-shadow only, so it doesn't fight with the inline borderColor that
+   markUsedControlBtn() sets while the button is pressed. */
+.control_circle.tutorial-pulse {
+    animation: tutorial-pulse 1.2s ease-out infinite;
+}
+
+@keyframes tutorial-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 150, 1, 0.9);
+    }
+    100% {
+        box-shadow: 0 0 0 18px rgba(255, 150, 1, 0);
+    }
+}
+
+/* On touch devices, keep the tutorial box inside the same 3:2 "game stage" box as the
+   canvas, controls and navbar (see canvas.fullscreen in style.css). */
+@media (pointer: coarse) {
+    #tutorialLayer {
+        width: min(100dvw, 100dvh * 1.5);
+        height: min(100dvh, 100dvw / 1.5);
+        inset: 0;
+        margin: auto;
+    }
+
+    #tutorialBox {
+        max-width: 54%;
+        min-width: 220px;
+        padding: 8px 12px 6px 12px;
+    }
+}
+
+@media (max-height: 400px) {
+    #tutorialBox {
+        font-size: 14px;
+        padding: 6px 12px 5px 12px;
+    }
+
+    .tutorial-dots {
+        margin-top: 4px;
+    }
+}

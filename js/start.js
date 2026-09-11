@@ -12,7 +12,8 @@ function init() {
     // rather than just tearing down and rebuilding the World in place.
     if (sessionStorage.getItem('autoStartGame') === 'true') {
         sessionStorage.removeItem('autoStartGame');
-        startGame();
+        // No tutorial on a restart - the player has just finished a round.
+        startGame(false);
     } else {
         initStartScreen();
     }

@@ -87,7 +87,7 @@ function explenationHTML() {
 
                 <div class="row">
                     <div class="controlSymbol column_1">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
                         </svg>
                     </div>
                     <div class="column_2">
@@ -100,7 +100,7 @@ function explenationHTML() {
 
                 <div class="row">
                     <div class="controlSymbol column_1">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
                     </div>
                     <div class="column_2">
                         Pepe läuft nach links
@@ -423,5 +423,21 @@ function svgPlay() {
     return `
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M320-200v-560l440 280-440 280Z"/>
         </svg>
+    `;
+}
+
+/**
+ * Return the HTML for the in-game tutorial container. The box itself is filled step by
+ * step from tutorial.js (see showTutorialStep()). #tutorialLayer uses the same "game
+ * stage" box as the canvas/control buttons on mobile (see style.css), so the box always
+ * sits over the visible game area and not in the letterboxed bars.
+ *
+ * @returns {string} HTML markup for the tutorial layer.
+ */
+function tutorialHTML() {
+    return `
+        <div id="tutorialLayer">
+            <div id="tutorialBox"></div>
+        </div>
     `;
 }

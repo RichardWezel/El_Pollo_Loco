@@ -37,13 +37,15 @@ Projektstruktur (Kurzüberblick)
 ------------------------------
 
 - `index.html` – Einstiegspunkt und Spiel-Canvas
-- `style.css`, `control-btns.css`, `introductions.css`, `setting-btn.css` – Styles
-- `js/` – Steuerungs- und Spiel-Initialisierungsskripte (z. B. `game.js`, `start.js`)
+- `style.css`, `control-btns.css`, `introductions.css`, `setting-btn.css`, `tutorial.css` – Styles
+- `js/` – Steuerungs- und Spiel-Initialisierungsskripte (z. B. `game.js`, `start.js`, `tutorial.js`)
 - `levels/`, `models/` – Spielklassen und Level-Logik
 - `images/`, `audio/`, `fonts/` – Assets (Grafiken, Sounds, Schriftarten)
 
 Steuerung
 ---------
+
+Beim ersten Start vom Startbildschirm aus erklärt ein kurzes interaktives Tutorial direkt im Spiel die wichtigsten Funktionen Schritt für Schritt (laufen, springen, Hühner besiegen, Flaschen sammeln und werfen). Jeder Schritt wird erst abgehakt, wenn man ihn tatsächlich ausgeführt hat; auf dem Desktop wird die jeweilige Taste angezeigt, auf dem Smartphone pulsiert der passende Touch-Button. Das Tutorial lässt sich jederzeit überspringen und erscheint nach "Noch einmal!" nicht erneut.
 
 **Desktop (Tastatur):**
 
