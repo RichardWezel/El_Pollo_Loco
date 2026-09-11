@@ -2,33 +2,80 @@
     width: 70%;
     display: flex;
     justify-content:space-between;
+    /* Without this the buttons stretch to the container's full height (flex default). */
+    align-items: flex-start;
     margin-top: 10px;
     font-size: 24px;
     margin: 30px 100px 0px 100px;
-    text-shadow: 2px 2px 5px black;
+}
+
+/* The start-screen buttons sit in the flow and need to be the containing block for
+   their "nail" pseudo-elements. Deliberately not on .btn itself: .endScreenBtn (Noch
+   einmal!) is position:absolute, and this file loads after style.css, so a plain
+   `.btn { position: relative }` would override that. */
+#btnContainer .btn {
+    position: relative;
 }
 
 .control_circle {
     touch-action: none; 
 }
 
+/* "Wooden sign" buttons (start screen + "Noch einmal!"): dark plank with a subtle
+   grain, a thick dark edge that doubles as a 3D base, and a nail in each end. Pressing
+   pushes the sign down onto its base. */
 .btn {
-    padding: 10px;
-    height: 50px;
-    background-color: #FF9601;
+    padding: 8px 28px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
-    color: rgb(250, 222, 75);
-    box-shadow: 0px 5px 15px -2px rgba(0,0,0,0.46);
+    font-family: 'boogaloo-regular';
+    font-size: 24px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #ffe9a8;
+    background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0 3px, transparent 3px 11px),
+        linear-gradient(180deg, #a8622a 0%, #8a4a1c 50%, #6e3812 100%);
+    border: 3px solid #3d1c08;
+    border-radius: 6px;
+    box-shadow: 0 5px 0 #3d1c08, 0 9px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    text-shadow: 0 2px 0 #3d1c08, 0 0 6px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-    font-size: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
+}
+
+/* The two nails. */
+.btn::before,
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    margin-top: -3.5px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ddd, #555);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+.btn::before {
+    left: 8px;
+}
+
+.btn::after {
+    right: 8px;
 }
 
 .btn:hover {
-    color: rgb(225 199 65);
+    filter: brightness(1.1);
+}
+
+.btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #3d1c08, 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .control_element {
@@ -175,33 +222,41 @@
 
 @media(max-width: 600px) {
     #btnContainer {
-        font-size: 20px;
         margin-left: 60px;
         margin-right: 60px;
     }
 
     .btn {
-        height: 40px;
+        font-size: 20px;
+        padding: 6px 22px;
     }
 }
 
 @media(max-width: 500px) {
 
     #btnContainer {
-        font-size: 16px;
         margin-left: 40px;
         margin-right: 40px;
     }
 
     .btn {
-        height: 30px;
+        font-size: 17px;
+        padding: 5px 18px;
+        letter-spacing: 0.5px;
+    }
+
+    .btn::before {
+        left: 5px;
+    }
+
+    .btn::after {
+        right: 5px;
     }
 }
 
 @media(max-width: 420px) {
 
     #btnContainer {
-        font-size: 16px;
         margin-left: 40px;
         margin-right: 4;
         width: 100%;
@@ -209,7 +264,8 @@
     }
 
     .btn {
-        height: 30px;
+        font-size: 15px;
+        padding: 4px 16px;
     }
 }
 

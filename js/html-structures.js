@@ -6,7 +6,7 @@
 function StartBtnsHTML() {
     return `
         <div id="btnContainer">
-            <button class="btn" onclick="startGame()">Spiel start</button>
+            <button class="btn" onclick="startGame()">Spiel starten</button>
             <button class="btn" onclick="showInstruction()">Anleitung</button>
             <button class="btn" onclick="showImpressum()">Impressum</button>
         </div>
