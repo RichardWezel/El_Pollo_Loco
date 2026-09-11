@@ -2,5 +2,4 @@
 # Local and editor metadata that should never be uploaded
 .git/
 .vscode/
-.DS_Store
-up.sh 
+.DS_Store 
