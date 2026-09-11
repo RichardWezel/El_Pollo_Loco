@@ -186,7 +186,8 @@ class Endboss extends MovableObject {
         }
         this.stopWalking();
         this.playDeathAnimationEndboss(); 
-        world.backgroundmusic.pause();
+        // Not backgroundmusic.pause() - see World.silenceBackgroundMusic() for why.
+        world.silenceBackgroundMusic();
         this.world.character.resetSounds();
     }
 

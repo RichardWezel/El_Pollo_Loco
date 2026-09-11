@@ -247,7 +247,8 @@ class Character extends MovableObject{
         this.playDeathAnimation();
         this.jump();
         this.fallBelowGround();
-        world.backgroundmusic.pause();
+        // Not backgroundmusic.pause() - see World.silenceBackgroundMusic() for why.
+        world.silenceBackgroundMusic();
         if (volumeStatus === true) {
             this.death_sound.play();
         }
@@ -258,7 +259,7 @@ class Character extends MovableObject{
      * Stop and clear sound intervals used by the character (background, snoring, idle, sleep).
      */
     resetSounds() {
-        this.world.backgroundmusic.pause();
+        this.world.silenceBackgroundMusic();
         this.snoring_sound.pause();
         clearInterval(this.idle);
         clearInterval(this.sleep); 

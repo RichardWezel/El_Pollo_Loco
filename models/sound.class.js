@@ -191,6 +191,22 @@ class Sound {
             // everything is preloaded in init()) - just skip this one playback.
             return Promise.resolve();
         }
+        let context = Sound.getContext();
+        if (context.state !== 'running') {
+            // 'suspended' (never unlocked) or - iOS only - 'interrupted' (e.g. after the
+            // system or a paused media element took the audio session away). Try to get
+            // it going again and start the clip once that succeeded; this is silent if
+            // the browser insists on a user gesture first.
+            this.paused = false;
+            context.resume().then(() => {
+                if (!this.paused && !this.source) {
+                    this.startSource();
+                }
+            }).catch(() => {
+                this.paused = true;
+            });
+            return Promise.resolve();
+        }
         this.startSource();
         return Promise.resolve();
     }

@@ -31,6 +31,7 @@ class World {
     startCoinAmound = 0;
     lastFrameTime = null;
     isPaused = false;
+    musicStopTimeout = null;
     collisionCharacterInterval = null;
     collisionBottleInterval = null;
     throwCheckInterval = null;
@@ -207,6 +208,7 @@ class World {
      * several play() calls at once.
      */
     playBackgroundMusic() {
+        clearTimeout(this.musicStopTimeout);
         this.backgroundmusic.loop = true;
         this.backgroundmusic.volume = 0.2;
         if(volumeStatus == true) {
@@ -578,6 +580,29 @@ class World {
     }
 
     /**
+     * Silence the background music at the end of a game (win / game over) WITHOUT
+     * pausing the element right away.
+     *
+     * On iOS, a playing HTMLMediaElement is what keeps the page in the "playback" audio
+     * session - in that state the Web Audio sound effects (see models/sound.class.js)
+     * play along fine, even with the phone's ring/silent switch set to silent. The moment
+     * the last media element is paused, the page drops back to the "ambient" session and
+     * Web Audio is muted by the silent switch (or the AudioContext gets 'interrupted').
+     * Pausing the music here used to do exactly that, right before the win sound / death
+     * scream were played - so those were never heard on iPhones.
+     *
+     * Setting the volume to 0 keeps the element playing (inaudibly) and the session
+     * alive while the final sound effects play out; it's only really paused afterwards.
+     */
+    silenceBackgroundMusic() {
+        this.backgroundmusic.volume = 0;
+        clearTimeout(this.musicStopTimeout);
+        this.musicStopTimeout = setTimeout(() => {
+            this.backgroundmusic.pause();
+        }, 8000);
+    }
+
+    /**
      * Handles the win logic and clear all running animation and sound-intervals.
      */
     handleWin() {
@@ -585,7 +610,7 @@ class World {
         if(volumeStatus == true) {
             this.win_sound.play();
         }
-        this.backgroundmusic.pause();
+        this.silenceBackgroundMusic();
         this.character.snoring_sound.muted = true;
         clearInterval(this.character.idle);
         clearInterval(this.character.sleep); 
