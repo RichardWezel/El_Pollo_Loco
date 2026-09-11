@@ -1,0 +1,6 @@
+# Git-FTP ignore list for this workspace
+# Local and editor metadata that should never be uploaded
+.git/
+.vscode/
+.DS_Store
+up.sh 
