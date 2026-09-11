@@ -65,6 +65,7 @@ Entwicklung
 -----------
 
 - Code ist in ES6 geschrieben, keine Build-Schritte nötig.
+- Soundeffekte laufen über die Web Audio API (`models/sound.class.js`): Alle kurzen Clips werden beim Laden der Seite einmal dekodiert und dann aus dem Speicher abgespielt, statt über `new Audio()` – das vermeidet Ruckler beim Starten/Stoppen von Sounds, vor allem auf Smartphones. Die Hintergrundmusik bleibt ein streamendes `<audio>`-Element.
 - Nutze einen lokalen Server (siehe oben), um CORS/Dateizugriffsprobleme mit Audio/Assets zu vermeiden.
 
 Assets & Lizenz

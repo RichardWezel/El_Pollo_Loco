@@ -94,7 +94,7 @@ class Endboss extends MovableObject {
     world;
     deathAnimationInterval;
     hurtAnimationInterval;
-    cocorido = new Audio('audio/cocorico.mp3');
+    cocorido = new Sound('audio/cocorico.mp3');
 
 
     constructor() {

@@ -23,7 +23,7 @@ class ThrowableObject extends MovableObject {
     ];
     flightStopped = false;
     flightTimer = 0;
-    splash_sound = new Audio('audio/bottle_break.mp3');
+    splash_sound = new Sound('audio/bottle_break.mp3');
     hasCollided = false;
 
     constructor(x, y) {

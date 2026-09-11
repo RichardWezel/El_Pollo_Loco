@@ -28,6 +28,9 @@ let canvas;
  * "Noch einmal!" restarts (see init() in start.js), since the player has already played.
  */
 function startGame(showTutorial = true) {
+    // Must happen inside the Start button's click handler (a user gesture), otherwise
+    // the browser keeps the Web Audio context muted - see Sound.unlock().
+    Sound.unlock();
     setControlBtns();
     removeStartBtns();
     setNavbar();

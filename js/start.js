@@ -6,6 +6,7 @@
 function init() {
     handleScreenOrientation();
     window.addEventListener('resize', handleWindowResize);
+    preloadSounds();
     // If restartGame() (the "Noch einmal!" button after game over/win) set this flag
     // before reloading, jump straight into a fresh game instead of showing the start
     // screen - see restartGame() below for why this goes through a real page reload
@@ -18,6 +19,28 @@ function init() {
         initStartScreen();
     }
     configScreen();
+}
+
+/**
+ * Fetch and decode all short sound effects right at page load, so they're sitting in
+ * memory by the time the game starts (see models/sound.class.js). The background music
+ * is not in this list on purpose - it stays a streaming HTMLAudioElement.
+ */
+function preloadSounds() {
+    Sound.preload([
+        'audio/walk_sound.mp3',
+        'audio/hurt.mp3',
+        'audio/jump_sound.mp3',
+        'audio/death_scream.mp3',
+        'audio/snoring.mp3',
+        'audio/coin_sound.mp3',
+        'audio/new.m4a',
+        'audio/hitChicken.m4a',
+        'audio/win.mp3',
+        'audio/endbossHurt.m4a',
+        'audio/bottle_break.mp3',
+        'audio/cocorico.mp3'
+    ]);
 }
 
 /**

@@ -15,12 +15,16 @@ class World {
     statusbar_coin = new Statusbar_coin(20, 90);
     statusbar_endboss = new Statusbar_endboss(50);
     throwableObject = [];
-    coin_collecting_sound = new Audio('audio/coin_sound.mp3');
-    bottle_collecting_sound = new Audio('audio/new.m4a');
-    bounceChicken = new Audio('audio/hitChicken.m4a');
+    // Short effects use Sound (Web Audio) instead of new Audio() - see
+    // models/sound.class.js for why. The background music stays an HTMLAudioElement:
+    // it's a 94 s track, which streams fine as a media element but would occupy ~30 MB
+    // decoded in memory as a Web Audio buffer.
+    coin_collecting_sound = new Sound('audio/coin_sound.mp3');
+    bottle_collecting_sound = new Sound('audio/new.m4a');
+    bounceChicken = new Sound('audio/hitChicken.m4a');
     backgroundmusic = new Audio('audio/backgroundmusic.mp3');
-    win_sound = new Audio('audio/win.mp3');
-    endbossHurtSound = new Audio('audio/endbossHurt.m4a');
+    win_sound = new Sound('audio/win.mp3');
+    endbossHurtSound = new Sound('audio/endbossHurt.m4a');
     start = false;
     energyEndboss = 100;
     startBottleAmound = 0;
@@ -196,18 +200,18 @@ class World {
 
     /**
      * Play and loop background music (respecting the global `volumeStatus`).
+     *
+     * Looping is done via the element's own `loop` flag. Previously an 'ended' listener
+     * rewound and restarted the track - and since this method runs on every unmute and
+     * every resume from pause, that listener stacked up, so the end of the track fired
+     * several play() calls at once.
      */
     playBackgroundMusic() {
+        this.backgroundmusic.loop = true;
+        this.backgroundmusic.volume = 0.2;
         if(volumeStatus == true) {
             this.tryPlayBackgroundMusic();
         }
-        this.backgroundmusic.volume = 0.2;
-        this.backgroundmusic.addEventListener('ended', () => {
-            this.backgroundmusic.currentTime = 0;
-            if(volumeStatus == true) {
-                this.tryPlayBackgroundMusic();
-            }
-        });
     }
 
     /**

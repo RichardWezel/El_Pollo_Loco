@@ -70,11 +70,12 @@ class Character extends MovableObject{
     animationTimer = 0;
     hasDied = false;
     isMoving = false;
-    walking_sound = new Audio('audio/walk_sound.mp3');
-    hurt_sound = new Audio('audio/hurt.mp3');
-    jump_sound = new Audio('audio/jump_sound.mp3');
-    death_sound = new Audio('audio/death_scream.mp3');
-    snoring_sound = new Audio('audio/snoring.mp3');
+    // Sound (Web Audio) instead of new Audio(): see models/sound.class.js for why.
+    walking_sound = new Sound('audio/walk_sound.mp3');
+    hurt_sound = new Sound('audio/hurt.mp3');
+    jump_sound = new Sound('audio/jump_sound.mp3');
+    death_sound = new Sound('audio/death_scream.mp3');
+    snoring_sound = new Sound('audio/snoring.mp3');
     BorderColor = 'red';
     collidatingStatus = false;
     collectedBottles = 0;
@@ -357,17 +358,16 @@ class Character extends MovableObject{
 
     /**
     * Play snoring sound in a loop while the character sleeps (if volume enabled).
+    *
+    * Uses the clip's own `loop` flag instead of the previous 'ended' listener that
+    * restarted it - that listener was added again on every call, so after a few naps the
+    * end of the clip triggered a whole pile of play() calls at once.
     */
     playSnoringSound() {
+        this.snoring_sound.loop = true;
         if(volumeStatus == true) {
             this.snoring_sound.play();
         }
-        this.snoring_sound.addEventListener('ended', () => {
-            this.snoring_sound.currentTime = 0;
-            if(volumeStatus == true) {
-                this.snoring_sound.play();
-            }
-        });
     }
 
     /**
